@@ -22,8 +22,7 @@ public class LoginScreen {
 
 	private ComboBoxWithStyle selectedUser;
 
-	public void loginUI() {
-		
+	public void loginUI() {		
 		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), loginSetup());
 		vbox.setAlignment(Pos.CENTER);
 
@@ -58,9 +57,10 @@ public class LoginScreen {
 	private GridPane loginSetup() {
 		GridPaneCenter grid = new GridPaneCenter();
 
-		ButtonWithStyle btnLogin = new ButtonWithStyle("Login", grid, 0, 1);
-		btnLogin.setOnAction(e -> {
-
+		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
+		button.setOnAction(e -> {
+			LoggedInST.setUser((Salesman) selectedUser.getValue());
+			new CPRScreen().cprUI();
 		});
 
 		return grid;
@@ -89,7 +89,7 @@ public class LoginScreen {
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("ALS");
+		PrimaryStageST.getStage().setTitle("The Red Car");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}

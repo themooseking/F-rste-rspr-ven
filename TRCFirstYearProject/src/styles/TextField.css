@@ -1,7 +1,15 @@
 .text-input
 {
-	-fx-text-fill: #000000;
+	-fx-text-fill: #e33635;
 	-fx-font-size: 24;
-	-fx-font-family: "Calibri";
+	-fx-font-family: "Lucida Fax";
+	-fx-font-weight: BOLD;
+} 
+
+.text-input:hover
+{
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 24;
+	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
 } 
