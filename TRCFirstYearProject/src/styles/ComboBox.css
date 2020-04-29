@@ -1,0 +1,67 @@
+.combo-box > .list-cell
+{	
+	-fx-text-fill: #e33635;
+	-fx-font-size: 24;
+	-fx-font-family: "Lucida Fax";
+	-fx-font-weight: BOLD;
+} 
+
+.combo-box:hover > .list-cell
+{	
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 24;
+	-fx-font-family: "Lucida Fax";
+	-fx-font-weight: BOLD;
+} 
+
+.combo-box-popup .list-view
+{	    
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+} 
+
+.combo-box-popup .list-cell
+{	
+	-fx-text-fill: #e33635;
+	-fx-background-color: #3D3D3D;
+	-fx-font-size: 24;
+	-fx-font-family: "Lucida Fax";
+	-fx-font-weight: BOLD;
+} 
+
+.combo-box-popup .list-cell:hover
+{	
+	-fx-text-fill: #ffffff;
+	-fx-background-color: #e33635;
+	-fx-font-size: 24;
+	-fx-font-family: "Lucida Fax";
+	-fx-font-weight: BOLD;
+} 
+
+
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb{
+    -fx-background-color: #3D3D3D;
+	-fx-background-radius: 0;
+	-fx-background-insets: 0;
+}
+
+.scroll-bar:vertical > .increment-button,
+.scroll-bar:vertical > .decrement-button {
+	-fx-background-color :transparent;
+    -fx-background-radius : 0;
+    -fx-padding :0;
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical, 
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+	-fx-padding: 0;
+}
