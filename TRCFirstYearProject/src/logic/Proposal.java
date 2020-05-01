@@ -73,6 +73,10 @@ public class Proposal {
 	public Object getDate() {
 		return proposalDate;
 	}
+	
+	public double getInterest() {
+		return interest;
+	}
 
 	private void setInterest() {
 		interest = InterestRate.i().todaysRate();
