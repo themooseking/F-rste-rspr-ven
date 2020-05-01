@@ -9,6 +9,7 @@ public class StyleClass {
 	private String backgroundcolor = "#242224";
 	
 	private String textfont = "Lucida Fax";
+	private int textsize = 40;
 	
 	public String enterHoverColor() {
 		return enterhovercolor;
@@ -32,6 +33,10 @@ public class StyleClass {
 	
 	public String textFont() {
 		return textfont;
+	}
+	
+	public int textSize() {
+		return textsize;
 	}
 
 }

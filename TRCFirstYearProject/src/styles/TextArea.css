@@ -1,0 +1,20 @@
+.text-area:focused {
+   	 -fx-background-color: #3D3D3D;
+   	 -fx-background-radius : 0;
+}
+
+.text-area {
+    -fx-background-insets: 0;
+  	-fx-background-color: #3D3D3D;
+	-fx-background-radius: 0;
+}
+
+.text-area .content {
+   	-fx-background-color: #3D3D3D;
+	-fx-background-radius: 0;
+}
+
+.text-area:focused .content {
+	-fx-background-color: #3D3D3D;
+	-fx-background-radius: 0;
+}

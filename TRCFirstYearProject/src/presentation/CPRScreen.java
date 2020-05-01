@@ -82,7 +82,7 @@ public class CPRScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Continue", grid, 0, 1);
 		button.setOnAction(e -> {
-			
+			new NewPropsalScreen().newProposalUI();
 		});
 
 		return grid;
