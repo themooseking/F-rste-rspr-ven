@@ -3,14 +3,14 @@ package logic;
 public class Salesman {
 	
 	private int phone;
-	private String name;
+	private String salesmanName;
 	private String email;
 	private String title;
 	private int proposalLimit;
 	
-	public Salesman(int phone, String name, String email, String title, int proposalLimit) {
+	public Salesman(int phone, String salesmanName, String email, String title, int proposalLimit) {
 		this.phone = phone;
-		this.name = name;
+		this.salesmanName = salesmanName;
 		this.email = email;
 		this.title = title;
 		this.proposalLimit = proposalLimit;
@@ -18,7 +18,7 @@ public class Salesman {
 
 	@Override
 	public String toString() {
-		return name;		
+		return salesmanName;		
 	}
 
 }
