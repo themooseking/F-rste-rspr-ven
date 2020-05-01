@@ -15,4 +15,10 @@ public class Car {
 		this.factory = factory;
 		this.carStatus = carStatus;
 	}
+
+	public int getPrice() {
+		return price;
+	}
+	
+	
 }

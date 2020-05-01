@@ -1,5 +1,8 @@
 package logic;
 
+import ffl.CreditRator;
+import ffl.Rating;
+
 public class Customer {
 
 	private int phone;
@@ -8,16 +11,28 @@ public class Customer {
 	private String email;
 	private String customerAddress;
 	private int postalCode;
-	private char creditScore;
+	private Rating creditScore;
 	
-	public Customer(int phone, String customerName, String cpr, String email, String customerAddress, int postalCode, char creditScore) {
+	public Customer(int phone, String customerName, String cpr, String email, String customerAddress, int postalCode) {
 		this.phone = phone;
 		this.customerName = customerName;
 		this.cpr = cpr;
 		this.email = email;
 		this.customerAddress = customerAddress;
 		this.postalCode = postalCode;
-		this.creditScore = creditScore;
+		setCreditScore();
 	}
 
+	public Rating getCreditScore() {
+		return creditScore;
+	}
+
+	public String getCpr() {
+		return cpr;
+	}
+
+	private void setCreditScore() {
+		creditScore = CreditRator.i().rate(cpr);
+	}
+	
 }
