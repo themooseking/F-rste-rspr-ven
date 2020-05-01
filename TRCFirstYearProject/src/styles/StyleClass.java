@@ -2,6 +2,9 @@ package styles;
 
 public class StyleClass {
 	
+	private int sceney = 1000;
+	private int scenex = 1800;
+	
 	private String enterhovercolor = "#e33635";
 	private String defaulthovercolor = "#3D3D3D";
 	private String defaulttextcolor = "#e33635";
@@ -9,7 +12,15 @@ public class StyleClass {
 	private String backgroundcolor = "#242224";
 	
 	private String textfont = "Lucida Fax";
-	private int textsize = 40;
+	private int textsize = 30;
+	
+	public int sceneX() {
+		return scenex;
+	}
+	
+	public int sceneY() {
+		return sceney;
+	}
 	
 	public String enterHoverColor() {
 		return enterhovercolor;

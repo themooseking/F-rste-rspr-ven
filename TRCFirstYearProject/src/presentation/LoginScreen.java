@@ -20,13 +20,14 @@ import styles.VBoxWithStyle;
 
 public class LoginScreen {
 
+	private StyleClass style = new StyleClass();
 	private ComboBoxWithStyle selectedUser;
 
 	public void loginUI() {		
 		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), loginSetup());
 		vbox.setAlignment(Pos.CENTER);
 
-		Scene scene = new Scene(vbox, 1800, 980);
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
 

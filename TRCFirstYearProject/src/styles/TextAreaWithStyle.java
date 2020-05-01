@@ -10,8 +10,8 @@ public class TextAreaWithStyle extends TextArea{
 	
 	public TextAreaWithStyle(GridPaneCenter grid, int row, int col) {
 		super.getStylesheets().add("/styles/TextArea.css");
-		super.setFont(Font.font(style.textFont(), 16));
-		super.setPrefSize(400, 1200);
+		super.setFont(Font.font(style.textFont(), 30));
+		super.setPrefSize(600, 560);
 		super.setWrapText(true);
 		super.setEditable(false);
 		

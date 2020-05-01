@@ -19,12 +19,14 @@ import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class CPRScreen {
+	
+	private StyleClass style = new StyleClass();
 
 	public void cprUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), continueButton());
 		vbox.setAlignment(Pos.CENTER);
 
-		Scene scene = new Scene(vbox, 1800, 980);
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
 
@@ -52,7 +54,7 @@ public class CPRScreen {
 					if (tfl == 6) {
 						textfield.setText(textfield.getText() + "-");
 						textfield.end();
-					} 
+					}
 				}
 
 				if (keyEvent.getCode() == KeyCode.BACK_SPACE && tfl == 7) {
@@ -67,7 +69,7 @@ public class CPRScreen {
 						if (!newValue.matches("\\d*")) {
 							if (tfl < 6) {
 								textfield.setText(newValue.replaceAll("[^\\d]", ""));
-							} 
+							}
 						}
 					}
 				});
