@@ -311,7 +311,7 @@ public class NewPropsalScreen {
 		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
 				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
 
-		return hbox;
+		return hbox; 
 	}
 
 	private GridPane completeButton() {
