@@ -2,6 +2,7 @@ package logic;
 
 public class Salesman {
 	
+	private int id;
 	private int phone;
 	private String salesmanName;
 	private String email;
@@ -19,6 +20,10 @@ public class Salesman {
 	@Override
 	public String toString() {
 		return salesmanName;		
+	}
+
+	public int getId() {
+		return id;
 	}
 
 }

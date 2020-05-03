@@ -8,6 +8,7 @@ import ffl.InterestRate;
 public class Proposal {
 	static int loanDurationLimit = 36; // 3 Years in months
 
+	private int id;
 	private Customer customer;
 	private double interest;
 	private int downPayment;
@@ -70,8 +71,32 @@ public class Proposal {
 		return totalCarPrice;
 	}
 
-	public Object getDate() {
+	public LocalDate getDate() {
 		return proposalDate;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public String getProposalStatus() {
+		return proposalStatus;
+	}
+
+	public int getDownPayment() {
+		return downPayment;
+	}
+
+	public int getLoanDuration() {
+		return loanDuration;
+	}
+
+	public Salesman getSalesman() {
+		return salesman;
 	}
 	
 	public double getInterest() {

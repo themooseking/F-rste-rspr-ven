@@ -5,6 +5,7 @@ import ffl.Rating;
 
 public class Customer {
 
+	private int id;
 	private int phone;
 	private String customerName;
 	private String cpr;
@@ -33,6 +34,10 @@ public class Customer {
 
 	private void setCreditScore() {
 		creditScore = CreditRator.i().rate(cpr);
+	}
+
+	public int getId() {
+		return id;
 	}
 	
 }

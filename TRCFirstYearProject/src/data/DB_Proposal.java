@@ -1,7 +1,5 @@
 package data;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import logic.Proposal;
 
 import java.sql.*;
