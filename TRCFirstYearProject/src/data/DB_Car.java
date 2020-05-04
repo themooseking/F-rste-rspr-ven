@@ -24,16 +24,15 @@ public class DB_Car {
 			
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
-
+			
 			while (resultSet.next()) {
 				String model = resultSet.getString("model");
 				int price = resultSet.getInt("price");
 				int mileage = resultSet.getInt("mileage");
 				int factoryYear = resultSet.getInt("factoryYear");
 				String carStatus = resultSet.getString("carStatus");
-
+				
 				Car car = new Car(model, price, mileage, factoryYear, carStatus);
-
 				carList.add(car);
 			}
 		} catch (SQLException e) {

@@ -19,6 +19,25 @@ public class Car {
 	public int getPrice() {
 		return price;
 	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public int getMilage() {
+		return milage;
+	}
+
+	public int getFactory() {
+		return factory;
+	}
+
+	public String getCarStatus() {
+		return carStatus;
+	}	
 	
-	
+	@Override
+	public String toString() {
+		return model;
+	}
 }

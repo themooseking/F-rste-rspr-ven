@@ -25,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
@@ -43,12 +44,13 @@ public class NewPropsalScreen {
 	private boolean rbState = false;
 	private boolean recreate = true;
 
+	private GridPaneCenter trgrid;
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
 	private ComboBoxWithStyle equipmentcb;
 	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
-	private Scene scene;
+	private DB_Controller controller = new DB_Controller();
 
 	public void newProposalUI() {
 		HBox hbox = new HBox(inputBox(), textReader());
@@ -57,7 +59,7 @@ public class NewPropsalScreen {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
 
-		scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
 
@@ -80,7 +82,7 @@ public class NewPropsalScreen {
 			grid.setPadding(new Insets(10, 10, 10, 10));
 			recreate = false;
 		}
-		grid.setAlignment(Pos.CENTER_LEFT);
+		grid.setAlignment(Pos.CENTER_LEFT); 
 		grid.setVgap(10);
 
 		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
@@ -102,6 +104,8 @@ public class NewPropsalScreen {
 		rb.setOnAction(e -> {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
+			trgrid.getChildren().clear();
+			trgrid.getChildren().add(textReader());
 		});
 
 		//////////////////////////////
@@ -110,9 +114,9 @@ public class NewPropsalScreen {
 
 		LabelWithStyle model = new LabelWithStyle("Model: ", grid, 0, 1);
 		GridPane.setColumnSpan(model, 2);
-		modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 3, 1);
+		modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCarModels()), grid, 3, 1);
 		modelcb.setMinWidth(600);
-		GridPane.setColumnSpan(modelcb, 2);
+		GridPane.setColumnSpan(modelcb, 2); 
 
 		if (rbState) {
 
@@ -184,13 +188,13 @@ public class NewPropsalScreen {
 	}
 
 	private GridPane textReader() {
-		GridPaneCenter grid = new GridPaneCenter();
+		trgrid = new GridPaneCenter();
 
-		TextAreaWithStyle ta = new TextAreaWithStyle(grid, 0, 0);
+		TextAreaWithStyle ta = new TextAreaWithStyle(trgrid, 0, 0);
 		ta.setText(textAreaString());
 		textAreaEvents(ta);
 
-		return grid;
+		return trgrid;
 	}
 
 	private void textAreaEvents(TextAreaWithStyle ta) {
@@ -291,15 +295,15 @@ public class NewPropsalScreen {
 
 	private Pane icon() {
 		Image image = new Image(
-				"https://png2.cleanpng.com/sh/bd9a65de8a2b04505409571d2c2f04bb/L0KzQYm3V8E2N5Nsi5H0aYP2gLBuTgNkfZVqittqLXbogsPokvkua5J3RdNAdHAwccfwj71kd6R5iudFaXBxeX6BUcUubppmRd54Z3Awdrb5kvFzcV46eqZrYna6dYW6hsg0Pl87SqsBNkC3Q4K8U8E3QWE9T6o7N0i3PsH1h5==/kisspng-scuderia-ferrari-car-auto-avio-costruzioni-815-fia-logo-ferrari-5b4bbf7e43f836.6296604315316908782784.png");
+				"https://upload.wikimedia.org/wikipedia/sco/thumb/d/d1/Ferrari-Logo.svg/1200px-Ferrari-Logo.svg.png");
 		ImageView imageview = new ImageView(image);
 		imageview.setFitHeight(150);
-		imageview.setFitWidth(150);
+		imageview.setFitWidth(100);
 		imageview.setX(100);
 		imageview.setY(-30);
 
 		Pane pane = new Pane(imageview);
-		pane.setPadding(new Insets(0, 200, 0, 0));  
+		pane.setPadding(new Insets(0, 200, 0, 0));
 
 		return pane;
 	}
@@ -310,7 +314,7 @@ public class NewPropsalScreen {
 		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
 				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
 
-		return hbox; 
+		return hbox;
 	}
 
 	private GridPane completeButton() {
@@ -319,7 +323,7 @@ public class NewPropsalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Complete", grid, 0, 1);
 		button.setOnAction(e -> {
-			System.out.println(scene.getHeight() + " " + scene.getWidth());
+
 		});
 
 		return grid;
