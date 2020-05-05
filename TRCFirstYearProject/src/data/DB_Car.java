@@ -2,7 +2,6 @@ package data;
 
 import java.util.ArrayList;
 import logic.Car;
-
 import java.sql.*;
 
 public class DB_Car {
