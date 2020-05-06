@@ -31,26 +31,26 @@ public class Proposal extends Thread {
 
 		switch (customer.getCreditScore()) {
 		case A:
-			customerInterest += 0.01;
+			customerInterest += 1.0;
 			break;
 
 		case B:
-			customerInterest += 0.02;
+			customerInterest += 2.0;
 			break;
 
 		case C:
-			customerInterest += 0.03;
+			customerInterest += 3.0;
 			break;
 		default:
 			break;
 		}
 
 		if (downPayment < calcTotalCarPrice() * 0.50) {
-			customerInterest += 0.01;
+			customerInterest += 1.0;
 		}
 
 		if (loanDurationLimit < loanDuration) {
-			customerInterest += 0.01;
+			customerInterest += 1.0;
 		}
 
 		return customerInterest + interest;
@@ -67,7 +67,11 @@ public class Proposal extends Thread {
 	}
 
 	public void run() {
-		setInterest();
+		interest = InterestRate.i().todaysRate();
+	}
+	
+	public void setInterest(double interest) {
+		this.interest = interest;
 	}
 	
 	public void setDownPayment(int downPayment) {
@@ -116,9 +120,5 @@ public class Proposal extends Thread {
 
 	public double getInterest() {
 		return interest;
-	}
-
-	private void setInterest() {
-		interest = InterestRate.i().todaysRate();
 	}
 }

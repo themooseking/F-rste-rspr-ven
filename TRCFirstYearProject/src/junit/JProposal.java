@@ -3,6 +3,8 @@ package junit;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -10,24 +12,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ffl.Rating;
+import logic.Car;
 import logic.Customer;
 import logic.Proposal;
 import logic.Salesman;
 
 class JProposal {
-	
+	private static Customer customer;
+	private static Salesman salesman;
 	private static Proposal proposal;
-
+	private static ArrayList<Car> carsList;
+	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-//		Customer customer = new Customer(88888888, "John Brick", 321390-9875, "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
-		double interest = 5.5;
-		long downPayment = 700000;
-		int loanDuration = 90;
-		LocalDate date = LocalDate.now();
-		String status = "ONGOING";
-		Salesman salesman = new Salesman(77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
-//		proposal = new Proposal(customer, interest, downPayment, loanDuration, date, status, salesman);
 	}
 
 	@AfterAll
@@ -36,6 +34,17 @@ class JProposal {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
+		salesman = new Salesman(77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
+		proposal = new Proposal(customer, salesman);
+		
+		carsList = new ArrayList<Car>(Arrays.asList(new Car("pepega car", 5000000, 300, 1985, "IN STOCK")));
+		
+		proposal.setCarsList(carsList);
+		proposal.setDownPayment(carsList.get(0).getPrice());
+		proposal.setInterest(0);
+		proposal.setLoanDuration(0);
+		customer.setCreditScore(Rating.D);
 	}
 
 	@AfterEach
@@ -43,13 +52,60 @@ class JProposal {
 	}
 
 	@Test
-	void testProposalConstructor() {		
-//		assertEquals(LocalDate.now(), proposal.getDate());
+	void testCalcInterestDefault() {
+		assertEquals(0.0, proposal.calcInterest());
 	}
 	
 	@Test
-	void testBankInterest() {		
-//		assertEquals(expected, actual);
+	void testCalcInterestDownPayment() {
+		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.33));
+		
+		assertEquals(1.0, proposal.calcInterest());
+	}
+	
+	@Test
+	void testCalcInterestDownPaymentExtraCar() {
+		carsList.add(new Car("møjhurtig bil", 10000000, 666, 2018, "SOLD"));
+		proposal.setDownPayment((int) (carsList.get(0).getPrice()));
+		
+		assertEquals(1.0, proposal.calcInterest());
 	}
 
+	@Test
+	void testCalcInterestLoanDuration() {	
+		proposal.setLoanDuration(42);
+		
+		assertEquals(1.0, proposal.calcInterest());
+	}
+	
+	@Test
+	void testCalcInterestCreditRatingA() {	
+		customer.setCreditScore(Rating.A);
+		
+		assertEquals(1.0, proposal.calcInterest());
+	}
+
+	@Test
+	void testCalcInterestCreditRatingB() {	
+		customer.setCreditScore(Rating.B);
+		
+		assertEquals(2.0, proposal.calcInterest());
+	}
+	
+	@Test
+	void testCalcInterestCreditRatingC() {	
+		customer.setCreditScore(Rating.C);
+		
+		assertEquals(3.0, proposal.calcInterest());
+	}
+	
+	@Test
+	void testCalcInterestSum() {	
+		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.25));
+		proposal.setInterest(5);
+		proposal.setLoanDuration(72);
+		customer.setCreditScore(Rating.C);
+		
+		assertEquals(10.0, proposal.calcInterest());
+	}
 }

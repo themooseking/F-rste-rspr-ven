@@ -25,8 +25,7 @@ public class Customer extends Thread{
 	}
 	
 	public void run() {
-		setCreditScore();
-		System.out.println(creditScore);
+		creditScore = CreditRator.i().rate(cpr);
 	}
 
 	public Rating getCreditScore() {
@@ -37,8 +36,8 @@ public class Customer extends Thread{
 		return cpr;
 	}
 
-	private void setCreditScore() {
-		creditScore = CreditRator.i().rate(cpr);
+	public void setCreditScore(Rating creditScore) {
+		this.creditScore = creditScore;
 	}
 
 	public int getCustomerId() {
