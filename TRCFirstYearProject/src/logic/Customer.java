@@ -3,9 +3,9 @@ package logic;
 import ffl.CreditRator;
 import ffl.Rating;
 
-public class Customer {
+public class Customer extends Thread{
 
-	private int id;
+	private int customerId;
 	private int phone;
 	private String customerName;
 	private String cpr;
@@ -21,6 +21,10 @@ public class Customer {
 		this.email = email;
 		this.customerAddress = customerAddress;
 		this.postalCode = postalCode;
+		start();
+	}
+	
+	public void run() {
 		setCreditScore();
 	}
 
@@ -36,8 +40,8 @@ public class Customer {
 		creditScore = CreditRator.i().rate(cpr);
 	}
 
-	public int getId() {
-		return id;
+	public int getCustomerId() {
+		return customerId;
 	}
 	
 }
