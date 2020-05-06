@@ -21,7 +21,7 @@ public class DB_Proposal {
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setInt(1, proposal.getCustomer().getId());
+			statement.setInt(1, proposal.getCustomer().getCustomerId());
 			statement.setFloat(2, (float) proposal.getInterest());
 			statement.setInt(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
@@ -51,7 +51,7 @@ public class DB_Proposal {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement.setString(1, proposal.getProposalStatus());
-			statement.setInt(2, proposal.getId());
+			statement.setInt(2, proposal.getProposalId());
 
 			if (statement.executeUpdate() == 0)
 				System.out.println("No matches to be updated!");

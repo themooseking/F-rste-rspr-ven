@@ -78,7 +78,7 @@ public class DB_Car {
 					+ "FROM car "
 					+ "WHERE carStatus='AVAILABLE' "
 					+ "AND mileage=0 "
-					+ "AND model=?"
+					+ "AND model=? "
 					+ "ORDER BY factoryYear";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -87,9 +87,9 @@ public class DB_Car {
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				String year = Integer.toString(resultSet.getInt("factoryYear"));
-
-				yearList.add(year);
+				int year = resultSet.getInt("factoryYear");
+				
+				yearList.add(Integer.toString(year));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

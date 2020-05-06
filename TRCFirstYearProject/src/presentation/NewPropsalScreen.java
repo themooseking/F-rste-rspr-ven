@@ -1,7 +1,6 @@
 package presentation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -26,7 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.DB_Controller;
-import logic.Salesman;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
@@ -44,10 +42,13 @@ public class NewPropsalScreen {
 	private boolean rbState = false;
 	private boolean recreate = true;
 
+	private ArrayList<String> yearList = new ArrayList<String>();
+	private String yearString;
+
+	private RadioButtonWithStyle rbAdvanced;
 	private GridPaneCenter trgrid;
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
-	private ComboBoxWithStyle equipmentcb;
 	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
 	private DB_Controller controller = new DB_Controller();
@@ -63,101 +64,79 @@ public class NewPropsalScreen {
 		sceneSetup(scene);
 	}
 
-	private GridPane inputBox() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setPadding(new Insets(30));
-
+	private VBox inputBox() {
 		VBox vbox = new VBox(indentInput(), apiValues());
 		vbox.setBorder(new Border(
 				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
-		grid.getChildren().add(vbox);
 
-		return grid;
+		return vbox;
 	}
+
+	//////////////////////////////
+	// INDENT
+	//////////////////////////////
 
 	private GridPane indentInput() {
 		GridPaneCenter grid = new GridPaneCenter();
 		grid.setPadding(new Insets(0));
 		if (recreate == true) {
 			grid.setPadding(new Insets(10, 10, 10, 10));
-			recreate = false;
 		}
-		grid.setAlignment(Pos.CENTER_LEFT); 
+		grid.setAlignment(Pos.CENTER_LEFT);
 		grid.setVgap(10);
-
-		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
-				"SENIOR VICE LEADING EXECUTIVE SUPREME SALESMAN", 1000000000);
-		Salesman sm2 = new Salesman(98765432, "Riley Reid", "reid@mylips.com", "SLAVE", 5);
-		Salesman sm3 = new Salesman(21586895, "Dean", "dean@eamv.dk", "CEO", 100);
-		ArrayList<Salesman> userList = new ArrayList<Salesman>(Arrays.asList(sm1, sm2, sm3));
 
 		//////////////////////////////
 		// ADVANCED FILTER
 		//////////////////////////////
 
-		RadioButtonWithStyle rb = new RadioButtonWithStyle("Advanced Filter", grid, 0, 0);
+		rbAdvanced = new RadioButtonWithStyle("Advanced Filter", grid, 0, 0);
 		rbState = !rbState;
-		rb.setSelected(rbState);
-		rb.setMinWidth(300);
-		GridPane.setColumnSpan(rb, 2);
+		rbAdvanced.setSelected(rbState);
+		rbAdvanced.setMinWidth(300);
+		GridPane.setColumnSpan(rbAdvanced, 2);
 
-		rb.setOnAction(e -> {
+		rbAdvanced.setOnAction(e -> {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
 			trgrid.getChildren().clear();
 			trgrid.getChildren().add(textReader());
 		});
 
-		//////////////////////////////
-		// MODEL
-		//////////////////////////////
-
-		LabelWithStyle model = new LabelWithStyle("Model: ", grid, 0, 1);
-		GridPane.setColumnSpan(model, 2);
-		modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCarModels()), grid, 3, 1);
-		modelcb.setMinWidth(600);
-		GridPane.setColumnSpan(modelcb, 2); 
-
 		if (rbState) {
-
-			//////////////////////////////
-			// YEAR
-			//////////////////////////////
+			
+			LabelWithStyle model = new LabelWithStyle("Model: ", grid, 0, 1);
+			GridPane.setColumnSpan(model, 2);
+			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCarModels()), grid, 3, 1);
+			modelcb.setMinWidth(600);
+			GridPane.setColumnSpan(modelcb, 2);
 
 			LabelWithStyle year = new LabelWithStyle("≈r: ", grid, 1, 2);
 			GridPane.setColumnSpan(year, 1);
-			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 3, 2);
+			yearcb = new ComboBoxWithStyle(
+					FXCollections.observableArrayList(controller.getNewCarYears(yearList.toString())), grid, 3, 2);
 			yearcb.setMinWidth(600);
 			GridPane.setColumnSpan(yearcb, 2);
-
-			//////////////////////////////
-			// EQUIPMENT
-			//////////////////////////////
-
-			LabelWithStyle equipment = new LabelWithStyle("Udstyr: ", grid, 1, 3);
-			GridPane.setColumnSpan(equipment, 1);
-			equipmentcb = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 3, 3);
-			equipmentcb.setMinWidth(600);
-			GridPane.setColumnSpan(equipmentcb, 2);
+		} else {
+			
+			LabelWithStyle model = new LabelWithStyle("Model: ", grid, 0, 1);
+			GridPane.setColumnSpan(model, 2);
+			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
+			modelcb.setMinWidth(600);
+			GridPane.setColumnSpan(modelcb, 2);
+			
+			LabelWithStyle yearSpace = new LabelWithStyle("  ", grid, 0, 2);
+			yearSpace.setMinHeight(yearcb.getPrefHeight());
 		}
 
-		//////////////////////////////
-		// LOAN DURATION
-		//////////////////////////////
-
-		LabelWithStyle duration = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
+		LabelWithStyle duration = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 3);
 		GridPane.setColumnSpan(duration, 2);
-		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
-		new LabelWithStyle(" MÂned(er)", grid, 4, 4);
+		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 3);
+		new LabelWithStyle(" MÂned(er)", grid, 4, 3);
 
-		//////////////////////////////
-		// DOWN PAYMENT
-		//////////////////////////////
-
-		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
+		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 4);
 		GridPane.setColumnSpan(payment, 2);
-		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
-		new LabelWithStyle(" DKK", grid, 4, 5);
+		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 4);
+		new LabelWithStyle(" DKK", grid, 4, 4);
 
 		//////////////////////////////
 		// INDENTS
@@ -175,6 +154,10 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
+	//////////////////////////////
+	// BANK RATE AND CREDIT SCORE
+	//////////////////////////////
+
 	private GridPane apiValues() {
 		GridPaneCenter grid = new GridPaneCenter();
 		grid.setAlignment(Pos.BASELINE_LEFT);
@@ -189,6 +172,11 @@ public class NewPropsalScreen {
 
 	private GridPane textReader() {
 		trgrid = new GridPaneCenter();
+		trgrid.setPadding(new Insets(0));
+		if (recreate == true) {
+			trgrid.setPadding(new Insets(10, 10, 10, 10));
+			recreate = false;
+		}
 
 		TextAreaWithStyle ta = new TextAreaWithStyle(trgrid, 0, 0);
 		ta.setText(textAreaString());
@@ -197,22 +185,25 @@ public class NewPropsalScreen {
 		return trgrid;
 	}
 
-	private void textAreaEvents(TextAreaWithStyle ta) {
+	//////////////////////////////
+	// EVENTS
+	//////////////////////////////
 
-		//////////////////////////////
-		// MODEL
-		//////////////////////////////
+	private void textAreaEvents(TextAreaWithStyle ta) {
+		
+//		rbAdvanced.setOn
 
 		modelcb.setOnHiding(new EventHandler<Event>() {
 			@Override
 			public void handle(Event arg0) {
 				ta.setText(textAreaString());
+				if (modelcb.getValue() != null) {
+					yearList = controller.getNewCarYears(modelcb.getValue().toString());
+					yearcb.getItems().clear();
+					yearcb.getItems().addAll(yearList);
+				}
 			}
 		});
-
-		//////////////////////////////
-		// YEAR
-		//////////////////////////////
 
 		yearcb.setOnHiding(new EventHandler<Event>() {
 			@Override
@@ -221,31 +212,12 @@ public class NewPropsalScreen {
 			}
 		});
 
-		//////////////////////////////
-		// EQUIPMENT
-		//////////////////////////////
-
-		equipmentcb.setOnHiding(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-			}
-		});
-
-		//////////////////////////////
-		// LOAN DURATION
-		//////////////////////////////
-
 		durationtf.setOnKeyTyped(new EventHandler<Event>() {
 			@Override
 			public void handle(Event arg0) {
 				ta.setText(textAreaString());
 			}
 		});
-
-		//////////////////////////////
-		// DOWN PAYMENT
-		//////////////////////////////
 
 		paymenttf.setOnKeyTyped(new EventHandler<Event>() {
 			@Override
@@ -255,10 +227,13 @@ public class NewPropsalScreen {
 		});
 	}
 
+	//////////////////////////////
+	// TEXT AREA TEXT
+	//////////////////////////////
+
 	private String textAreaString() {
 		String model = "";
-		String year = "";
-		String equipment = "";
+		yearString = "";
 		String duration = "";
 		String payment = "";
 
@@ -267,11 +242,7 @@ public class NewPropsalScreen {
 		}
 
 		if (yearcb.getValue() != null) {
-			year = yearcb.getValue().toString();
-		}
-
-		if (equipmentcb.getValue() != null) {
-			equipment = equipmentcb.getValue().toString();
+			yearString = yearcb.getValue().toString();
 		}
 
 		if (durationtf.getText() != null) {
@@ -282,9 +253,8 @@ public class NewPropsalScreen {
 			payment = paymenttf.getText();
 		}
 
-		String string = "		       Oversigt" + "\n\nModel: 			" + model + "\n≈r: 				" + year
-				+ "\nUdstyr: 			" + equipment + "\nAfbetalingsperiode:	" + duration + "\nUdbetaling: 		"
-				+ payment;
+		String string = "		       Oversigt" + "\n\nModel: 			" + model + "\n≈r: 				" + yearString
+				+ "\nAfbetalingsperiode:	" + duration + "\nUdbetaling: 		" + payment;
 
 		return string;
 	}

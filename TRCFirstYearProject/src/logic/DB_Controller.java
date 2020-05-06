@@ -35,6 +35,10 @@ public class DB_Controller {
 	public ArrayList<String> getUsedCarModels() {
 		return carDB.getNewCarModels();
 	}
+	
+	public ArrayList<String> getNewCarYears(String model){
+		return carDB.getNewCarYears(model);
+	}
 
 	/***********************************
 	 * UPDATE

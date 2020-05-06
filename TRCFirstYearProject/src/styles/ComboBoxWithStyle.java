@@ -29,7 +29,6 @@ public class ComboBoxWithStyle extends ComboBox<Object> {
 		grid.getChildren().add(this); 
 	}
 
-	
 	private void enterEffect(ComboBox<Object> obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web(style.enterHoverColor()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
