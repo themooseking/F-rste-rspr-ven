@@ -183,7 +183,7 @@ public class NewPropsalScreen {
 		textAreaEvents(ta);
 
 		return trgrid;
-	}
+	} 
 
 	//////////////////////////////
 	// EVENTS
