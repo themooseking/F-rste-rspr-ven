@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import ffl.InterestRate;
 
-public class Proposal {
+public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
 
-	private int id;
+	private int proposalId;
 	private Customer customer;
 	private double interest;
 	private int downPayment;
@@ -28,7 +28,7 @@ public class Proposal {
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
 		this.carsList = carsList;
-		setInterest();
+		start();
 	}
 
 	public double calcInterest() {
@@ -70,13 +70,17 @@ public class Proposal {
 
 		return totalCarPrice;
 	}
+	
+	public void run() {
+		setInterest();
+	}
 
 	public LocalDate getDate() {
 		return proposalDate;
 	}
 
-	public int getId() {
-		return id;
+	public int getProposalId() {
+		return proposalId;
 	}
 
 	public Customer getCustomer() {
