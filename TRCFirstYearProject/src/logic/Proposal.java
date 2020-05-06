@@ -18,16 +18,11 @@ public class Proposal extends Thread {
 	private Salesman salesman;
 	private ArrayList<Car> carsList;
 
-	public Proposal(Customer customer, double interest, int downPayment, int loanDuration, LocalDate proposalDate,
-			String proposalStatus, Salesman salesman, ArrayList<Car> carsList) {
+	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
-		this.interest = interest;
-		this.downPayment = downPayment;
-		this.loanDuration = loanDuration;
-		this.proposalDate = proposalDate;
-		this.proposalStatus = proposalStatus;
+		this.proposalDate = LocalDate.now();
+		this.proposalStatus = "ONGOING";
 		this.salesman = salesman;
-		this.carsList = carsList;
 		start();
 	}
 
@@ -70,9 +65,25 @@ public class Proposal extends Thread {
 
 		return totalCarPrice;
 	}
-	
+
 	public void run() {
 		setInterest();
+	}
+	
+	public void setDownPayment(int downPayment) {
+		this.downPayment = downPayment;
+	}
+
+	public void setLoanDuration(int loanDuration) {
+		this.loanDuration = loanDuration;
+	}
+
+	public void setProposalStatus(String proposalStatus) {
+		this.proposalStatus = proposalStatus;
+	}
+
+	public void setCarsList(ArrayList<Car> carsList) {
+		this.carsList = carsList;
 	}
 
 	public LocalDate getDate() {
@@ -102,7 +113,7 @@ public class Proposal extends Thread {
 	public Salesman getSalesman() {
 		return salesman;
 	}
-	
+
 	public double getInterest() {
 		return interest;
 	}

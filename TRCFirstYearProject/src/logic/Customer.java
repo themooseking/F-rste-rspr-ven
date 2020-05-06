@@ -26,6 +26,7 @@ public class Customer extends Thread{
 	
 	public void run() {
 		setCreditScore();
+		System.out.println(creditScore);
 	}
 
 	public Rating getCreditScore() {
