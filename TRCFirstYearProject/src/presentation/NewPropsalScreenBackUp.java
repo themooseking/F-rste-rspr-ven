@@ -40,7 +40,7 @@ import styles.TextAreaWithStyle;
 import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
-public class NewPropsalScreen {
+public class NewPropsalScreenBackUp {
 
 	private StyleClass style = new StyleClass();
 

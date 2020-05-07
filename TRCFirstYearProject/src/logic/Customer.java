@@ -2,9 +2,12 @@ package logic;
 
 import ffl.CreditRator;
 import ffl.Rating;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Customer extends Thread{
 
+	private StringProperty stringProperty;
 	private int customerId;
 	private int phone;
 	private String customerName;
@@ -21,6 +24,7 @@ public class Customer extends Thread{
 		this.email = email;
 		this.customerAddress = customerAddress;
 		this.postalCode = postalCode;
+		this.stringProperty = new SimpleStringProperty("");
 		start();
 	}
 	
@@ -36,6 +40,11 @@ public class Customer extends Thread{
 	
 	public void run() {
 		creditScore = CreditRator.i().rate(cpr);
+		stringProperty.set(creditScore.toString());
+	}
+	
+	public StringProperty stringProperty() {
+		return stringProperty;
 	}
 
 	public void setCreditScore(Rating creditScore) {

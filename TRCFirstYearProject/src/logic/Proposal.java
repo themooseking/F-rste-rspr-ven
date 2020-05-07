@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import ffl.InterestRate;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
 
+	private DoubleProperty doubleProperty;
 	private int proposalId;
 	private Customer customer;
 	private double interest;
@@ -23,6 +26,7 @@ public class Proposal extends Thread {
 		this.proposalDate = LocalDate.now();
 		this.proposalStatus = "ONGOING";
 		this.salesman = salesman;
+		this.doubleProperty = new SimpleDoubleProperty(0);
 		start();
 	}
 
@@ -52,7 +56,7 @@ public class Proposal extends Thread {
 		if (loanDurationLimit < loanDuration) {
 			customerInterest += 1.0;
 		}
-
+		
 		return customerInterest + interest;
 	}
 
@@ -66,8 +70,13 @@ public class Proposal extends Thread {
 		return totalCarPrice;
 	}
 
-	public void run() {
+	public void run() {		
 		interest = InterestRate.i().todaysRate();
+		doubleProperty.set(interest);
+	}
+	
+	public DoubleProperty doubleProperty() {
+		return doubleProperty;
 	}
 	
 	public void setInterest(double interest) {
