@@ -183,7 +183,7 @@ public class NewPropsalScreenBackUp {
 		grid.setAlignment(Pos.BASELINE_LEFT);
 		grid.setBackground(new Background(
 				new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY)));
-		
+
 		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
 				"Brick st. 11", 7400);
 		Proposal proposal = new Proposal(customer, LoggedInST.getUser());
@@ -316,12 +316,12 @@ public class NewPropsalScreenBackUp {
 
 		String string;
 		if (rbState) {
-			string = "				       Oversigt" + "\n\nModel:	 			" + model + "\nAfbetalingsperiode:		" + duration
-					+ "\nUdbetaling: 			" + payment;
+			string = "				       Oversigt" + "\n\nModel:	 			" + model
+					+ "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			" + payment;
 		} else {
-			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					" + yearString
-					+ "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			"
-					+ payment;
+			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					"
+					+ yearString + "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration
+					+ "\nUdbetaling: 			" + payment;
 		}
 
 		return string;

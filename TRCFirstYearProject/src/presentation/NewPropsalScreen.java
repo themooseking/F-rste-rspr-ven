@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
@@ -38,17 +39,27 @@ import styles.RadioButtonWithStyle;
 import styles.StyleClass;
 import styles.TextAreaWithStyle;
 import styles.TextFieldWithStyle;
+import styles.TextWithStyle;
 import styles.VBoxWithStyle;
 
 public class NewPropsalScreen {
 
 	private StyleClass style = new StyleClass();
 
+	private Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
+			"Brick st. 11", 7400);
+
 	private boolean rbState = false;
 	private boolean recreate = true;
 
 	private ArrayList<String> yearList = new ArrayList<String>();
 	private String yearString;
+	
+	private TextWithStyle carModelTR;
+	private TextWithStyle carPriceModelTR;
+	private TextWithStyle carPriceModelPriceTR;
+	private TextWithStyle carMilageTR;
+	private TextWithStyle carYearTR;
 
 	private RadioButtonWithStyle rbOld;
 	private GridPaneCenter trgrid;
@@ -112,8 +123,7 @@ public class NewPropsalScreen {
 
 			LabelWithStyle model = new LabelWithStyle("Model: ", grid, 0, 1);
 			GridPane.setColumnSpan(model, 2);
-			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCarModels()), grid, 3,
-					1);
+			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
 			modelcb.setMinWidth(600);
 			GridPane.setColumnSpan(modelcb, 2);
 
@@ -183,9 +193,7 @@ public class NewPropsalScreen {
 		grid.setAlignment(Pos.BASELINE_LEFT);
 		grid.setBackground(new Background(
 				new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY)));
-		
-		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
-				"Brick st. 11", 7400);
+
 		Proposal proposal = new Proposal(customer, LoggedInST.getUser());
 
 		new LabelWithStyle("Bank Rente:	", grid, 0, 0);
@@ -219,20 +227,159 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
-	private GridPane textReader() {
-		trgrid = new GridPaneCenter();
-		trgrid.setPadding(new Insets(0));
-		if (recreate == true) {
-			trgrid.setPadding(new Insets(10, 10, 10, 10));
-			recreate = false;
-		}
+	//////////////////////////////
+	// NEW SHIT
+	//////////////////////////////
 
-		TextAreaWithStyle ta = new TextAreaWithStyle(trgrid, 0, 0);
-		ta.setText(textAreaString());
-		textAreaEvents(ta);
+	private VBox textReader() {
+		VBox vbox = new VBox(customerTitle(), customerInfo(), fullLine(), carTitle(), carInfo(), dottedLine(),
+				carPriceTitle(), carPriceInfo(), carPriceTotal(), fullLine());
 
-		return trgrid;
+		onHiding();
+		return vbox;
 	}
+
+	private GridPane customerTitle() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		new LabelWithStyle("Kunde", grid, 0, 0);
+
+		return grid;
+	}
+
+	private GridPane customerInfo() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		new TextWithStyle("Navn: ", grid, 0, 0, 200);
+		new TextWithStyle(customer.getCustomerName(), grid, 1, 0, 200);
+
+		new TextWithStyle("Adresse: ", grid, 0, 1, 200);
+		new TextWithStyle(customer.getCustomerAddress(), grid, 1, 1, 200);
+
+		new TextWithStyle("Telefon nr.: ", grid, 0, 2, 200);
+		new TextWithStyle(Integer.toString(customer.getPhone()), grid, 1, 2, 200);
+
+		new TextWithStyle("Email: ", grid, 0, 3, 200);
+		new TextWithStyle(customer.getEmail(), grid, 1, 3, 200);
+
+		return grid;
+	}
+
+	private GridPane fullLine() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		new TextWithStyle("________________________________", grid, 0, 0, 200);
+
+		return grid;
+	}
+
+	private GridPane carTitle() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		new LabelWithStyle("Bil", grid, 0, 0);
+
+		return grid;
+	}
+
+	private GridPane carInfo() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		new TextWithStyle("Model: ", grid, 0, 0, 200);
+		carModelTR = new TextWithStyle("", grid, 1, 0, 200);
+
+		new TextWithStyle("Kilometer: ", grid, 3, 0, 200);
+		carMilageTR = new TextWithStyle("", grid, 4, 0, 200);
+		new TextWithStyle("km", grid, 5, 0, 200);
+
+		new TextWithStyle("≈r: ", grid, 7, 0, 200);
+		carYearTR = new TextWithStyle("", grid, 8, 0, 200);
+
+		return grid;
+	}
+
+	private GridPane dottedLine() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		new TextWithStyle("---------------------------------------------------------", grid, 0, 0, 200);
+
+		return grid;
+	}
+
+	private GridPane carPriceTitle() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		new LabelWithStyle("Bilpris", grid, 0, 0);
+
+		return grid;
+	}
+
+	private GridPane carPriceInfo() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		carPriceModelTR = new TextWithStyle("", grid, 0, 0, 400);
+		carPriceModelPriceTR = new TextWithStyle("", grid, 1, 0, 200);
+
+		new TextWithStyle("- Moms (25%) ", grid, 0, 1, 200);
+		TextWithStyle vat = new TextWithStyle("", grid, 1, 1, 200);
+		keyTyped(durationtf, vat);
+
+		return grid;
+	}
+
+	private GridPane carPriceTotal() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_RIGHT);
+
+		new TextWithStyle("Total: ", grid, 0, 0, 200);
+		TextWithStyle total = new TextWithStyle("", grid, 1, 0, 200);
+		keyTyped(durationtf, total);
+
+		return grid;
+	}
+
+	private void onHiding() {
+		modelcb.setOnHiding(new EventHandler<Event>() {
+			@Override
+			public void handle(Event arg0) {
+				carModelTR.setText(modelcb.getValue().toString());
+				carMilageTR.setText(Integer.toString(((Car) (modelcb.getValue())).getMilage()));
+				carYearTR.setText(Integer.toString(((Car) (modelcb.getValue())).getFactory()));
+				carPriceModelTR.setText(modelcb.getValue().toString());
+				carPriceModelPriceTR.setText(Integer.toString(((Car) modelcb.getValue()).getPrice()));
+			}
+		});
+	}
+
+	private void keyTyped(TextFieldWithStyle inputTextField, TextWithStyle outputTextField) {
+		inputTextField.setOnKeyTyped(new EventHandler<Event>() {
+			@Override
+			public void handle(Event arg0) {
+				outputTextField.setText(inputTextField.getText());
+			}
+		});
+	}
+
+	//////////////////////////////
+	// OLD SHIT
+	//////////////////////////////
+
+//	private GridPane textReaderOld() {
+//		trgrid = new GridPaneCenter();
+//		trgrid.setPadding(new Insets(0));
+//		if (recreate == true) {
+//			trgrid.setPadding(new Insets(10, 10, 10, 10));
+//			recreate = false;
+//		}
+//
+//		TextAreaWithStyle ta = new TextAreaWithStyle(trgrid, 0, 0);
+//		ta.setText(textAreaString());
+//		textAreaEvents(ta);
+//
+//		return trgrid;
+//	}	
 
 	//////////////////////////////
 	// EVENTS
@@ -316,12 +463,12 @@ public class NewPropsalScreen {
 
 		String string;
 		if (rbState) {
-			string = "				       Oversigt" + "\n\nModel:	 			" + model + "\nAfbetalingsperiode:		" + duration
-					+ "\nUdbetaling: 			" + payment;
+			string = "				       Oversigt" + "\n\nModel:	 			" + model
+					+ "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			" + payment;
 		} else {
-			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					" + yearString
-					+ "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			"
-					+ payment;
+			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					"
+					+ yearString + "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration
+					+ "\nUdbetaling: 			" + payment;
 		}
 
 		return string;

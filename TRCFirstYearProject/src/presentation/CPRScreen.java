@@ -19,8 +19,8 @@ import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class CPRScreen {
-	
-	private StyleClass style = new StyleClass();
+
+	private StyleClass style = new StyleClass(); 
 
 	public void cprUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), continueButton());

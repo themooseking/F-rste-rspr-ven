@@ -66,5 +66,21 @@ public class Customer extends Thread{
 	public int getCustomerId() {
 		return customerId;
 	}
+
+	public int getPhone() {
+		return phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getCustomerAddress() {
+		return customerAddress;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
 	
 }
