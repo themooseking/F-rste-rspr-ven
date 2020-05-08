@@ -21,6 +21,8 @@ import styles.VBoxWithStyle;
 public class CPRScreen {
 	
 	private StyleClass style = new StyleClass();
+	
+	private TextFieldWithStyle textfield;
 
 	public void cprUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), continueButton());
@@ -34,7 +36,7 @@ public class CPRScreen {
 		GridPaneCenter grid = new GridPaneCenter();
 		grid.setPadding(new Insets(30));
 
-		TextFieldWithStyle textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
+		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 
 		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			int tfl = 1;
@@ -84,7 +86,7 @@ public class CPRScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Continue", grid, 0, 1);
 		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
+			new ProposalOverview().proposalOverviewUI(textfield.getText());
 		});
 
 		return grid;
