@@ -1,8 +1,13 @@
 package data;
 
+import logic.Car;
+import logic.Customer;
 import logic.Proposal;
+import logic.Salesman;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class DB_Proposal {
 	private Connection connection;
@@ -39,6 +44,39 @@ public class DB_Proposal {
 	 * READ
 	 ***********************************/
 
+	public ArrayList<Proposal> getProposalByCustomer(Customer customer) {
+		ArrayList<Proposal> proposalList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * "
+					+ "FROM proposal "
+					+ "WHERE customer=?";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, customer.getCustomerId());
+
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				int proposalId = resultSet.getInt("id");
+				double interest = (double) resultSet.getFloat("interest");
+				int downPayment = resultSet.getInt("downPayment");
+				int loanDuration = resultSet.getInt("loanDuration");
+				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
+				String proposalStatus = resultSet.getString("proposalStatus");
+
+				Proposal proposal = new Proposal(proposalId, customer, interest, downPayment, loanDuration, 
+						proposalDate, proposalStatus, null, null);
+				
+				proposalList.add(proposal);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return proposalList;
+	}
+	
 	/***********************************
 	 * UPDATE
 	 ***********************************/
