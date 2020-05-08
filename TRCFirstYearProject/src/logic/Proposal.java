@@ -22,7 +22,7 @@ public class Proposal extends Thread {
 	private Salesman salesman;
 	private ArrayList<Car> carsList;
 	private String carsListNames;
-	private double priceOfLoanOffer;
+	private double proposalTotalSum;
 
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
@@ -35,7 +35,7 @@ public class Proposal extends Thread {
 
 	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
 			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-			ArrayList<Car> carsList, double priceOfLoanOffer){
+			ArrayList<Car> carsList, double proposalTotalSum){
 		this.proposalId = proposalId;
 		this.customer = customer;
 		this.interest = interest;
@@ -45,7 +45,7 @@ public class Proposal extends Thread {
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
 		this.carsList = carsList;
-		this.priceOfLoanOffer = priceOfLoanOffer;
+		this.proposalTotalSum = proposalTotalSum;
 	}
 
 	public double calcInterest() {
@@ -156,7 +156,7 @@ public class Proposal extends Thread {
 	}
 	
 	public double getPriceOfLoanOffer() {
-		return priceOfLoanOffer;
+		return proposalTotalSum;
 	}
 	
 	public String getCarsListNames() {
