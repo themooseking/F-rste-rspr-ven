@@ -21,23 +21,7 @@ public class DB_Controller {
 	 ***********************************/
 
 	public ArrayList<Car> getNewCars() {
-		return carDB.getAvailableNewCars();
-	}
-	
-	public ArrayList<String> getNewCarModels() {
-		return carDB.getNewCarModels();
-	}
-	
-	public ArrayList<Car> getUsedCars() {
-		return carDB.getAvailableNewCars();
-	}
-	
-	public ArrayList<String> getUsedCarModels() {
-		return carDB.getNewCarModels();
-	}
-	
-	public ArrayList<String> getNewCarYears(String model){
-		return carDB.getNewCarYears(model);
+		return carDB.getNewCars();
 	}
 
 	/***********************************
