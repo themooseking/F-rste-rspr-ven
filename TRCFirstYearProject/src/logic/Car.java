@@ -2,13 +2,15 @@ package logic;
 
 public class Car {
 	
+	private int id;
 	private String model;
 	private int price;
 	private int milage;
 	private int factory;
 	private String carStatus;
 	
-	public Car(String model, int price, int milage, int factory, String carStatus) {
+	public Car(int id, String model, int price, int milage, int factory, String carStatus) {
+		this.id = id;
 		this.model = model;
 		this.price = price;
 		this.milage = milage;

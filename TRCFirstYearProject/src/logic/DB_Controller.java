@@ -21,23 +21,27 @@ public class DB_Controller {
 	 ***********************************/
 
 	public ArrayList<Car> getNewCars() {
-		return carDB.getAvailableNewCars();
+		return carDB.getNewCars();
 	}
 	
-	public ArrayList<String> getNewCarModels() {
-		return carDB.getNewCarModels();
+	public ArrayList<String> getCarModels() {
+		return carDB.getUsedCarModels();
+	}
+	
+	public ArrayList<String> getCarFactoryYears(String model) {
+		return carDB.getUsedCarYears(model);
 	}
 	
 	public ArrayList<Car> getUsedCars() {
-		return carDB.getAvailableNewCars();
+		return carDB.getUsedCars();
 	}
 	
-	public ArrayList<String> getUsedCarModels() {
-		return carDB.getNewCarModels();
+	public ArrayList<Car> getUsedCars(String model) {
+		return carDB.getUsedCars(model);
 	}
 	
-	public ArrayList<String> getNewCarYears(String model){
-		return carDB.getNewCarYears(model);
+	public ArrayList<Car> getUsedCars(String model, String year) {
+		return carDB.getUsedCars(model, year);
 	}
 
 	/***********************************

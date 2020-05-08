@@ -11,7 +11,7 @@ import logic.DB_Controller;
 class JCar {
 	
 	DB_Controller controller = new DB_Controller();
-	Car car = new Car("812 Superfast", 5600000, 0, 2017, "AVAILABLE");
+	Car car = new Car(1, "812 Superfast", 5600000, 0, 2017, "AVAILABLE");
 
 	@Test
 	void testTypeOfGetCar() {
