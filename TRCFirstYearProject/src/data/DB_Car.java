@@ -108,8 +108,7 @@ public class DB_Car {
 		try {
 			String sql = "SELECT * "
 					+ "FROM car "
-					+ "WHERE carStatus='AVAILABLE' "
-					+ "ORDER BY model";
+					+ "WHERE carStatus='AVAILABLE'";
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -140,8 +139,7 @@ public class DB_Car {
 			String sql = "SELECT * "
 					+ "FROM car "
 					+ "WHERE carStatus='AVAILABLE' "
-					+ "AND model=? "
-					+ "ORDER BY model";
+					+ "AND model=?";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, model);
