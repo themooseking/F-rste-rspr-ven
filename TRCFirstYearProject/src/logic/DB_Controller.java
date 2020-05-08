@@ -23,6 +23,26 @@ public class DB_Controller {
 	public ArrayList<Car> getNewCars() {
 		return carDB.getNewCars();
 	}
+	
+	public ArrayList<String> getCarModels() {
+		return carDB.getUsedCarModels();
+	}
+	
+	public ArrayList<String> getCarFactoryYears(String model) {
+		return carDB.getUsedCarYears(model);
+	}
+	
+	public ArrayList<Car> getUsedCars() {
+		return carDB.getUsedCars();
+	}
+	
+	public ArrayList<Car> getUsedCars(String model) {
+		return carDB.getUsedCars(model);
+	}
+	
+	public ArrayList<Car> getUsedCars(String model, String year) {
+		return carDB.getUsedCars(model, year);
+	}
 
 	/***********************************
 	 * UPDATE
