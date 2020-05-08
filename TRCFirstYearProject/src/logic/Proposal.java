@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import ffl.InterestRate;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
@@ -143,5 +144,9 @@ public class Proposal extends Thread {
 
 	public double getInterest() {
 		return interest;
+	}
+	
+	public ArrayList<Car> getCarsList(){
+		return carsList;
 	}
 }

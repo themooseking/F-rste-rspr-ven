@@ -83,4 +83,9 @@ public class Customer extends Thread{
 		return customerName;
 	}
 	
+	@Override
+	public String toString() {
+		return customerName;		
+	}
+	
 }

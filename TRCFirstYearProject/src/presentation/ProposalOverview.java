@@ -1,6 +1,7 @@
 package presentation;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
@@ -32,9 +33,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
+import logic.Salesman;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
@@ -52,15 +55,14 @@ public class ProposalOverview {
 	private GridPaneCenter trgrid;
 
 	private DB_Controller controller = new DB_Controller();
-	private Customer customer;
 
 	public void proposalOverviewUI(String customerCPR) {
-		customer;
+		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
 		
-		HBox hbox = new HBox(proposalScrollPane());
+		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -79,40 +81,50 @@ public class ProposalOverview {
 	// Scroll Pane
 	//////////////////////////////
 
-	private GridPane proposalScrollPane() {
+	private GridPane proposalTableView(Customer customer) {
 		GridPaneCenter grid = new GridPaneCenter();
+		
+		////////////////*****************************************************************************************************
+		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "INSTOCK");
+		ArrayList<Car> carsList = new ArrayList<Car>();
+		carsList.add(carTest);
 
-		Proposal propTest = new Proposal(null, null);
+		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 75, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carsList);
+		
+		ArrayList<Proposal> propList = new ArrayList<Proposal>();
+		propList.add(propTest);
+		////////////**********************************************************************************************************************
 		
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
-		eventList.addAll();
+		eventList.addAll(propList);
 
-		TableColumn<Proposal, String> proposalIdCol = new TableColumn<Proposal, String>(
+		TableColumn<Proposal, Integer> proposalIdCol = new TableColumn<Proposal, Integer>(
 				"Låne nr.");
-		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Home"));
+		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, Integer>("proposalId"));
 
-		TableColumn<Proposal, String> carCol = new TableColumn<Proposal, String>(
+		TableColumn<Proposal, Customer> carCol = new TableColumn<Proposal, Customer>(
 				"Bil");
-		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Time"));
+		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
 
-		TableColumn<Proposal, String> interestCol = new TableColumn<Proposal, String>(
+		TableColumn<Proposal, Double> interestCol = new TableColumn<Proposal, Double>(
 				"Rente (%)");
-		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Away"));
+		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("interest"));
 		
 		TableColumn<Proposal, String> aprCol = new TableColumn<Proposal, String>(
 				"ÅOP (%)");
-		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Away"));
+		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
 		
 		TableColumn<Proposal, String> totalSum = new TableColumn<Proposal, String>(
 				"Sum (DKK)");
-		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Away"));
+		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
+		
 		
 		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
 				"Status");
-		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("Away"));
+		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("carsListNames"));
 
 		TableView<Proposal> table = new TableView<Proposal>();
-		table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
+		//table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
 
 		table.setPrefWidth(800);
 		table.setPrefHeight(600);
@@ -200,8 +212,8 @@ public class ProposalOverview {
 	// Label Title
 	//////////////////////////////
 
-	private Label title() {
-		Label label = new Label("Lånetilbud for **Kunde**");
+	private Label title(Customer customer) {
+		Label label = new Label("Lånetilbud for " + customer.getCustomerName());
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;
