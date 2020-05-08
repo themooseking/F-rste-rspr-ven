@@ -28,6 +28,13 @@ public class Customer extends Thread{
 		start();
 	}
 	
+//	public Customer(String cpr) {
+//		this.cpr = cpr;
+//		start();
+//	}
+
+
+
 	private String removeDashFromCpr(String cpr) {
 		String cprNoDash = cpr;
 		

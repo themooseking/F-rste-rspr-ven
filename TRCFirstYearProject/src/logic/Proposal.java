@@ -21,6 +21,8 @@ public class Proposal extends Thread {
 	private String proposalStatus;
 	private Salesman salesman;
 	private ArrayList<Car> carsList;
+	private String carsListNames;
+	private double priceOfLoanOffer;
 
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
@@ -33,7 +35,7 @@ public class Proposal extends Thread {
 
 	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
 			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-			ArrayList<Car> carsList) {
+			ArrayList<Car> carsList, double priceOfLoanOffer){
 		this.proposalId = proposalId;
 		this.customer = customer;
 		this.interest = interest;
@@ -43,6 +45,7 @@ public class Proposal extends Thread {
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
 		this.carsList = carsList;
+		this.priceOfLoanOffer = priceOfLoanOffer;
 	}
 
 	public double calcInterest() {
@@ -83,6 +86,12 @@ public class Proposal extends Thread {
 		}
 
 		return totalCarPrice;
+	}
+	
+	public double calculateLoanOffer(Proposal proposal) {
+		double totalCarPriceWithVAT = calcTotalCarPrice() *1.25;
+		
+		return totalCarPriceWithVAT*(Math.pow((1+calcInterest()), proposal.getLoanDuration()));
 	}
 
 	public void run() {		
@@ -146,7 +155,22 @@ public class Proposal extends Thread {
 		return interest;
 	}
 	
-	public ArrayList<Car> getCarsList(){
-		return carsList;
+	public double getPriceOfLoanOffer() {
+		return priceOfLoanOffer;
+	}
+	
+	public String getCarsListNames() {
+		stringFactoryForCarsList();
+		return carsListNames;
+	}
+	
+	private void stringFactoryForCarsList() {
+		String carNames = "";
+		
+		for (int i = 0; i < carsList.size(); i++) {
+			carNames += carsList.get(i).getModel() + "\n";
+		}
+		
+		carsListNames = carNames;
 	}
 }

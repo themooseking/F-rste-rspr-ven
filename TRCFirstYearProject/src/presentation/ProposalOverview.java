@@ -85,11 +85,13 @@ public class ProposalOverview {
 		GridPaneCenter grid = new GridPaneCenter();
 		
 		////////////////*****************************************************************************************************
-		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "INSTOCK");
+		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
+		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
 		ArrayList<Car> carsList = new ArrayList<Car>();
 		carsList.add(carTest);
+		carsList.add(carTest2);
 
-		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 75, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carsList);
+		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carsList, 4850000);
 		
 		ArrayList<Proposal> propList = new ArrayList<Proposal>();
 		propList.add(propTest);
@@ -102,26 +104,26 @@ public class ProposalOverview {
 				"Låne nr.");
 		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, Integer>("proposalId"));
 
-		TableColumn<Proposal, Customer> carCol = new TableColumn<Proposal, Customer>(
+		TableColumn<Proposal, String> carCol = new TableColumn<Proposal, String>(
 				"Bil");
-		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
+		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("carsListNames"));
 
 		TableColumn<Proposal, Double> interestCol = new TableColumn<Proposal, Double>(
 				"Rente (%)");
 		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("interest"));
 		
-		TableColumn<Proposal, String> aprCol = new TableColumn<Proposal, String>(
+		TableColumn<Proposal, Customer> aprCol = new TableColumn<Proposal, Customer>(
 				"ÅOP (%)");
-		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
+		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
 		
-		TableColumn<Proposal, String> totalSum = new TableColumn<Proposal, String>(
+		TableColumn<Proposal, Double> totalSum = new TableColumn<Proposal, Double>(
 				"Sum (DKK)");
-		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
+		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("priceOfLoanOffer"));
 		
 		
 		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
 				"Status");
-		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("carsListNames"));
+		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
 
 		TableView<Proposal> table = new TableView<Proposal>();
 		//table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
