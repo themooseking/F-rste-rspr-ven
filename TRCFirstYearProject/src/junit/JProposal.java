@@ -50,61 +50,61 @@ class JProposal {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-	void testCalcInterestDefault() {
-		assertEquals(0.0, proposal.calcInterest());
-	}
-	
-	@Test
-	void testCalcInterestDownPayment() {
-		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.33));
-		
-		assertEquals(1.0, proposal.calcInterest());
-	}
-	
-	@Test
-	void testCalcInterestDownPaymentExtraCar() {
-		carsList.add(new Car(2, "møjhurtig bil", 10000000, 666, 2018, "SOLD"));
-		proposal.setDownPayment((int) (carsList.get(0).getPrice()));
-		
-		assertEquals(1.0, proposal.calcInterest());
-	}
-
-	@Test
-	void testCalcInterestLoanDuration() {	
-		proposal.setLoanDuration(42);
-		
-		assertEquals(1.0, proposal.calcInterest());
-	}
-	
-	@Test
-	void testCalcInterestCreditRatingA() {	
-		customer.setCreditScore(Rating.A);
-		
-		assertEquals(1.0, proposal.calcInterest());
-	}
-
-	@Test
-	void testCalcInterestCreditRatingB() {	
-		customer.setCreditScore(Rating.B);
-		
-		assertEquals(2.0, proposal.calcInterest());
-	}
-	
-	@Test
-	void testCalcInterestCreditRatingC() {	
-		customer.setCreditScore(Rating.C);
-		
-		assertEquals(3.0, proposal.calcInterest());
-	}
-	
-	@Test
-	void testCalcInterestSum() {	
-		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.25));
-		proposal.setInterest(5);
-		proposal.setLoanDuration(72);
-		customer.setCreditScore(Rating.C);
-		
-		assertEquals(10.0, proposal.calcInterest());
-	}
+//	@Test
+//	void testCalcInterestDefault() {
+//		assertEquals(0.0, proposal.calcInterest());
+//	}
+//	
+//	@Test
+//	void testCalcInterestDownPayment() {
+//		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.33));
+//		
+//		assertEquals(1.0, proposal.calcInterest());
+//	}
+//	
+//	@Test
+//	void testCalcInterestDownPaymentExtraCar() {
+//		carsList.add(new Car(2, "møjhurtig bil", 10000000, 666, 2018, "SOLD"));
+//		proposal.setDownPayment((int) (carsList.get(0).getPrice()));
+//		
+//		assertEquals(1.0, proposal.calcInterest());
+//	}
+//
+//	@Test
+//	void testCalcInterestLoanDuration() {	
+//		proposal.setLoanDuration(42);
+//		
+//		assertEquals(1.0, proposal.calcInterest());
+//	}
+//	
+//	@Test
+//	void testCalcInterestCreditRatingA() {	
+//		customer.setCreditScore(Rating.A);
+//		
+//		assertEquals(1.0, proposal.calcInterest());
+//	}
+//
+//	@Test
+//	void testCalcInterestCreditRatingB() {	
+//		customer.setCreditScore(Rating.B);
+//		
+//		assertEquals(2.0, proposal.calcInterest());
+//	}
+//	
+//	@Test
+//	void testCalcInterestCreditRatingC() {	
+//		customer.setCreditScore(Rating.C);
+//		
+//		assertEquals(3.0, proposal.calcInterest());
+//	}
+//	
+//	@Test
+//	void testCalcInterestSum() {	
+//		proposal.setDownPayment((int) (carsList.get(0).getPrice() * 0.25));
+//		proposal.setInterest(5);
+//		proposal.setLoanDuration(72);
+//		customer.setCreditScore(Rating.C);
+//		
+//		assertEquals(10.0, proposal.calcInterest());
+//	}
 }

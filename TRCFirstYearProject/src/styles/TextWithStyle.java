@@ -14,8 +14,8 @@ public class TextWithStyle extends TextField {
 		super.setDisable(true);
 		super.setOpacity(100);
 
-		super.setFont(Font.font(style.textFont(), 18));
-		super.setPrefSize(width, 25);
+		super.setFont(Font.font(style.textFont(), 16));
+		super.setPrefSize(width, 10);
 		
 		GridPane.setConstraints(this, row, col);
 		grid.getChildren().add(this);

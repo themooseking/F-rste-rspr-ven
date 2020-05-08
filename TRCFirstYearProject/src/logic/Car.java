@@ -40,6 +40,6 @@ public class Car {
 	
 	@Override
 	public String toString() {
-		return model;
+		return "[" + Integer.toString(id) + "]	" + model;
 	}
 }
