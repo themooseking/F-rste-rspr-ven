@@ -21,9 +21,8 @@ public class Proposal extends Thread {
 	private String proposalStatus;
 	private Salesman salesman;
 	private ArrayList<Car> carsList;
-	private String carsListNames;
-	private double proposalTotalSum;
-	private double loanInterest;
+//	private double proposalTotalSum;
+//	private double loanInterest;
 
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
@@ -34,20 +33,20 @@ public class Proposal extends Thread {
 		start();
 	}
 
-	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
-			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-			ArrayList<Car> carsList, double proposalTotalSum){
-		this.proposalId = proposalId;
-		this.customer = customer;
-		this.interest = interest;
-		this.downPayment = downPayment;
-		this.loanDuration = loanDuration;
-		this.proposalDate = proposalDate;
-		this.proposalStatus = proposalStatus;
-		this.salesman = salesman;
-		this.carsList = carsList;
-		this.proposalTotalSum = proposalTotalSum;
-	}
+//	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
+//			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
+//			ArrayList<Car> carsList, double proposalTotalSum){
+//		this.proposalId = proposalId;
+//		this.customer = customer;
+//		this.interest = interest;
+//		this.downPayment = downPayment;
+//		this.loanDuration = loanDuration;
+//		this.proposalDate = proposalDate;
+//		this.proposalStatus = proposalStatus;
+//		this.salesman = salesman;
+//		this.carsList = carsList;
+//		this.proposalTotalSum = proposalTotalSum;
+//	}
 	
 	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
 			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
@@ -63,7 +62,7 @@ public class Proposal extends Thread {
 		this.carsList = carsList;
 	}
 
-	private double calcInterest() {
+	public double calcInterest() {
 		double customerInterest = 0;
 
 		switch (customer.getCreditScore()) {
@@ -90,9 +89,7 @@ public class Proposal extends Thread {
 			customerInterest += 1.0;
 		}
 		
-		loanInterest = customerInterest + interest;
-		
-		return loanInterest;
+		return customerInterest + interest;
 	}
 
 	private double calcTotalCarPrice() {
@@ -172,27 +169,22 @@ public class Proposal extends Thread {
 		return interest;
 	}
 	
-	public double getPriceOfLoanOffer() {
-		return proposalTotalSum;
-	}
+//	public double getProposalTotalSum() {
+//		return proposalTotalSum;
+//	}
 	
-	public double getLoanInterest() {
-		calcInterest();
-		return loanInterest;
-	}
-	
-	public String getCarsListNames() {
-		stringFactoryForCarsList();
-		return carsListNames;
-	}
-	
-	private void stringFactoryForCarsList() {
-		String carNames = "";
-		
-		for (int i = 0; i < carsList.size(); i++) {
-			carNames += carsList.get(i).getModel() + "\n";
-		}
-		
-		carsListNames = carNames;
-	}
+//	public String getCarsListNames() {
+//		//stringFactoryForCarsList();
+//		return stringFactoryForCarsList();
+//	}
+//	
+//	private String stringFactoryForCarsList() {
+//		String carNames = "";
+//		
+//		for (int i = 0; i < carsList.size(); i++) {
+//			carNames += carsList.get(i).getModel() + "\n";
+//		}
+//		
+//		return carNames;
+//	}
 }
