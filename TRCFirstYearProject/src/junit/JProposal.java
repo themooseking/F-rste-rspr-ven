@@ -37,7 +37,7 @@ class JProposal {
 		salesman = new Salesman(77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
 		proposal = new Proposal(customer, salesman);
 		
-		carsList = new ArrayList<Car>(Arrays.asList(new Car("pepega car", 5000000, 300, 1985, "IN STOCK")));
+		carsList = new ArrayList<Car>(Arrays.asList(new Car(1, "pepega car", 5000000, 300, 1985, "IN STOCK")));
 		
 		proposal.setCarsList(carsList);
 		proposal.setDownPayment(carsList.get(0).getPrice());
@@ -64,7 +64,7 @@ class JProposal {
 	
 	@Test
 	void testCalcInterestDownPaymentExtraCar() {
-		carsList.add(new Car("møjhurtig bil", 10000000, 666, 2018, "SOLD"));
+		carsList.add(new Car(2, "møjhurtig bil", 10000000, 666, 2018, "SOLD"));
 		proposal.setDownPayment((int) (carsList.get(0).getPrice()));
 		
 		assertEquals(1.0, proposal.calcInterest());
