@@ -1,7 +1,6 @@
 package presentation;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -37,7 +36,6 @@ import styles.GridPaneCenter;
 import styles.LabelWithStyle;
 import styles.RadioButtonWithStyle;
 import styles.StyleClass;
-import styles.TextAreaWithStyle;
 import styles.TextFieldWithStyle;
 import styles.TextWithStyle;
 import styles.VBoxWithStyle;
@@ -52,9 +50,10 @@ public class NewPropsalScreen {
 	private boolean rbState = false;
 	private boolean recreate = true;
 
-	private ArrayList<String> yearList = new ArrayList<String>();
-	private String yearString;
-	
+//	private ArrayList<String> yearList = new ArrayList<String>();
+//	private String yearString;
+	private VBox trvbox;
+
 	private TextWithStyle carModelTR;
 	private TextWithStyle carPriceModelTR;
 	private TextWithStyle carPriceModelPriceTR;
@@ -62,7 +61,7 @@ public class NewPropsalScreen {
 	private TextWithStyle carYearTR;
 
 	private RadioButtonWithStyle rbOld;
-	private GridPaneCenter trgrid;
+//	private GridPaneCenter trgrid;
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
 	private TextFieldWithStyle paymenttf;
@@ -98,6 +97,7 @@ public class NewPropsalScreen {
 		grid.setPadding(new Insets(0));
 		if (recreate == true) {
 			grid.setPadding(new Insets(10, 10, 10, 10));
+			recreate = false;
 		}
 		grid.setAlignment(Pos.CENTER_LEFT);
 		grid.setVgap(10);
@@ -115,8 +115,10 @@ public class NewPropsalScreen {
 		rbOld.setOnAction(e -> {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
-			trgrid.getChildren().clear();
-			trgrid.getChildren().add(textReader());
+//			trgrid.getChildren().clear();
+//			trgrid.getChildren().add(textReader());
+			trvbox.getChildren().clear();
+			trvbox.getChildren().add(textReader());
 		});
 
 		if (rbState) {
@@ -130,7 +132,7 @@ public class NewPropsalScreen {
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setVisible(false);
 
-			regnrtf = new TextFieldWithStyle("ex. 465411", grid, 3, 3);
+			regnrtf = new TextFieldWithStyle("", grid, 3, 3);
 			regnrtf.setVisible(false);
 
 		} else {
@@ -143,8 +145,7 @@ public class NewPropsalScreen {
 
 			LabelWithStyle year = new LabelWithStyle("≈r: ", grid, 1, 2);
 			GridPane.setColumnSpan(year, 1);
-			yearcb = new ComboBoxWithStyle(
-					FXCollections.observableArrayList(controller.getNewCarYears(yearList.toString())), grid, 3, 2);
+			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setMinWidth(600);
 			yearcb.setDisable(true);
 			GridPane.setColumnSpan(yearcb, 2);
@@ -232,21 +233,17 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private VBox textReader() {
-		VBox vbox = new VBox(customerTitle(), customerInfo(), fullLine(), carTitle(), carInfo(), dottedLine(),
-				carPriceTitle(), carPriceInfo(), carPriceTotal(), fullLine());
+		trvbox = new VBox(customerTitle(), customerInfo(), fullLine(), carTitle(), carInfo(), dottedLine(),
+				carPriceTitle(), carPriceInfo(), dottedLine(), proposalInfo(), dottedLine(), priceSum(),
+				totalPrice(), fullLine());
 
 		onHiding();
-		return vbox;
+		return trvbox;
 	}
 
-	private GridPane customerTitle() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
-
-		new LabelWithStyle("Kunde", grid, 0, 0);
-
-		return grid;
-	}
+	//////////////////////////////
+	// Information
+	//////////////////////////////
 
 	private GridPane customerInfo() {
 		GridPaneCenter grid = new GridPaneCenter();
@@ -267,22 +264,6 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
-	private GridPane fullLine() {
-		GridPaneCenter grid = new GridPaneCenter();
-
-		new TextWithStyle("________________________________", grid, 0, 0, 200);
-
-		return grid;
-	}
-
-	private GridPane carTitle() {
-		GridPaneCenter grid = new GridPaneCenter();
-
-		new LabelWithStyle("Bil", grid, 0, 0);
-
-		return grid;
-	}
-
 	private GridPane carInfo() {
 		GridPaneCenter grid = new GridPaneCenter();
 
@@ -299,10 +280,74 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
-	private GridPane dottedLine() {
+	private GridPane carPriceInfo() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		carPriceModelTR = new TextWithStyle("", grid, 0, 0, 400);
+		carPriceModelPriceTR = new TextWithStyle("", grid, 1, 0, 200);
+
+		new TextWithStyle("- Moms (25%) ", grid, 0, 1, 200);
+		TextWithStyle vat = new TextWithStyle("", grid, 1, 1, 200);
+		keyTyped(durationtf, vat);
+		
+		new TextWithStyle("Total: ", grid, 0, 2, 200);
+		TextWithStyle total = new TextWithStyle("", grid, 1, 2, 200);
+		keyTyped(durationtf, total);
+
+		return grid;
+	}
+
+	private GridPane proposalInfo() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		new TextWithStyle("Bank rente: ", grid, 0, 0, 200);
+		TextWithStyle bankRate = new TextWithStyle("", grid, 1, 0, 200);
+		
+		
+		new TextWithStyle("KreditvÊrdighed: ", grid, 0, 1, 200);
+		TextWithStyle creditscore = new TextWithStyle(customer.getCreditScore().toString(), grid, 1, 1, 200);
+
+		return grid;
+	}
+	
+	private GridPane priceSum() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+
+
+		return grid;
+	}
+	
+	private GridPane totalPrice() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+
+
+		return grid;
+	}
+	
+
+	//////////////////////////////
+	// Titles
+	//////////////////////////////
+
+	private GridPane customerTitle() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		new LabelWithStyle("Kunde", grid, 0, 0);
+
+		return grid;
+	}
+
+	private GridPane carTitle() {
 		GridPaneCenter grid = new GridPaneCenter();
 
-		new TextWithStyle("---------------------------------------------------------", grid, 0, 0, 200);
+		new LabelWithStyle("Bil", grid, 0, 0);
 
 		return grid;
 	}
@@ -315,30 +360,29 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
-	private GridPane carPriceInfo() {
+	//////////////////////////////
+	// Lines
+	//////////////////////////////
+
+	private GridPane fullLine() {
 		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
 
-		carPriceModelTR = new TextWithStyle("", grid, 0, 0, 400);
-		carPriceModelPriceTR = new TextWithStyle("", grid, 1, 0, 200);
-
-		new TextWithStyle("- Moms (25%) ", grid, 0, 1, 200);
-		TextWithStyle vat = new TextWithStyle("", grid, 1, 1, 200);
-		keyTyped(durationtf, vat);
+		new TextWithStyle("________________________________", grid, 0, 0, 200);
 
 		return grid;
 	}
 
-	private GridPane carPriceTotal() {
+	private GridPane dottedLine() {
 		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_RIGHT);
 
-		new TextWithStyle("Total: ", grid, 0, 0, 200);
-		TextWithStyle total = new TextWithStyle("", grid, 1, 0, 200);
-		keyTyped(durationtf, total);
+		new TextWithStyle("---------------------------------------------------------", grid, 0, 0, 200);
 
 		return grid;
 	}
+
+	//////////////////////////////
+	// EVENTS
+	//////////////////////////////
 
 	private void onHiding() {
 		modelcb.setOnHiding(new EventHandler<Event>() {
@@ -385,94 +429,94 @@ public class NewPropsalScreen {
 	// EVENTS
 	//////////////////////////////
 
-	private void textAreaEvents(TextAreaWithStyle ta) {
-
-		modelcb.setOnHiding(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-				if (modelcb.getValue() != null) {
-					yearList = controller.getNewCarYears(modelcb.getValue().toString());
-					yearcb.getItems().clear();
-					yearcb.getItems().addAll(yearList);
-					yearcb.setDisable(false);
-					regnrtf.setDisable(false);
-				}
-			}
-		});
-
-		yearcb.setOnHiding(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-			}
-		});
-
-		regnrtf.setOnKeyTyped(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-			}
-		});
-
-		durationtf.setOnKeyTyped(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-			}
-		});
-
-		paymenttf.setOnKeyTyped(new EventHandler<Event>() {
-			@Override
-			public void handle(Event arg0) {
-				ta.setText(textAreaString());
-			}
-		});
-	}
+//	private void textAreaEvents(TextAreaWithStyle ta) {
+//
+//		modelcb.setOnHiding(new EventHandler<Event>() {
+//			@Override
+//			public void handle(Event arg0) {
+//				ta.setText(textAreaString());
+//				if (modelcb.getValue() != null) {
+//					yearList = controller.getNewCarYears(modelcb.getValue().toString());
+//					yearcb.getItems().clear();
+//					yearcb.getItems().addAll(yearList);
+//					yearcb.setDisable(false);
+//					regnrtf.setDisable(false);
+//				}
+//			}
+//		});
+//
+//		yearcb.setOnHiding(new EventHandler<Event>() {
+//			@Override
+//			public void handle(Event arg0) {
+//				ta.setText(textAreaString());
+//			}
+//		});
+//
+//		regnrtf.setOnKeyTyped(new EventHandler<Event>() {
+//			@Override
+//			public void handle(Event arg0) {
+//				ta.setText(textAreaString());
+//			}
+//		});
+//
+//		durationtf.setOnKeyTyped(new EventHandler<Event>() {
+//			@Override
+//			public void handle(Event arg0) {
+//				ta.setText(textAreaString());
+//			}
+//		});
+//
+//		paymenttf.setOnKeyTyped(new EventHandler<Event>() {
+//			@Override
+//			public void handle(Event arg0) {
+//				ta.setText(textAreaString());
+//			}
+//		});
+//	}
 
 	//////////////////////////////
 	// TEXT AREA TEXT
 	//////////////////////////////
 
-	private String textAreaString() {
-		String model = "";
-		yearString = "";
-		String regnr = "";
-		String duration = "";
-		String payment = "";
-
-		if (modelcb.getValue() != null) {
-			model = modelcb.getValue().toString();
-		}
-
-		if (yearcb.getValue() != null) {
-			yearString = yearcb.getValue().toString();
-		}
-
-		if (regnrtf.getText() != null) {
-			regnr = regnrtf.getText();
-		}
-
-		if (durationtf.getText() != null) {
-			duration = durationtf.getText();
-		}
-
-		if (paymenttf.getText() != null) {
-			payment = paymenttf.getText();
-		}
-
-		String string;
-		if (rbState) {
-			string = "				       Oversigt" + "\n\nModel:	 			" + model
-					+ "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			" + payment;
-		} else {
-			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					"
-					+ yearString + "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration
-					+ "\nUdbetaling: 			" + payment;
-		}
-
-		return string;
-	}
+//	private String textAreaString() {
+//		String model = "";
+//		yearString = "";
+//		String regnr = "";
+//		String duration = "";
+//		String payment = "";
+//
+//		if (modelcb.getValue() != null) {
+//			model = modelcb.getValue().toString();
+//		}
+//
+//		if (yearcb.getValue() != null) {
+//			yearString = yearcb.getValue().toString();
+//		}
+//
+//		if (regnrtf.getText() != null) {
+//			regnr = regnrtf.getText();
+//		}
+//
+//		if (durationtf.getText() != null) {
+//			duration = durationtf.getText();
+//		}
+//
+//		if (paymenttf.getText() != null) {
+//			payment = paymenttf.getText();
+//		}
+//
+//		String string;
+//		if (rbState) {
+//			string = "				       Oversigt" + "\n\nModel:	 			" + model
+//					+ "\nAfbetalingsperiode:		" + duration + "\nUdbetaling: 			" + payment;
+//		} else {
+//			string = "				       Oversigt" + "\n\nModel: 				" + model + "\n≈r: 					"
+//					+ yearString + "\nReg. Nr.: 				" + regnr + "\nAfbetalingsperiode:		" + duration
+//					+ "\nUdbetaling: 			" + payment;
+//		}
+//
+//		return string;
+//	}
 
 	//////////////////////////////
 	// Buttons
