@@ -7,6 +7,8 @@ public class DB_Controller {
 	private DataLayer dataLayer = new DataLayer();
 	private DB_Proposal proposalDB = new DB_Proposal(dataLayer.getConnection());
 	private DB_Car carDB = new DB_Car(dataLayer.getConnection());
+	private DB_Customer customerDB = new DB_Customer(dataLayer.getConnection());
+	private DB_Salesman salesmanDB = new DB_Salesman(dataLayer.getConnection());
 
 	/***********************************
 	 * Create
@@ -43,7 +45,23 @@ public class DB_Controller {
 	public ArrayList<Car> getUsedCars(String model, String year) {
 		return carDB.getUsedCars(model, year);
 	}
+	
+	/***********************************
+	 * READ CUSTOMER
+	 ***********************************/
 
+	public Customer getCustomer(String cpr) {
+		return customerDB.getCustomer(cpr);
+	}
+	
+	/***********************************
+	 * READ SALESMAN
+	 ***********************************/
+	
+	public ArrayList<Salesman> getSalesmanList() {
+		return salesmanDB.getSalesmanList();
+	}
+	
 	/***********************************
 	 * UPDATE
 	 ***********************************/
