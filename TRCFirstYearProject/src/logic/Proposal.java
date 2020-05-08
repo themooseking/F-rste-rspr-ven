@@ -48,6 +48,20 @@ public class Proposal extends Thread {
 		this.carsList = carsList;
 		this.proposalTotalSum = proposalTotalSum;
 	}
+	
+	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
+			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
+			ArrayList<Car> carsList){
+		this.proposalId = proposalId;
+		this.customer = customer;
+		this.interest = interest;
+		this.downPayment = downPayment;
+		this.loanDuration = loanDuration;
+		this.proposalDate = proposalDate;
+		this.proposalStatus = proposalStatus;
+		this.salesman = salesman;
+		this.carsList = carsList;
+	}
 
 	private double calcInterest() {
 		double customerInterest = 0;

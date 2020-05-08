@@ -118,7 +118,7 @@ public class ProposalOverview {
 		
 		TableColumn<Proposal, Double> totalSum = new TableColumn<Proposal, Double>(
 				"Sum (DKK)");
-		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("priceOfLoanOffer"));
+		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("proposalToalSum"));
 		
 		
 		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
