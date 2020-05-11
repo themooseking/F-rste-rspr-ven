@@ -18,6 +18,10 @@ public class Car {
 		this.carStatus = carStatus;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public int getPrice() {
 		return price;
 	}
@@ -36,6 +40,10 @@ public class Car {
 
 	public String getCarStatus() {
 		return carStatus;
+	}	
+	
+	public double getVat() {
+		return getPrice() * 0.25;
 	}	
 	
 	@Override
