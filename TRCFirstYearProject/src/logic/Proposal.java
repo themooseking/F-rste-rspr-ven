@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
 
+	private DB_Controller controller = new DB_Controller();
 	private DoubleProperty doubleProperty;
 	private int proposalId;
 	private Car car;
@@ -78,6 +79,7 @@ public class Proposal extends Thread {
 	public void run() {		
 		interest = InterestRate.i().todaysRate();
 		doubleProperty.set(interest);
+		controller.createInterest(interest);
 	}
 	
 	public DoubleProperty doubleProperty() {
@@ -102,6 +104,20 @@ public class Proposal extends Thread {
 		return totalCarPrice() + totalInterestSum();
 	}
 	
+	private void checkInterestDB() {
+		double interest = controller.getInterest(proposalDate);
+		
+		if(interest <= -1.0) {
+			start();
+		} else {
+			this.interest = interest;
+		}
+	}
+	
+	/***********************************
+	 * SETTERS
+	 ***********************************/
+	
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
@@ -121,6 +137,10 @@ public class Proposal extends Thread {
 	public void setCar(Car car) {
 		this.car = car;
 	}
+	
+	/***********************************
+	 * GETTERS
+	 ***********************************/
 
 	public LocalDate getDate() {
 		return proposalDate;

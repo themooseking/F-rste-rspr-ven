@@ -41,6 +41,21 @@ public class DB_Proposal {
 		}
 	}
 
+	public void createInterest(double interest) {
+		try {
+			String sql = "INSERT INTO bankInterest VALUES (?, ?)";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setDate(1, Date.valueOf(LocalDate.now()));
+			statement.setFloat(2, (float) interest);
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/***********************************
 	 * READ PROPOSAL
 	 ***********************************/
@@ -101,7 +116,7 @@ public class DB_Proposal {
 	 ***********************************/
 
 	public double getInterest(LocalDate date) {
-		double interest = 0.0;
+		double interest = -1.0;
 		
 		try {
 			String sql = "SELECT interest " 
@@ -113,7 +128,7 @@ public class DB_Proposal {
 
 			ResultSet resultSet = statement.executeQuery();
 
-			while (resultSet.next()) {
+			if (resultSet.next()) {
 				interest = resultSet.getFloat("interest");
 			}
 		} catch (SQLException e) {

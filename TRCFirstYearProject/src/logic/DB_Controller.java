@@ -1,5 +1,6 @@
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import data.*;
 
@@ -16,6 +17,10 @@ public class DB_Controller {
 
 	public void createProposal(Proposal proposal) {
 		proposalDB.createProposal(proposal);
+	}
+	
+	public void createInterest(double interest){
+		proposalDB.createInterest(interest);
 	}
 
 	/***********************************
@@ -65,7 +70,7 @@ public class DB_Controller {
 		ArrayList<Proposal> proposalList = proposalDB.getProposalByCustomer(customer, carList, salesmanList);
 		
 		for(Proposal prop : proposalList) {
-			double interest = proposalDB.getInterest(prop.getDate());
+			double interest = getInterest(prop.getDate());
 			
 			prop.setInterest(interest);
 		}
@@ -73,6 +78,13 @@ public class DB_Controller {
 		return proposalList;
 	}
 	
+	/***********************************
+	 * READ INTEREST
+	 ***********************************/
+
+	public double getInterest(LocalDate date) {
+		return proposalDB.getInterest(date);
+	}
 	/***********************************
 	 * READ SALESMAN
 	 ***********************************/
