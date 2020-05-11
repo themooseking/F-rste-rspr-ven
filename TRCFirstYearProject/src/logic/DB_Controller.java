@@ -55,6 +55,25 @@ public class DB_Controller {
 	}
 	
 	/***********************************
+	 * READ PROPOSAL
+	 ***********************************/
+
+	public ArrayList<Proposal> getProposalByCustomer(Customer customer) {
+		ArrayList<Car> carList = carDB.getCars();
+		ArrayList<Salesman> salesmanList = salesmanDB.getSalesmanList();
+		
+		ArrayList<Proposal> proposalList = proposalDB.getProposalByCustomer(customer, carList, salesmanList);
+		
+		for(Proposal prop : proposalList) {
+			double interest = proposalDB.getInterest(prop.getDate());
+			
+			prop.setInterest(interest);
+		}
+		
+		return proposalList;
+	}
+	
+	/***********************************
 	 * READ SALESMAN
 	 ***********************************/
 	
@@ -69,9 +88,4 @@ public class DB_Controller {
 	public void updateProposalStatus(Proposal proposal) {
 		updateProposalStatus(proposal);
 	}
-	
-	/***********************************
-	 * DELETE
-	 ***********************************/
-
 }

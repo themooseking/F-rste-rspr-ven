@@ -22,17 +22,18 @@ public class DB_Proposal {
 
 	public void createProposal(Proposal proposal) {
 		try {
-			String sql = "INSERT INTO proposal VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO proposal VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setInt(1, proposal.getCustomer().getCustomerId());
-			statement.setFloat(2, (float) proposal.getInterest());
+			statement.setInt(1, proposal.getCar().getId());
+			statement.setInt(2, proposal.getCustomer().getCustomerId());
 			statement.setInt(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
 			statement.setDate(5, Date.valueOf(proposal.getDate()));
 			statement.setString(6, proposal.getProposalStatus());
-			statement.setInt(7, proposal.getSalesman().getId());
+			statement.setString(7, proposal.getCustomer().getCreditScore().name());
+			statement.setInt(8, proposal.getSalesman().getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -41,17 +42,18 @@ public class DB_Proposal {
 	}
 
 	/***********************************
-	 * READ
+	 * READ PROPOSAL
 	 ***********************************/
 
-	public ArrayList<Proposal> getProposalByCustomer(Customer customer) {
+	public ArrayList<Proposal> getProposalByCustomer(Customer customer, ArrayList<Car> carList,
+			ArrayList<Salesman> salesmanList) {
 		ArrayList<Proposal> proposalList = new ArrayList<>();
 
 		try {
-			String sql = "SELECT * "
-					+ "FROM proposal "
+			String sql = "SELECT * " 
+					+ "FROM proposal " 
 					+ "WHERE customer=?";
-			
+
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, customer.getCustomerId());
 
@@ -59,15 +61,32 @@ public class DB_Proposal {
 
 			while (resultSet.next()) {
 				int proposalId = resultSet.getInt("id");
-				double interest = (double) resultSet.getFloat("interest");
+				
+				Car car = null;
+				for (int i = 0; i < carList.size(); i++) {
+					if (carList.get(i).getId() == resultSet.getInt("car")) {
+						car = carList.get(i);
+						break;
+					}
+				}
+				
 				int downPayment = resultSet.getInt("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
 				String proposalStatus = resultSet.getString("proposalStatus");
+				String creditScore = resultSet.getString("creditScore");
 
-				Proposal proposal = new Proposal(proposalId, customer, interest, downPayment, loanDuration, 
-						proposalDate, proposalStatus, null, null);
+				Salesman salesman = null;
+				for (int i = 0; i < salesmanList.size(); i++) {
+					if (salesmanList.get(i).getId() == resultSet.getInt("student_id")) {
+						salesman = salesmanList.get(i);
+						break;
+					}
+				}
 				
+				Proposal proposal = new Proposal(proposalId, car, customer, downPayment, loanDuration,
+						proposalDate, proposalStatus, creditScore, salesman);
+
 				proposalList.add(proposal);
 			}
 		} catch (SQLException e) {
@@ -75,6 +94,33 @@ public class DB_Proposal {
 		}
 
 		return proposalList;
+	}
+	
+	/***********************************
+	 * READ INTEREST
+	 ***********************************/
+
+	public double getInterest(LocalDate date) {
+		double interest = 0.0;
+		
+		try {
+			String sql = "SELECT interest " 
+					+ "FROM bankInterest " 
+					+ "WHERE interestDate=?";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setDate(1, Date.valueOf(date));
+
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				interest = resultSet.getFloat("interest");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return interest;
 	}
 	
 	/***********************************

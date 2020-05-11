@@ -3,6 +3,7 @@ package logic;
 import java.time.LocalDate;
 
 import ffl.InterestRate;
+import ffl.Rating;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -11,14 +12,15 @@ public class Proposal extends Thread {
 
 	private DoubleProperty doubleProperty;
 	private int proposalId;
+	private Car car;
 	private Customer customer;
 	private double interest;
 	private int downPayment;
 	private int loanDuration;
 	private LocalDate proposalDate;
 	private String proposalStatus;
+	private Rating creditScore;
 	private Salesman salesman;
-	private Car car;
 	private double proposalTotalSum;
 
 	public Proposal(Customer customer, Salesman salesman) {
@@ -30,18 +32,17 @@ public class Proposal extends Thread {
 		start();
 	}
 	
-	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
-			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-			Car car){
+	public Proposal(int proposalId, Car car, Customer customer, int downPayment, int loanDuration, 
+			LocalDate proposalDate, String proposalStatus, String creditScore, Salesman salesman){
 		this.proposalId = proposalId;
+		this.car = car;
 		this.customer = customer;
-		this.interest = interest;
 		this.downPayment = downPayment;
 		this.loanDuration = loanDuration;
 		this.proposalDate = proposalDate;
+		this.creditScore = Rating.valueOf(creditScore);
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
-		this.car = car;
 	}
 
 	public double calcInterest() {

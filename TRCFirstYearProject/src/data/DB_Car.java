@@ -12,7 +12,38 @@ public class DB_Car {
 	public DB_Car(Connection connection) {
 		this.connection = connection;
 	}
+	
+	/***********************************
+	 * READ CAR
+	 ***********************************/
 
+	public ArrayList<Car> getCars() {
+		ArrayList<Car> carList = new ArrayList<Car>();
+
+		try {
+			String sql = "SELECT * FROM car";
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String model = resultSet.getString("model");
+				int price = resultSet.getInt("price");
+				int mileage = 0;
+				int factoryYear = Calendar.getInstance().get(Calendar.YEAR);
+				String carStatus = resultSet.getString("carStatus");
+				
+				Car car = new Car(id, model, price, mileage, factoryYear, carStatus);
+				carList.add(car);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return carList;
+	}
+	
 	/***********************************
 	 * READ NEW CAR
 	 ***********************************/
