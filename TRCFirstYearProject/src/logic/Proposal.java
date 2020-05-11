@@ -95,7 +95,7 @@ public class Proposal extends Thread {
 	}
 	
 	public double totalInterestSum() {
-		return monthlyPayment() * loanDuration;
+		return monthlyPayment() * loanDuration - totalCarPrice();
 	}
 	
 	public double totalProposalPrice() {
