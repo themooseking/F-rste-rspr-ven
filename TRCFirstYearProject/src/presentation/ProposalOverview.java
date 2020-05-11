@@ -59,7 +59,7 @@ public class ProposalOverview {
 	public void proposalOverviewUI(String customerCPR) {
 		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
 		
-		HBox hbox = new HBox(/*proposalTableView(customer)*/);
+		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
 
 		VBoxWithStyle vbox = new VBoxWithStyle(title(customer), hbox, buttons());
@@ -69,76 +69,65 @@ public class ProposalOverview {
 		sceneSetup(scene);
 	}
 
-	private VBox inputBox() {
-		VBox vbox = new VBox();
-		vbox.setBorder(new Border(
-				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
-
-		return vbox;
-	}
-
 	//////////////////////////////
 	// Scroll Pane
 	//////////////////////////////
 
-//	private GridPane proposalTableView(Customer customer) {
-//		GridPaneCenter grid = new GridPaneCenter();
-//		
-//		////////////////*****************************************************************************************************
-//		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
-//		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
-//		ArrayList<Car> carsList = new ArrayList<Car>();
-//		carsList.add(carTest);
-//		carsList.add(carTest2);
-//
-//		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carsList, 4850000);
-//		
-//		ArrayList<Proposal> propList = new ArrayList<Proposal>();
-//		propList.add(propTest);
-//		////////////**********************************************************************************************************************
-//		
-//		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
-//		eventList.addAll(propList);
-//
-//		TableColumn<Proposal, Integer> proposalIdCol = new TableColumn<Proposal, Integer>(
-//				"Låne nr.");
-//		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, Integer>("proposalId"));
-//
-//		TableColumn<Proposal, String> carCol = new TableColumn<Proposal, String>(
-//				"Bil");
-//		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("carsListNames"));
-//
-//		TableColumn<Proposal, Double> interestCol = new TableColumn<Proposal, Double>(
-//				"Rente (%)");
-//		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("interest"));
-//		
-//		TableColumn<Proposal, Customer> aprCol = new TableColumn<Proposal, Customer>(
-//				"ÅOP (%)");
-//		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
-//		
-//		TableColumn<Proposal, Double> totalSum = new TableColumn<Proposal, Double>(
-//				"Sum (DKK)");
-//		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("proposalToalSum"));
-//		
-//		
-//		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
-//				"Status");
-//		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
-//
-//		TableView<Proposal> table = new TableView<Proposal>();
-//		//table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
-//
-//		table.setPrefWidth(800);
-//		table.setPrefHeight(600);
-//		grid.setColumnSpan(table, 3);
-//		grid.setRowSpan(table, 14);
-//
-//		table.setItems(eventList);
-//		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
-//		grid.getChildren().add(table);
-//		
-//		return grid;
-//	}
+	private GridPane proposalTableView(Customer customer) {
+		GridPaneCenter grid = new GridPaneCenter();
+		
+		////////////////*****************************************************************************************************
+		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
+		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
+
+
+		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carTest);
+		
+		ArrayList<Proposal> propList = new ArrayList<Proposal>();
+		propList.add(propTest);
+		////////////**********************************************************************************************************************
+		
+		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
+		eventList.addAll(propList);
+
+		TableColumn<Proposal, Integer> proposalIdCol = new TableColumn<Proposal, Integer>(
+				"Låne nr.");
+		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, Integer>("proposalId"));
+
+		TableColumn<Proposal, Car> carCol = new TableColumn<Proposal, Car>(
+				"Bil");
+		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, Car>("car"));
+
+		TableColumn<Proposal, Double> interestCol = new TableColumn<Proposal, Double>(
+				"Rente (%)");
+		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("interest"));
+		
+		TableColumn<Proposal, Customer> aprCol = new TableColumn<Proposal, Customer>(
+				"ÅOP (%)");
+		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
+		
+		TableColumn<Proposal, Double> totalSum = new TableColumn<Proposal, Double>(
+				"Sum (DKK)");
+		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("proposalToalSum"));
+		
+		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
+				"Status");
+		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
+
+		TableView<Proposal> table = new TableView<Proposal>();
+		//table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
+
+		table.setPrefWidth(800);
+		table.setPrefHeight(600);
+		grid.setColumnSpan(table, 3);
+		grid.setRowSpan(table, 14);
+
+		table.setItems(eventList);
+		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
+		grid.getChildren().add(table);
+		
+		return grid;
+	}
 
 	private GridPane customersProposalSetup() {
 		GridPaneCenter grid = new GridPaneCenter();

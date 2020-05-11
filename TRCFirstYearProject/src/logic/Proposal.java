@@ -20,9 +20,8 @@ public class Proposal extends Thread {
 	private LocalDate proposalDate;
 	private String proposalStatus;
 	private Salesman salesman;
-	private ArrayList<Car> carsList;
-//	private double proposalTotalSum;
-//	private double loanInterest;
+	private Car car;
+	private double proposalTotalSum;
 
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
@@ -32,25 +31,10 @@ public class Proposal extends Thread {
 		this.doubleProperty = new SimpleDoubleProperty(0);
 		start();
 	}
-
-//	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
-//			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-//			ArrayList<Car> carsList, double proposalTotalSum){
-//		this.proposalId = proposalId;
-//		this.customer = customer;
-//		this.interest = interest;
-//		this.downPayment = downPayment;
-//		this.loanDuration = loanDuration;
-//		this.proposalDate = proposalDate;
-//		this.proposalStatus = proposalStatus;
-//		this.salesman = salesman;
-//		this.carsList = carsList;
-//		this.proposalTotalSum = proposalTotalSum;
-//	}
 	
 	public Proposal(int proposalId, Customer customer, double interest, int downPayment,
 			int loanDuration, LocalDate proposalDate, String proposalStatus, Salesman salesman,
-			ArrayList<Car> carsList){
+			Car car){
 		this.proposalId = proposalId;
 		this.customer = customer;
 		this.interest = interest;
@@ -59,7 +43,7 @@ public class Proposal extends Thread {
 		this.proposalDate = proposalDate;
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
-		this.carsList = carsList;
+		this.car = car;
 	}
 
 	public double calcInterest() {
@@ -81,7 +65,7 @@ public class Proposal extends Thread {
 			break;
 		}
 
-		if (downPayment < calcTotalCarPrice() * 0.50) {
+		if (downPayment < car.getPrice() * 0.50) {
 			customerInterest += 1.0;
 		}
 
@@ -91,23 +75,7 @@ public class Proposal extends Thread {
 		
 		return customerInterest + interest;
 	}
-
-	private double calcTotalCarPrice() {
-		int totalCarPrice = 0;
-
-		for (int i = 0; i < carsList.size(); i++) {
-			totalCarPrice += carsList.get(i).getPrice();
-		}
-
-		return totalCarPrice;
-	}
 	
-	public double calculateLoanOffer(Proposal proposal) {
-		double totalCarPriceWithVAT = calcTotalCarPrice() *1.25;
-		
-		return totalCarPriceWithVAT*(Math.pow((1+calcInterest()), proposal.getLoanDuration()));
-	}
-
 	public void run() {		
 		interest = InterestRate.i().todaysRate();
 		doubleProperty.set(interest);
@@ -132,9 +100,9 @@ public class Proposal extends Thread {
 	public void setProposalStatus(String proposalStatus) {
 		this.proposalStatus = proposalStatus;
 	}
-
-	public void setCarsList(ArrayList<Car> carsList) {
-		this.carsList = carsList;
+	
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
 	public LocalDate getDate() {
@@ -147,6 +115,10 @@ public class Proposal extends Thread {
 
 	public Customer getCustomer() {
 		return customer;
+	}
+	
+	public Car getCar() {
+		return car;
 	}
 
 	public String getProposalStatus() {
@@ -169,22 +141,11 @@ public class Proposal extends Thread {
 		return interest;
 	}
 	
-//	public double getProposalTotalSum() {
-//		return proposalTotalSum;
-//	}
-	
-//	public String getCarsListNames() {
-//		//stringFactoryForCarsList();
-//		return stringFactoryForCarsList();
-//	}
-//	
-//	private String stringFactoryForCarsList() {
-//		String carNames = "";
-//		
-//		for (int i = 0; i < carsList.size(); i++) {
-//			carNames += carsList.get(i).getModel() + "\n";
-//		}
-//		
-//		return carNames;
-//	}
+	public double getProposalTotalSum() {
+		double totalCarPriceWithVAT = car.getPrice() *1.25;
+		double loanInterestRate = calcInterest();
+		proposalTotalSum = totalCarPriceWithVAT*(loanInterestRate/(1 - (Math.pow((1 + loanInterestRate), -loanDuration))));
+		
+		return proposalTotalSum;
+	}
 }
