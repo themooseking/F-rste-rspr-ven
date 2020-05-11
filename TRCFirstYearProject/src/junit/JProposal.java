@@ -37,9 +37,7 @@ class JProposal {
 		salesman = new Salesman(77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
 		proposal = new Proposal(customer, salesman);
 		
-		carsList = new ArrayList<Car>(Arrays.asList(new Car(1, "pepega car", 5000000, 300, 1985, "IN STOCK")));
-		
-		proposal.setCarsList(carsList);
+		proposal.setCar(new Car(1, "pepega car", 5000000, 300, 1985, "IN STOCK"));
 		proposal.setDownPayment(carsList.get(0).getPrice());
 		proposal.setInterest(0);
 		proposal.setLoanDuration(0);
