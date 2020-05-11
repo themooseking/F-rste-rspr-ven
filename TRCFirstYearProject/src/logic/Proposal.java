@@ -1,12 +1,10 @@
 package logic;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import ffl.InterestRate;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
@@ -85,6 +83,24 @@ public class Proposal extends Thread {
 		return doubleProperty;
 	}
 	
+	
+	public double totalCarPrice() {
+		return car.getPrice() + car.getVat() - downPayment;
+	}
+	
+	public double monthlyPayment() {
+		double r = Math.pow((1.0 + calcInterest() / 100.0), 1.0 / 12.0) - 1;
+		return totalCarPrice() * (r / (1 - Math.pow(1 + r, -loanDuration)));
+	}
+	
+	public double totalInterestSum() {
+		return monthlyPayment() * loanDuration;
+	}
+	
+	public double totalProposalPrice() {
+		return totalCarPrice() + totalInterestSum();
+	}
+	
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
@@ -142,7 +158,7 @@ public class Proposal extends Thread {
 	}
 	
 	public double getProposalTotalSum() {
-		double totalCarPriceWithVAT = car.getPrice() *1.25;
+		double totalCarPriceWithVAT = car.getPrice() * 1.25;
 		double loanInterestRate = calcInterest();
 		proposalTotalSum = totalCarPriceWithVAT*(loanInterestRate/(1 - (Math.pow((1 + loanInterestRate), -loanDuration))));
 		
