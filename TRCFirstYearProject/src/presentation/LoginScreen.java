@@ -33,7 +33,7 @@ public class LoginScreen {
 	}
 
 	private GridPane selectUser() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(30));
 
 		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
@@ -57,7 +57,7 @@ public class LoginScreen {
 	}
 
 	private GridPane loginSetup() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
 		button.setOnAction(e -> {

@@ -61,7 +61,7 @@ public class ProposalOverview {
 	//////////////////////////////
 
 	private GridPane proposalTableView(Customer customer) {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
 
@@ -134,8 +134,7 @@ public class ProposalOverview {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -147,8 +146,7 @@ public class ProposalOverview {
 	}
 
 	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
 		button.setOnAction(e -> {

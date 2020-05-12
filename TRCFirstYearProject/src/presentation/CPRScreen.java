@@ -40,10 +40,11 @@ public class CPRScreen {
 	}
 
 	private GridPane cprTextfield() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(30));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
+		textfield.setText("310396-159");
 
 		textfield.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			int tfl = 1;
@@ -94,7 +95,7 @@ public class CPRScreen {
 	}
 
 	private GridPane continueButton() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
@@ -106,7 +107,7 @@ public class CPRScreen {
 	}
 
 	private GridPane verifyProposalsButton() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		if ((LoggedInST.getUser().getTitle()).equals("Salgschef")) {
 			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
@@ -119,7 +120,7 @@ public class CPRScreen {
 	}
 
 	private GridPane showProposalsButton() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -130,7 +131,7 @@ public class CPRScreen {
 	}
 
 	private GridPane logoutButton() {
-		GridPaneCenter grid = new GridPaneCenter();
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setAlignment(Pos.TOP_RIGHT);
 		grid.setPadding(new Insets(0, 0, 180, 0));
 

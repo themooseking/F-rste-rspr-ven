@@ -117,9 +117,6 @@ public class Proposal extends Thread {
 		return totalCarPrice() + totalInterestSum();
 	}
 
-	private void checkInterestDB() {
-
-	}
 
 	/***********************************
 	 * SETTERS

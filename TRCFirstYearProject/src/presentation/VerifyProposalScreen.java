@@ -62,8 +62,7 @@ public class VerifyProposalScreen {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -75,8 +74,7 @@ public class VerifyProposalScreen {
 	}
 
 	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
 		button.setOnAction(e -> {

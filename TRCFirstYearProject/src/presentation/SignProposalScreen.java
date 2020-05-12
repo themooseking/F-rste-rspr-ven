@@ -49,8 +49,7 @@ public class SignProposalScreen {
 	}
 
 	private GridPane csvButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -62,8 +61,7 @@ public class SignProposalScreen {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
