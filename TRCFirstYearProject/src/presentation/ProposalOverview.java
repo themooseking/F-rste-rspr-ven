@@ -45,8 +45,6 @@ public class ProposalOverview {
 	public void proposalOverviewUI(String customerCPR) {
 		System.out.println(Customer.removeDashFromCpr(customerCPR));
 		Customer customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
-//		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
-//				"Brick st. 11", 7400);
 
 		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
@@ -66,20 +64,6 @@ public class ProposalOverview {
 		GridPaneCenter grid = new GridPaneCenter();
 
 		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
-		System.out.println(customer.getCpr());
-		System.out.println(customer.getCustomerId());
-		
-//		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
-//		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
-//
-//		Proposal propTest = new Proposal(2103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING",
-//				LoggedInST.getUser(), carTest);
-//		Proposal propTest2 = new Proposal(2117, customer, 8.5, 200000, 60, LocalDate.now(), "COMPLETE",
-//				LoggedInST.getUser(), carTest2);
-//
-//		
-//		propList.add(propTest);
-//		propList.add(propTest2);
 
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
 		eventList.addAll(proposalsForCustomerList);
