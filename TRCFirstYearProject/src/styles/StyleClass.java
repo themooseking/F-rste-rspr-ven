@@ -29,6 +29,9 @@ public class StyleClass {
 	private Border dottedunderline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.DOTTED, new CornerRadii(0), new BorderWidths(0, 0, 2, 0)));
 
+	private Border elementborder = new Border(
+			new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3)));
+
 	public int sceneX() {
 		return scenex;
 	}
@@ -79,6 +82,10 @@ public class StyleClass {
 
 	public Border dottedUnderLine() {
 		return dottedunderline;
+	}
+	
+	public Border elementBorder() {
+		return elementborder;
 	}
 
 }

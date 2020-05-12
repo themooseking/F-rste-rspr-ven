@@ -97,7 +97,7 @@ public class ProposalOverview {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Proposal rowData = row.getItem();
-					new SignProposalScreen().signProposalUI(rowData);
+//					new SignProposalScreen().signProposalUI(rowData);
 				}
 			});
 			return row;

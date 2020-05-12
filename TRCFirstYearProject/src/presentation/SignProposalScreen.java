@@ -4,46 +4,99 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Proposal;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
+import styles.LabelWithStyle;
 import styles.StyleClass;
+import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class SignProposalScreen {
-	
-	private StyleClass style = new StyleClass();
 
-	public void signProposalUI(Proposal proposal) {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), buttons());
+	private StyleClass style = new StyleClass();
+	private Proposal proposal;
+	private TextReader tr;
+
+	private TextFieldWithStyle id;
+	private TextFieldWithStyle name;
+	private TextFieldWithStyle password;
+
+	public SignProposalScreen(Proposal proposal) {
+		this.proposal = proposal;
+		this.tr = new TextReader(proposal.getCustomer(), proposal);
+	}
+
+	public void signProposalUI() {
+		HBox hbox = new HBox(tr.textReader(), signInput());
+		hbox.setSpacing(50);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	
-	
+
+	private VBox signInput() {
+		VBox vbox = new VBox(textFields(), signButtons());
+		vbox.setBorder(style.elementBorder());
+		vbox.setPadding(new Insets(0, 0, 0, 50));
+
+		VBox vbox2 = new VBox(vbox, buttons());
+		vbox2.setPadding(new Insets(100, 0, 0, 0));
+		vbox2.setAlignment(Pos.CENTER);
+
+		return vbox2;
+	}
+
+	private GridPaneCenter textFields() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setVgap(10);
+
+		new LabelWithStyle("Sælger ID ", grid, 0, 0);
+		id = new TextFieldWithStyle("", grid, 1, 0);
+
+		new LabelWithStyle("Sælger Navn ", grid, 0, 1);
+		name = new TextFieldWithStyle("", grid, 1, 1);
+
+		new LabelWithStyle("Kodeord ", grid, 0, 2);
+		password = new TextFieldWithStyle("", grid, 1, 2);
+
+		return grid;
+	}
+
+	private GridPaneCenter signButtons() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setHgap(20);
+
+		ButtonWithStyle delete = new ButtonWithStyle("Slet", grid, 0, 0);
+		delete.setOnAction(e -> {
+
+		});
+
+		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
+		sign.setOnAction(e -> {
+
+		});
+
+		return grid;
+	}
+
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
 
 	private HBox buttons() {
 		HBox hbox = new HBox(backButton(), csvButton());
-		hbox.setAlignment(Pos.CENTER_LEFT);
-		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
-				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
+		hbox.setPadding(new Insets(100, 0, 0, 0));
+		hbox.setAlignment(Pos.BOTTOM_CENTER);
 
 		return hbox;
 	}
@@ -51,9 +104,8 @@ public class SignProposalScreen {
 	private GridPane csvButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 0);
 		button.setOnAction(e -> {
-			
 
 		});
 
@@ -63,7 +115,7 @@ public class SignProposalScreen {
 	private GridPane backButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
 			new NewPropsalScreen().newProposalUI();
 		});
@@ -76,7 +128,7 @@ public class SignProposalScreen {
 	//////////////////////////////
 
 	private Label title(Proposal proposal) {
-		Label label = new Label("Sign Proposal for " + proposal.getProposalId());
+		Label label = new Label("Underskrift for " + proposal.getCar());
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;

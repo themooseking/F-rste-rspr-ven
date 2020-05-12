@@ -9,8 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -20,7 +18,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -39,34 +36,31 @@ import styles.VBoxWithStyle;
 
 public class NewPropsalScreen {
 
-	private StyleClass style = new StyleClass();
 	private Customer customer = new Customer(6, 88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
 			"Brick st. 11", 7400);
 	private Proposal proposal = new Proposal(customer, LoggedInST.getUser());
-	private TextFieldWithStyle apiInteresttf;
-	private TextFieldWithStyle apiCredittf;
+
+	private StyleClass style = new StyleClass();
+	private DB_Controller controller = new DB_Controller();
+
 	private boolean rbState = false;
 	private boolean recreate = true;
 	private TextReader tr = new TextReader(customer, proposal);
 
-	private RadioButtonWithStyle rbOld;
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
-	private TextFieldWithStyle paymenttf;
 	private ComboBoxWithStyle regnrcb;
+	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
-	private DB_Controller controller = new DB_Controller();
 
 	public void newProposalUI() {
 		HBox hbox = new HBox(inputBox(), tr.textReader());
-		hbox.setAlignment(Pos.CENTER);
 
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
-		recreate = false;
 	}
 
 	private VBox inputBox() {
@@ -78,22 +72,24 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// INDENT
+	// Input Fields
 	//////////////////////////////
 
 	private GridPane indentInput() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(0));
-		if (recreate == true) {
-			grid.setPadding(new Insets(10, 10, 100, 10));
-		}
 		grid.setVgap(10);
 
+		if (recreate == true) {
+			grid.setPadding(new Insets(10, 10, 100, 10));
+			recreate = false;
+		}
+
 		//////////////////////////////
-		// OLD FILTER
+		// Toggle
 		//////////////////////////////
 
-		rbOld = new RadioButtonWithStyle("Gamle Biler", grid, 0, 0);
+		RadioButtonWithStyle rbOld = new RadioButtonWithStyle("Gamle Biler", grid, 0, 0);
 		rbState = !rbState;
 		rbOld.setSelected(!rbState);
 		rbOld.setMinWidth(300);
@@ -187,6 +183,9 @@ public class NewPropsalScreen {
 		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
 		GridPane.setColumnSpan(payment, 2);
 		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
+		if (customer.getCreditScore() == null) {
+			paymenttf.setDisable(true);
+		}
 		new LabelWithStyle(" DKK", grid, 4, 5);
 		paymenttf.setOnKeyReleased(e -> {
 			if (!paymenttf.getText().isEmpty()) {
@@ -211,12 +210,12 @@ public class NewPropsalScreen {
 				new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY)));
 
 		new LabelWithStyle("Bank Rente:	", grid, 0, 0);
-		apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
+		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
 		apiInteresttf.setMaxWidth(100);
 		apiInteresttf.setDisable(true);
 		apiInteresttf.setOpacity(100);
 
-		if (proposal.getInterest() != 0) {
+		if (proposal.getInterest() != 0.0) {
 			apiInteresttf.setText(decimal(proposal.getInterest()));
 		}
 		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
@@ -231,7 +230,7 @@ public class NewPropsalScreen {
 		new LabelWithStyle("			", grid, 2, 0);
 
 		new LabelWithStyle("Kredit Score: ", grid, 3, 0);
-		apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
+		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
@@ -257,26 +256,9 @@ public class NewPropsalScreen {
 	// Buttons
 	//////////////////////////////
 
-	private Pane icon() {
-		Image image = new Image(
-				"https://upload.wikimedia.org/wikipedia/sco/thumb/d/d1/Ferrari-Logo.svg/1200px-Ferrari-Logo.svg.png");
-		ImageView imageview = new ImageView(image);
-		imageview.setFitHeight(150);
-		imageview.setFitWidth(100);
-		imageview.setX(100);
-		imageview.setY(-30);
-
-		Pane pane = new Pane(imageview);
-		pane.setPadding(new Insets(0, 200, 0, 0));
-
-		return pane;
-	}
-
 	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), nextButton());
+		HBox hbox = new HBox(backButton(), nextButton());
 		hbox.setAlignment(Pos.CENTER_LEFT);
-		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
-				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
 
 		return hbox;
 	}
@@ -286,7 +268,7 @@ public class NewPropsalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Næste", grid, 0, 0);
 		button.setOnAction(e -> {
-			new SignProposalScreen().signProposalUI(proposal);
+			new SignProposalScreen(proposal).signProposalUI();
 		});
 
 		return grid;
