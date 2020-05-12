@@ -17,7 +17,8 @@ public class Customer extends Thread{
 	private int postalCode;
 	private Rating creditScore;
 	
-	public Customer(int phone, String customerName, String cpr, String email, String customerAddress, int postalCode) {
+	public Customer(int customerId, int phone, String customerName, String cpr, String email, String customerAddress, int postalCode) {
+		this.customerId = customerId;
 		this.phone = phone;
 		this.customerName = customerName;
 		this.cpr = removeDashFromCpr(cpr);

@@ -53,7 +53,7 @@ public class ProposalOverview {
 
 		VBoxWithStyle vbox = new VBoxWithStyle(title(customer), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
-
+		
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
@@ -64,11 +64,11 @@ public class ProposalOverview {
 
 	private GridPane proposalTableView(Customer customer) {
 		GridPaneCenter grid = new GridPaneCenter();
-		System.out.println();
+
 		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
+		System.out.println(customer.getCpr());
+		System.out.println(customer.getCustomerId());
 		
-		
-		//////////////// *****************************************************************************************************
 //		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
 //		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
 //
@@ -80,7 +80,6 @@ public class ProposalOverview {
 //		
 //		propList.add(propTest);
 //		propList.add(propTest2);
-		//////////// **********************************************************************************************************************
 
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
 		eventList.addAll(proposalsForCustomerList);
@@ -92,9 +91,9 @@ public class ProposalOverview {
 		//proposalIdCol.setMinWidth(130);
 		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
 		//carCol.setMinWidth((1600-130)/6);
-		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "interest");
+		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "totalInterest");
 		//interestCol.setMinWidth((1600-130)/6);
-		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "customer");
+		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "apr");
 		//aprCol.setMinWidth((1600-130)/6);
 		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
 		//totalSum.setMinWidth((1600-130)/6);

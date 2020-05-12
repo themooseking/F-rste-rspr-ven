@@ -22,12 +22,13 @@ public class DB_Salesman {
 			String sql = "SELECT * "
 					+ "FROM salesman "
 					+ "JOIN salesmanrank "
-					+ "ON salesmanrank.title = salesman.title";
+					+ "ON salesmanrank.title = salesman.title "
+					+ "ORDER BY salesmanName";
 			
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
-			if(resultSet.next()) {
+			while(resultSet.next()) {
 				int id = resultSet.getInt("id");
 				int phone = resultSet.getInt("phone");
 				String name = resultSet.getString("salesmanName");
@@ -35,7 +36,7 @@ public class DB_Salesman {
 				String title = resultSet.getString("title");
 				int proposalLimit = resultSet.getInt("proposalLimit");
 
-				Salesman salesman = new Salesman(phone, name, email, title, proposalLimit);
+				Salesman salesman = new Salesman(id, phone, name, email, title, proposalLimit);
 				salesmanList.add(salesman);
 			}
 		} catch (SQLException e) {

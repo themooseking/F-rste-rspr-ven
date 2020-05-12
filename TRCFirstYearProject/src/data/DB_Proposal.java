@@ -33,7 +33,7 @@ public class DB_Proposal {
 			statement.setDate(5, Date.valueOf(proposal.getDate()));
 			statement.setString(6, proposal.getProposalStatus());
 			statement.setString(7, proposal.getCustomer().getCreditScore().name());
-			statement.setInt(8, proposal.getSalesman().getId());
+			statement.setInt(8, proposal.getSalesman().getSalesmanId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -93,7 +93,7 @@ public class DB_Proposal {
 
 				Salesman salesman = null;
 				for (int i = 0; i < salesmanList.size(); i++) {
-					if (salesmanList.get(i).getId() == resultSet.getInt("student_id")) {
+					if (salesmanList.get(i).getSalesmanId() == resultSet.getInt("id")) {
 						salesman = salesmanList.get(i);
 						break;
 					}
