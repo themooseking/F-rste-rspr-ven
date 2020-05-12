@@ -43,7 +43,7 @@ public class DB_Proposal {
 
 	public void createInterest(double interest) {
 		try {
-			String sql = "INSERT INTO bankInterest VALUES (?, ?)";
+			String sql = "INSERT INTO bankinterest VALUES (?, ?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -120,7 +120,7 @@ public class DB_Proposal {
 		
 		try {
 			String sql = "SELECT interest " 
-					+ "FROM bankInterest " 
+					+ "FROM bankinterest " 
 					+ "WHERE interestDate=?";
 
 			PreparedStatement statement = connection.prepareStatement(sql);

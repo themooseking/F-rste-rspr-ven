@@ -22,7 +22,7 @@ public class DB_Salesman {
 			String sql = "SELECT * "
 					+ "FROM salesman "
 					+ "JOIN salesmanrank "
-					+ "ON rank.title = salesman.title";
+					+ "ON salesmanrank.title = salesman.title";
 			
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
