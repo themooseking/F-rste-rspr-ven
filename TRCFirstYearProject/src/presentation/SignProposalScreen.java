@@ -23,9 +23,8 @@ import styles.StyleClass;
 import styles.VBoxWithStyle;
 
 public class SignProposalScreen {
+	
 	private StyleClass style = new StyleClass();
-
-	private GridPaneCenter trgrid;
 
 	public void signProposalUI(Proposal proposal) {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), buttons());
@@ -34,32 +33,32 @@ public class SignProposalScreen {
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
+	
+	
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
 
-	private Pane icon() {
-		Image image = new Image(
-				"https://upload.wikimedia.org/wikipedia/sco/thumb/d/d1/Ferrari-Logo.svg/1200px-Ferrari-Logo.svg.png");
-		ImageView imageview = new ImageView(image);
-		imageview.setFitHeight(150);
-		imageview.setFitWidth(100);
-		imageview.setX(100);
-		imageview.setY(-30);
-
-		Pane pane = new Pane(imageview);
-		pane.setPadding(new Insets(0, 200, 0, 0));
-
-		return pane;
-	}
-
 	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), newProposalButton());
+		HBox hbox = new HBox(backButton(), csvButton());
 		hbox.setAlignment(Pos.CENTER_LEFT);
 		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
 				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
 
 		return hbox;
+	}
+
+	private GridPane csvButton() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.CENTER_LEFT);
+
+		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 1);
+		button.setOnAction(e -> {
+			
+
+		});
+
+		return grid;
 	}
 
 	private GridPane backButton() {
@@ -68,21 +67,7 @@ public class SignProposalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
-			new CPRScreen().cprUI();
-
-		});
-
-		return grid;
-	}
-
-	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
-
-		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
-		button.setOnAction(e -> {
 			new NewPropsalScreen().newProposalUI();
-
 		});
 
 		return grid;

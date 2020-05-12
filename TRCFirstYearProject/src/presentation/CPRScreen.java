@@ -26,10 +26,10 @@ public class CPRScreen {
 
 	public void cprUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), continueButton());
-		vbox.setAlignment(Pos.CENTER);
+		vbox.setAlignment(Pos.CENTER); 
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
-		sceneSetup(scene);
+		sceneSetup(scene); 
 	}
 
 	private GridPane cprTextfield() {
@@ -37,6 +37,7 @@ public class CPRScreen {
 		grid.setPadding(new Insets(30));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
+		textfield.setText("310396-1598");
 
 		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			int tfl = 1;
