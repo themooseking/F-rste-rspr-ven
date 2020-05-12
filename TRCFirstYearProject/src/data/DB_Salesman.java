@@ -21,7 +21,7 @@ public class DB_Salesman {
 		try {
 			String sql = "SELECT * "
 					+ "FROM salesman "
-					+ "JOIN rank "
+					+ "JOIN salesmanrank "
 					+ "ON rank.title = salesman.title";
 			
 			Statement statement = connection.createStatement();
