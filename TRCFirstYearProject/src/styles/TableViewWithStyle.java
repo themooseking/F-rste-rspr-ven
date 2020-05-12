@@ -12,41 +12,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Proposal;
 
-public class TableViewWithStyle extends TableView{
+public class TableViewWithStyle extends TableView<Proposal>{
 	
 	StyleClass style = new StyleClass();
 
 	public TableViewWithStyle(GridPaneCenter grid, int row, int col) {
 		super.getStylesheets().add("/styles/TableView.css");
 
-		//super.setFont(Font.font(style.textFont(), 24));
-		super.setPrefSize(900, 900);
+		super.setPrefSize(1600, 800);
 
-		//defaultEffect(this);
-
-		//super.onMouseEnteredProperty().set(e -> enterEffect(this));
-		//super.onMouseExitedProperty().set(e -> defaultEffect(this));
-		
-		GridPane.setColumnSpan(this, 3);
-		GridPane.setRowSpan(this, 14);
-		
-		GridPane.setConstraints(this, row, col);
-		grid.getChildren().add(this);
-	}
-	
-	private void enterEffect(TextField obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.enterHoverColor()), new CornerRadii(0), Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		obj.setBackground(background);
-		obj.setCursor(Cursor.HAND);
-	}
-	
-	private void defaultEffect(TextField obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
 		
-		obj.setBackground(background);
-		obj.setCursor(Cursor.DEFAULT);
+		super.setBackground(background);
+		
+		GridPaneCenter.setConstraints(this, row, col);
+		grid.getChildren().add(this);
 	}
 }

@@ -1,27 +1,20 @@
 package presentation;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -30,35 +23,26 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
-import logic.Salesman;
 import styles.ButtonWithStyle;
-import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
-import styles.LabelWithStyle;
-import styles.RadioButtonWithStyle;
 import styles.StyleClass;
+import styles.TableColumnWithStyle;
 import styles.TableViewWithStyle;
-import styles.TextAreaWithStyle;
-import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class ProposalOverview {
 	private StyleClass style = new StyleClass();
 
-	private GridPaneCenter trgrid;
-
-	private DB_Controller controller = new DB_Controller();
-
 	public void proposalOverviewUI(String customerCPR) {
-		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
-		
+		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
+				"Brick st. 11", 7400);
+
 		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
 
@@ -70,79 +54,64 @@ public class ProposalOverview {
 	}
 
 	//////////////////////////////
-	// Scroll Pane
+	// TableView
 	//////////////////////////////
 
 	private GridPane proposalTableView(Customer customer) {
 		GridPaneCenter grid = new GridPaneCenter();
-		
-		////////////////*****************************************************************************************************
+
+		//////////////// *****************************************************************************************************
 		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
 		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
 
+		Proposal propTest = new Proposal(2103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING",
+				LoggedInST.getUser(), carTest);
+		Proposal propTest2 = new Proposal(2117, customer, 8.5, 200000, 60, LocalDate.now(), "COMPLETE",
+				LoggedInST.getUser(), carTest2);
 
-		Proposal propTest = new Proposal(02103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING", LoggedInST.getUser(), carTest);
-		
 		ArrayList<Proposal> propList = new ArrayList<Proposal>();
 		propList.add(propTest);
-		////////////**********************************************************************************************************************
-		
+		propList.add(propTest2);
+		//////////// **********************************************************************************************************************
+
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
 		eventList.addAll(propList);
-
-		TableColumn<Proposal, Integer> proposalIdCol = new TableColumn<Proposal, Integer>(
-				"Låne nr.");
-		proposalIdCol.setCellValueFactory(new PropertyValueFactory<Proposal, Integer>("proposalId"));
-
-		TableColumn<Proposal, Car> carCol = new TableColumn<Proposal, Car>(
-				"Bil");
-		carCol.setCellValueFactory(new PropertyValueFactory<Proposal, Car>("car"));
-
-		TableColumn<Proposal, Double> interestCol = new TableColumn<Proposal, Double>(
-				"Rente (%)");
-		interestCol.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("interest"));
 		
-		TableColumn<Proposal, Customer> aprCol = new TableColumn<Proposal, Customer>(
-				"ÅOP (%)");
-		aprCol.setCellValueFactory(new PropertyValueFactory<Proposal, Customer>("customer"));
+		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
+		//table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
-		TableColumn<Proposal, Double> totalSum = new TableColumn<Proposal, Double>(
-				"Sum (DKK)");
-		totalSum.setCellValueFactory(new PropertyValueFactory<Proposal, Double>("proposalToalSum"));
+		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("Låne nr.", "proposalId");
+		//proposalIdCol.setMinWidth(130);
+		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
+		//carCol.setMinWidth((1600-130)/6);
+		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "interest");
+		//interestCol.setMinWidth((1600-130)/6);
+		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "customer");
+		//aprCol.setMinWidth((1600-130)/6);
+		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
+		//totalSum.setMinWidth((1600-130)/6);
+		TableColumnWithStyle statusCol = new TableColumnWithStyle("Status", "proposalStatus");
+		//statusCol.setMinWidth((1600-130)/6);
 		
-		TableColumn<Proposal, String> statusCol = new TableColumn<Proposal, String>(
-				"Status");
-		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, String>("proposalStatus"));
-
-		TableView<Proposal> table = new TableView<Proposal>();
-		//table.setPlaceholder(new Label("Ingen lånetilbud for denne kunde endnu."));
-
-		table.setPrefWidth(800);
-		table.setPrefHeight(600);
-		grid.setColumnSpan(table, 3);
-		grid.setRowSpan(table, 14);
-
 		table.setItems(eventList);
 		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
-		grid.getChildren().add(table);
+		accessProposal(table);
 		
 		return grid;
 	}
 
-	private GridPane customersProposalSetup() {
-		GridPaneCenter grid = new GridPaneCenter();
-		ArrayList<ButtonWithStyle> proposalButtons = new ArrayList<ButtonWithStyle>();
-
-		for (int i = 0; i < 5; i++) {
-			ButtonWithStyle propButt = new ButtonWithStyle("SUPER PISSE LANG LÅNETILBUD DER. EMIL HAR KAGE MED", grid, 0, i);
-			propButt.setOnAction(e -> {
-				//new UNDSKRIVSCREE().UNDERSKRIVSCREENUI(æbler);
+	private TableRow<Proposal> accessProposal(TableView<Proposal> table) {
+		table.setRowFactory(e -> {
+			TableRow<Proposal> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					Proposal rowData = row.getItem();
+					new SignProposalScreen().signProposalUI(rowData);
+				}
 			});
-			propButt.setPrefSize(1100, 100);
-			proposalButtons.add(propButt);
-		}
-
-		return grid;
+			return row;
+		});
+		return null;
 	}
 
 	//////////////////////////////
