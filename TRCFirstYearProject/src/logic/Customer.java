@@ -27,15 +27,8 @@ public class Customer extends Thread{
 		this.stringProperty = new SimpleStringProperty("");
 		start();
 	}
-	
-//	public Customer(String cpr) {
-//		this.cpr = cpr;
-//		start();
-//	}
 
-
-
-	private String removeDashFromCpr(String cpr) {
+	static public String removeDashFromCpr(String cpr) {
 		String cprNoDash = cpr;
 		
 		if(10 < cpr.length()) {

@@ -38,10 +38,15 @@ import styles.VBoxWithStyle;
 
 public class ProposalOverview {
 	private StyleClass style = new StyleClass();
+	
+	private DB_Controller controller = new DB_Controller();
+
 
 	public void proposalOverviewUI(String customerCPR) {
-		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
-				"Brick st. 11", 7400);
+		System.out.println(Customer.removeDashFromCpr(customerCPR));
+		Customer customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
+//		Customer customer = new Customer(88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
+//				"Brick st. 11", 7400);
 
 		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
@@ -59,26 +64,29 @@ public class ProposalOverview {
 
 	private GridPane proposalTableView(Customer customer) {
 		GridPaneCenter grid = new GridPaneCenter();
-
+		System.out.println();
+		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
+		
+		
 		//////////////// *****************************************************************************************************
-		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
-		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
-
-		Proposal propTest = new Proposal(2103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING",
-				LoggedInST.getUser(), carTest);
-		Proposal propTest2 = new Proposal(2117, customer, 8.5, 200000, 60, LocalDate.now(), "COMPLETE",
-				LoggedInST.getUser(), carTest2);
-
-		ArrayList<Proposal> propList = new ArrayList<Proposal>();
-		propList.add(propTest);
-		propList.add(propTest2);
+//		Car carTest = new Car(456, "F8 Tributo", 2349000, 5, 2020, "NEW");
+//		Car carTest2 = new Car(132, "Ferrari Roma", 1859000, 3000, 2018, "USED");
+//
+//		Proposal propTest = new Proposal(2103, customer, 6.9, 45000, 12, LocalDate.now(), "ONGOING",
+//				LoggedInST.getUser(), carTest);
+//		Proposal propTest2 = new Proposal(2117, customer, 8.5, 200000, 60, LocalDate.now(), "COMPLETE",
+//				LoggedInST.getUser(), carTest2);
+//
+//		
+//		propList.add(propTest);
+//		propList.add(propTest2);
 		//////////// **********************************************************************************************************************
 
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
-		eventList.addAll(propList);
+		eventList.addAll(proposalsForCustomerList);
 		
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
-		//table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
 		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("Låne nr.", "proposalId");
 		//proposalIdCol.setMinWidth(130);
