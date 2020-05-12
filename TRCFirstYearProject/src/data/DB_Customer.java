@@ -35,7 +35,7 @@ public class DB_Customer {
 				String address = resultSet.getString("customerAddress");
 				int postalCode = resultSet.getInt("postalCode");
 
-				customer = new Customer(phone, name, cpr, email, address, postalCode);
+				customer = new Customer(id, phone, name, cpr, email, address, postalCode);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
