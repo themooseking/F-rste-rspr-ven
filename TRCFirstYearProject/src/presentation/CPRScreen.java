@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,9 +26,12 @@ public class CPRScreen {
 	private StyleClass style = new StyleClass();
 
 	private TextFieldWithStyle textfield;
+	private Button continueButton;
 
 	public void cprUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(logoutButton(), title(), cprTextfield(), continueButton());
+
+		VBoxWithStyle vbox = new VBoxWithStyle(logoutButton(), title(), cprTextfield(), showProposalsButton(),
+				verifyProposalsButton(), continueButton());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 310, 0));
 
@@ -41,14 +45,19 @@ public class CPRScreen {
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 
-		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		textfield.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			int tfl = 1;
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
 
 				tfl = textfield.getLength();
-				System.out.println(tfl);
+				if (tfl == 11) {
+					continueButton.setDisable(false);
+				} else {
+					continueButton.setDisable(true);
+				}
+
 				textfield.end();
 
 				if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -87,9 +96,34 @@ public class CPRScreen {
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter();
 
-		ButtonWithStyle button = new ButtonWithStyle("Continue", grid, 0, 1);
-		button.setOnAction(e -> {
+		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
+		continueButton.setDisable(true);
+		continueButton.setOnAction(e -> {
 			new ProposalOverview().proposalOverviewUI(textfield.getText());
+		});
+
+		return grid;
+	}
+
+	private GridPane verifyProposalsButton() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		if ((LoggedInST.getUser().getTitle()).equals("Salgschef")) {
+			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
+			button.setOnAction(e -> {
+				new VerifyProposalScreen().verifyProposalUI();
+			});
+		}
+
+		return grid;
+	}
+
+	private GridPane showProposalsButton() {
+		GridPaneCenter grid = new GridPaneCenter();
+
+		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
+		button.setOnAction(e -> {
+
 		});
 
 		return grid;
@@ -100,7 +134,7 @@ public class CPRScreen {
 		grid.setAlignment(Pos.TOP_RIGHT);
 		grid.setPadding(new Insets(0, 0, 180, 0));
 
-		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 0);
+		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 1);
 		button.setOnAction(e -> {
 			new LoginScreen().loginUI();
 		});
