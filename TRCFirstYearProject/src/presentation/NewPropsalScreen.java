@@ -1,7 +1,6 @@
 package presentation;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -51,14 +50,12 @@ public class NewPropsalScreen {
 
 	private boolean rbState = false;
 	private boolean recreate = true;
-
-//	private ArrayList<String> yearList = new ArrayList<String>();
-//	private String yearString;
+	
 	private String cCreditScore = "";
 	private String interestFormat = "";
 
 	private VBox trvbox;
-	private ArrayList<Car> carList = new ArrayList<Car>();
+	private Car car;
 
 	private TextWithStyle carModeltr;
 	private TextWithStyle carMilagetr;
@@ -118,7 +115,6 @@ public class NewPropsalScreen {
 		grid.setPadding(new Insets(0));
 		if (recreate == true) {
 			grid.setPadding(new Insets(10, 10, 10, 10));
-			recreate = false;
 		}
 		grid.setAlignment(Pos.CENTER_LEFT);
 		grid.setVgap(10);
@@ -148,10 +144,9 @@ public class NewPropsalScreen {
 			modelcb.setMinWidth(600);
 			GridPane.setColumnSpan(modelcb, 2);
 			modelcb.setOnAction(e -> {
-				carList.clear();
-				carList.add((Car) modelcb.getValue());
-				proposal.setCarsList(carList);
-				useTotalInterest();
+				car = ((Car) modelcb.getValue());
+				proposal.setCar(car);
+				updateTextReader();
 			});
 
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
@@ -200,11 +195,9 @@ public class NewPropsalScreen {
 			regnrcb.setMinWidth(600);
 			GridPane.setColumnSpan(regnrcb, 2);
 			regnrcb.setOnAction(e -> {
-				carList.clear();
-				carList.add((Car) regnrcb.getValue());
-				proposal.setCarsList(carList);
+				car = ((Car) regnrcb.getValue());
+				proposal.setCar(car);
 			});
-
 		}
 
 		LabelWithStyle duration = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
@@ -252,6 +245,9 @@ public class NewPropsalScreen {
 		interesttf.setMaxWidth(100);
 		interesttf.setDisable(true);
 		interesttf.setOpacity(100);
+		if (proposal.getInterest() != 0) {
+			interesttf.setText(decimal(proposal.getInterest()));
+		}
 		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -288,10 +284,13 @@ public class NewPropsalScreen {
 	private VBox textReader() {
 		trvbox = new VBox(customerTitle(), customerInfo(), carTitle(), carInfo(), carPriceTitle(), carPriceInfo(),
 				proposalInfo(), priceSum(), totalPrice());
-		trvbox.setBorder(new Border(
-				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+		if (recreate == true) {
+			trvbox.setBorder(new Border(new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0),
+					new BorderWidths(3))));
+			recreate = false;
+		}
 
-		onHiding();
+		onHidingModel();
 		keyTypedDownPayment();
 		keyTypedDuration();
 
@@ -362,12 +361,12 @@ public class NewPropsalScreen {
 		carPriceModelPricetr.setAlignment(Pos.CENTER_RIGHT);
 		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth());
 
-		new TextWithStyle("- Moms (25%) ", grid, 0, 1, 200);
-		carPriceVattr = new TextWithStyle("PLACEHOLDER", grid, 1, 1, 200);
+		new TextWithStyle("+ Moms (25%) ", grid, 0, 1, 200);
+		carPriceVattr = new TextWithStyle("", grid, 1, 1, 200);
 		carPriceVattr.setAlignment(Pos.CENTER_RIGHT);
 		new TextWithStyle("DKK", grid, 2, 1, style.textUnitWidth());
 
-		new TextWithStyle("- Udbetaling: ", grid, 0, 2, 200);
+		new TextWithStyle("-  Udbetaling: ", grid, 0, 2, 200);
 		carPriceDownPaymenttr = new TextWithStyle("", grid, 1, 2, 200);
 		carPriceDownPaymenttr.setAlignment(Pos.CENTER_RIGHT);
 		new TextWithStyle("DKK", grid, 2, 2, style.textUnitWidth());
@@ -425,7 +424,7 @@ public class NewPropsalScreen {
 
 		TextWithStyle monthlyPayment = new TextWithStyle("Månedlig ydelse: ", grid, 0, 6, 200);
 		monthlyPayment.setBorder(style.dottedUnderLine());
-		proposalMonthlyPaymenttr = new TextWithStyle("PLACEHOLDER", grid, 1, 6, 200);
+		proposalMonthlyPaymenttr = new TextWithStyle("", grid, 1, 6, 200);
 		proposalMonthlyPaymenttr.setAlignment(Pos.CENTER_RIGHT);
 		proposalMonthlyPaymenttr.setBorder(style.dottedUnderLine());
 		TextWithStyle dkk = new TextWithStyle("DKK", grid, 2, 6, style.textUnitWidth());
@@ -440,11 +439,11 @@ public class NewPropsalScreen {
 		grid.setAlignment(Pos.CENTER_LEFT);
 
 		new TextWithStyle("Total bilpris: ", grid, 0, 0, 500);
-		sumCarPricetr = new TextWithStyle("PLACEHOLDER", grid, 1, 0, 200);
+		sumCarPricetr = new TextWithStyle("", grid, 1, 0, 200);
 		sumCarPricetr.setAlignment(Pos.CENTER_RIGHT);
 		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth());
 
-		TextWithStyle totalInterestSum = new TextWithStyle("Total rentebeløb: ", grid, 0, 1, 200);
+		TextWithStyle totalInterestSum = new TextWithStyle("Total Renteomkostninger: ", grid, 0, 1, 200);
 		totalInterestSum.setBorder(style.underLine());
 		sumInteresettr = new TextWithStyle("PLACEHOLDER", grid, 1, 1, 200);
 		sumInteresettr.setAlignment(Pos.CENTER_RIGHT);
@@ -460,7 +459,7 @@ public class NewPropsalScreen {
 		grid.setPadding(new Insets(0, style.textReaderInsets() + 43, 0, style.textReaderInsets()));
 		grid.setAlignment(Pos.CENTER_RIGHT);
 
-		TextWithStyle total = new TextWithStyle("Total: ", grid, 0, 0, 65);
+		TextWithStyle total = new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 65);
 		total.setAlignment(Pos.CENTER_RIGHT);
 		total.setBorder(style.underLine());
 		proposalTotalSumtr = new TextWithStyle("PLACEHOLDER", grid, 1, 0, 150);
@@ -513,18 +512,11 @@ public class NewPropsalScreen {
 	// EVENTS
 	//////////////////////////////
 
-	private void onHiding() {
+	private void onHidingModel() {
 		modelcb.setOnHiding(new EventHandler<Event>() {
 			@Override
 			public void handle(Event arg0) {
-				carModeltr.setText(modelcb.getValue().toString());
-				carMilagetr.setText(Integer.toString(((Car) (modelcb.getValue())).getMilage()));
-				carYeartr.setText(Integer.toString(((Car) (modelcb.getValue())).getFactory()));
-
-				carPriceModeltr.setText(modelcb.getValue().toString());
-				carPriceModelPricetr.setText(Integer.toString(((Car) modelcb.getValue()).getPrice()));
-				carPriceTotaltr.setText(
-						Integer.toString(((Car) modelcb.getValue()).getPrice()) + " PLACEHOLDER NEED MORE CARS");
+				updateTextReader();
 			}
 		});
 	}
@@ -541,7 +533,7 @@ public class NewPropsalScreen {
 					proposal.setLoanDuration(0);
 				}
 
-				useTotalInterest();
+				updateTextReader();
 			}
 		});
 	}
@@ -550,8 +542,6 @@ public class NewPropsalScreen {
 		paymenttf.setOnKeyTyped(new EventHandler<Event>() {
 			@Override
 			public void handle(Event arg0) {
-				carPriceDownPaymenttr.setText(paymenttf.getText());
-				proposalDownPaymenttr.setText(paymenttf.getText());
 
 				if (!paymenttf.getText().isEmpty()) {
 					proposal.setDownPayment(Integer.parseInt(paymenttf.getText()));
@@ -559,20 +549,43 @@ public class NewPropsalScreen {
 					proposal.setDownPayment(0);
 				}
 
-				useTotalInterest();
+				updateTextReader();
 			}
 		});
 	}
 
-	private void useTotalInterest() {
-		Double totalInterest;
+	private void updateTextReader() {
 		if (!durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty() && modelcb.getValue() != null) {
-			totalInterest = proposal.calcInterest();
-			String format = new DecimalFormat("0.00").format(totalInterest);
-			proposalTotalInteresttr.setText(format);
-		} else {
-			proposalTotalInteresttr.setText("");
+			proposalTotalInteresttr.setText(decimal(proposal.calcInterest()));
+			proposalMonthlyPaymenttr.setText(decimal(proposal.monthlyPayment()));
+			sumInteresettr.setText(decimal(proposal.totalInterestSum()));
+			proposalTotalSumtr.setText(decimal(proposal.totalProposalPrice()));
 		}
+		
+		if (modelcb.getValue() != null) {
+			carModeltr.setText(proposal.getCar().getModel());
+			carMilagetr.setText(Integer.toString(proposal.getCar().getMilage()));
+			carYeartr.setText(Integer.toString(proposal.getCar().getFactory()));
+
+			carPriceModeltr.setText(proposal.getCar().toString());
+			carPriceModelPricetr.setText(decimal(proposal.getCar().getPrice()));			
+			carPriceVattr.setText(decimal(proposal.getCar().getVat()));
+		}
+		
+		if (!paymenttf.getText().isEmpty() && modelcb.getValue() != null) {
+			carPriceTotaltr.setText(decimal(proposal.totalCarPrice()));
+			sumCarPricetr.setText(decimal(proposal.totalCarPrice()));
+		}
+		
+		if (!paymenttf.getText().isEmpty()) {
+			carPriceDownPaymenttr.setText(decimal(proposal.getDownPayment()));
+			proposalDownPaymenttr.setText(decimal(proposal.getDownPayment()));
+		}
+	}
+	
+	private String decimal(double number) {
+		String format = new DecimalFormat("0.00").format(number);
+		return format;
 	}
 
 	//////////////////////////////

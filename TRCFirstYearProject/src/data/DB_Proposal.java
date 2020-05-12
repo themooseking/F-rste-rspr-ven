@@ -134,7 +134,7 @@ public class DB_Proposal {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return interest;
 	}
 	

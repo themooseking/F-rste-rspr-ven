@@ -44,6 +44,7 @@ public class Proposal extends Thread {
 		this.creditScore = Rating.valueOf(creditScore);
 		this.proposalStatus = proposalStatus;
 		this.salesman = salesman;
+		this.interest = controller.getInterest(proposalDate);
 	}
 
 	public double calcInterest() {
@@ -77,15 +78,20 @@ public class Proposal extends Thread {
 	}
 	
 	public void run() {		
-		interest = InterestRate.i().todaysRate();
+		double dbInterest = controller.getInterest(proposalDate);
+		
+		if(dbInterest <= -1.0) {		
+			interest = InterestRate.i().todaysRate();
+			controller.createInterest(interest);
+		} else {
+			interest = dbInterest;
+		}
 		doubleProperty.set(interest);
-		controller.createInterest(interest);
 	}
 	
 	public DoubleProperty doubleProperty() {
 		return doubleProperty;
-	}
-	
+	}	
 	
 	public double totalCarPrice() {
 		return car.getPrice() + car.getVat() - downPayment;
@@ -105,13 +111,7 @@ public class Proposal extends Thread {
 	}
 	
 	private void checkInterestDB() {
-		double interest = controller.getInterest(proposalDate);
-		
-		if(interest <= -1.0) {
-			start();
-		} else {
-			this.interest = interest;
-		}
+
 	}
 	
 	/***********************************
@@ -179,9 +179,9 @@ public class Proposal extends Thread {
 	}
 	
 	public double getProposalTotalSum() {
-		double totalCarPriceWithVAT = car.getPrice() * 1.25;
-		double loanInterestRate = calcInterest();
-		proposalTotalSum = totalCarPriceWithVAT*(loanInterestRate/(1 - (Math.pow((1 + loanInterestRate), -loanDuration))));
+//		double totalCarPriceWithVAT = car.getPrice() * 1.25;
+//		double loanInterestRate = calcInterest();
+//		proposalTotalSum = totalCarPriceWithVAT*(loanInterestRate/(1 - (Math.pow((1 + loanInterestRate), -loanDuration))));
 		
 		return proposalTotalSum;
 	}
