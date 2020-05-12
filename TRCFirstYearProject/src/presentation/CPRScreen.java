@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import styles.ButtonWithStyle;
@@ -19,17 +21,18 @@ import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class CPRScreen {
-	
+
 	private StyleClass style = new StyleClass();
-	
+
 	private TextFieldWithStyle textfield;
 
 	public void cprUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), continueButton());
-		vbox.setAlignment(Pos.CENTER); 
+		VBoxWithStyle vbox = new VBoxWithStyle(logoutButton(), title(), cprTextfield(), continueButton());
+		vbox.setAlignment(Pos.CENTER);
+		vbox.setPadding(new Insets(0, 0, 310, 0));
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
-		sceneSetup(scene); 
+		sceneSetup(scene);
 	}
 
 	private GridPane cprTextfield() {
@@ -38,7 +41,7 @@ public class CPRScreen {
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-1598");
-
+		
 		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			int tfl = 1;
 
@@ -88,6 +91,19 @@ public class CPRScreen {
 		ButtonWithStyle button = new ButtonWithStyle("Continue", grid, 0, 1);
 		button.setOnAction(e -> {
 			new ProposalOverview().proposalOverviewUI(textfield.getText());
+		});
+
+		return grid;
+	}
+
+	private GridPane logoutButton() {
+		GridPaneCenter grid = new GridPaneCenter();
+		grid.setAlignment(Pos.TOP_RIGHT);
+		grid.setPadding(new Insets(0, 0, 180, 0));
+
+		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 0);
+		button.setOnAction(e -> {
+			new LoginScreen().loginUI();
 		});
 
 		return grid;

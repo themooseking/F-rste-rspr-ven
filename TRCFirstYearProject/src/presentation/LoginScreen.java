@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
 import styles.StyleClass;
@@ -35,13 +36,13 @@ public class LoginScreen {
 		GridPaneCenter grid = new GridPaneCenter();
 		grid.setPadding(new Insets(30));
 
-//		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
+		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
 
-		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
-				"SENIOR VICE LEADING EXECUTIVE SUPREME SALESMAN", 1000000000);
-		Salesman sm2 = new Salesman(98765432, "Riley Reid", "reid@mylips.com", "SLAVE", 5);
-		Salesman sm3 = new Salesman(21586895, "Dean", "dean@eamv.dk", "CEO", 100);
-		ArrayList<Salesman> userList = new ArrayList<Salesman>(Arrays.asList(sm1, sm2, sm3));
+//		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
+//				"SENIOR VICE LEADING EXECUTIVE SUPREME SALESMAN", 1000000000);
+//		Salesman sm2 = new Salesman(98765432, "Riley Reid", "reid@mylips.com", "SLAVE", 5);
+//		Salesman sm3 = new Salesman(21586895, "Dean", "dean@eamv.dk", "CEO", 100);
+//		ArrayList<Salesman> userList = new ArrayList<Salesman>(Arrays.asList(sm1, sm2, sm3));
 
 		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
 		if (LoggedInST.getUser() == null) {

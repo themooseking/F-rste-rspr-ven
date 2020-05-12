@@ -2,14 +2,15 @@ package logic;
 
 public class Salesman {
 	
-	private int id;
+	private int salesmanId;
 	private int phone;
 	private String salesmanName;
 	private String email;
 	private String title;
 	private int proposalLimit;
 	
-	public Salesman(int phone, String salesmanName, String email, String title, int proposalLimit) {
+	public Salesman(int salesmanId, int phone, String salesmanName, String email, String title, int proposalLimit) {
+		this.salesmanId = salesmanId;
 		this.phone = phone;
 		this.salesmanName = salesmanName;
 		this.email = email;
@@ -22,8 +23,8 @@ public class Salesman {
 		return salesmanName;		
 	}
 
-	public int getId() {
-		return id;
+	public int getSalesmanId() {
+		return salesmanId;
 	}
 
 }
