@@ -157,6 +157,10 @@ public class Proposal extends Thread {
 	public void setCar(Car car) {
 		this.car = car;
 	}
+	
+	public void setCreditScore(Rating creditScore) {
+		this.creditScore = creditScore;
+	}
 
 	/***********************************
 	 * GETTERS
