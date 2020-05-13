@@ -283,6 +283,7 @@ public class NewPropsalScreen {
 		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
+			proposal.checkLimit();
 			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
 		});
