@@ -94,7 +94,7 @@ public class CPRScreen {
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		continueButton = new ButtonWithStyle("VÃ¦lg", grid, 0, 3);
+		continueButton = new ButtonWithStyle("Vålg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
 			new ProposalOverview().customerUI(textfield.getText());
