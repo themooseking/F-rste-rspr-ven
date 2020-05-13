@@ -74,7 +74,7 @@ public class NewPropsalScreen {
 		vbox.setBorder(new Border(
 				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
 
-		return vbox;
+		return vbox; 
 	}
 
 	//////////////////////////////
@@ -295,7 +295,7 @@ public class NewPropsalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			new ProposalOverview().proposalOverviewUI(customer.getCpr());
+			new ProposalOverview().customerUI(customer.getCpr());
 		});
 
 		return grid;

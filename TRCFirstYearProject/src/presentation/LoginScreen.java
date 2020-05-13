@@ -1,7 +1,6 @@
 package presentation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -14,9 +13,9 @@ import javafx.scene.text.Font;
 import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
-import styles.StyleClass;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
+import styles.StyleClass;
 import styles.VBoxWithStyle;
 
 public class LoginScreen {
@@ -37,12 +36,6 @@ public class LoginScreen {
 		grid.setPadding(new Insets(30));
 
 		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
-
-//		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
-//				"SENIOR VICE LEADING EXECUTIVE SUPREME SALESMAN", 1000000000);
-//		Salesman sm2 = new Salesman(98765432, "Riley Reid", "reid@mylips.com", "SLAVE", 5);
-//		Salesman sm3 = new Salesman(21586895, "Dean", "dean@eamv.dk", "CEO", 100);
-//		ArrayList<Salesman> userList = new ArrayList<Salesman>(Arrays.asList(sm1, sm2, sm3));
 
 		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
 		if (LoggedInST.getUser() == null) {
@@ -73,14 +66,14 @@ public class LoginScreen {
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("The Red Car Loan System");
+		Label label = new Label("The Red Car Låne System");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
 		return label;
 	}
 	
 	private Label company() {
-		Label label = new Label("The Regional Ferrari Dealer");
+		Label label = new Label("Den Regionale Ferrari Forhandler");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 40));
 		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
 		return label;

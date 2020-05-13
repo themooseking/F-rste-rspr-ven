@@ -11,8 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import styles.ButtonWithStyle;
@@ -29,7 +27,6 @@ public class CPRScreen {
 	private Button continueButton;
 
 	public void cprUI() {
-
 		VBoxWithStyle vbox = new VBoxWithStyle(logoutButton(), title(), cprTextfield(), showProposalsButton(),
 				verifyProposalsButton(), continueButton());
 		vbox.setAlignment(Pos.CENTER);
@@ -100,7 +97,7 @@ public class CPRScreen {
 		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
-			new ProposalOverview().proposalOverviewUI(textfield.getText());
+			new ProposalOverview().customerUI(textfield.getText());
 		});
 
 		return grid;
@@ -112,7 +109,8 @@ public class CPRScreen {
 		if ((LoggedInST.getUser().getTitle()).equals("Salgschef")) {
 			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
 			button.setOnAction(e -> {
-				new VerifyProposalScreen().verifyProposalUI();
+				new ProposalOverview().cosUI();
+				;
 			});
 		}
 
@@ -122,9 +120,9 @@ public class CPRScreen {
 	private GridPane showProposalsButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("L�netilbud", grid, 0, 1);
 		button.setOnAction(e -> {
-			new ProposalForSalesmanOverview().proposalForSalesmanOverviewUI();
+			new ProposalOverview().salesmanUI();
 		});
 
 		return grid;

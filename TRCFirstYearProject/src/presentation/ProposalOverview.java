@@ -1,25 +1,17 @@
 package presentation;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Customer;
@@ -34,18 +26,31 @@ import styles.VBoxWithStyle;
 
 public class ProposalOverview {
 	private StyleClass style = new StyleClass();
-	private Customer customer;	
+	private Customer customer;
 	private DB_Controller controller = new DB_Controller();
 
-	public void proposalOverviewUI(String customerCPR) {
+	public void customerUI(String customerCPR) {
 		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
-		HBox hbox = new HBox(proposalTableView(customer));
-		hbox.setAlignment(Pos.CENTER);
-
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer), hbox, buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString()), proposalTableView(0), buttons());
 		vbox.setAlignment(Pos.CENTER);
-		
+
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
+	}
+	
+	public void salesmanUI() {
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(1), buttons());
+		vbox.setAlignment(Pos.CENTER);
+
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
+	}
+	
+	public void cosUI() {
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(2), buttons());
+		vbox.setAlignment(Pos.CENTER);
+
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
@@ -54,48 +59,71 @@ public class ProposalOverview {
 	// TableView
 	//////////////////////////////
 
-	private GridPane proposalTableView(Customer customer) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER); 
+	private GridPane proposalTableView(int i) {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
+		ArrayList<Proposal> arrayList = new ArrayList<Proposal>();
+		if (i == 0) {
+			arrayList = controller.getProposalByCustomer(customer);
+		} else if (i == 1) {
+			arrayList = controller.getProposalBySalesman(LoggedInST.getUser());
+		} else if (i == 2) {
+			arrayList = controller.getAwaitingProposals();
+		}
 
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
-		eventList.addAll(proposalsForCustomerList);
-		
+		eventList.addAll(arrayList);
+
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(); 
+
+		map.put("Låne nr.", "proposalId");
+		map.put("Bil", "car");
+		if (i == 1) {
+			map.put("Kunde", "customer");
+		}
+		map.put("Rente (%)", "totalInterest");
+		map.put("ÅOP (%)", "apr");
+		map.put("Sum (DKK)", "proposalTotalSum");
+		if (i == 2) {
+			map.put("Salgs titel", "salesmanTitel");
+		}
+		map.put("Status", "proposalStatus");
+
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		
-		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("LÃ¥ne nr.", "proposalId");
-		proposalIdCol.setMinWidth(130);
-		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
-		carCol.setMinWidth((1600-130)/6);
-		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "totalInterest");
-		interestCol.setMinWidth((1600-130)/6);
-		TableColumnWithStyle aprCol = new TableColumnWithStyle("Ã…OP (%)", "apr");
-		aprCol.setMinWidth((1600-130)/6);
-		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
-		totalSum.setMinWidth((1600-130)/6);
-		TableColumnWithStyle statusCol = new TableColumnWithStyle("Status", "proposalStatus");
-		statusCol.setMinWidth((1600-130)/6);
-		
 		table.setItems(eventList);
-		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
-		accessProposal(table);
-		
+		for (String key : map.keySet()) {
+			table.getColumns().add(createColumn(key, map));
+		}
+		accessProposal(table, i);
+
 		return grid;
 	}
 
-	private TableRow<Proposal> accessProposal(TableView<Proposal> table) {
+	private TableColumnWithStyle createColumn(String key, LinkedHashMap<String, String> map) {
+		TableColumnWithStyle column = new TableColumnWithStyle(key, map.get(key), map);
+
+		return column;
+	}
+
+	private TableRow<Proposal> accessProposal(TableView<Proposal> table, int i) {
 		table.setRowFactory(e -> {
 			TableRow<Proposal> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Proposal rowData = row.getItem();
-					new SignProposalScreen(rowData).signProposalUI();
+					if (i == 0) {
+						new SignProposalScreen(rowData).signProposalUI();
+					} else if (i == 1) {
+						new SignProposalScreen(rowData).salesmanSignProposalUI();
+					} else if (i == 2) {
+						new SignProposalScreen(rowData).cosSignProposalUI();;
+					}
 				}
 			});
+			
 			return row;
 		});
+		
 		return null;
 	}
 
@@ -103,26 +131,9 @@ public class ProposalOverview {
 	// Buttons
 	//////////////////////////////
 
-	private Pane icon() {
-		Image image = new Image(
-				"https://upload.wikimedia.org/wikipedia/sco/thumb/d/d1/Ferrari-Logo.svg/1200px-Ferrari-Logo.svg.png");
-		ImageView imageview = new ImageView(image);
-		imageview.setFitHeight(150);
-		imageview.setFitWidth(100);
-		imageview.setX(100);
-		imageview.setY(-30);
-
-		Pane pane = new Pane(imageview);
-		pane.setPadding(new Insets(0, 200, 0, 0));
-
-		return pane;
-	}
-
 	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), newProposalButton());
+		HBox hbox = new HBox(backButton(), newProposalButton());
 		hbox.setAlignment(Pos.CENTER_LEFT);
-		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
-				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
 
 		return hbox;
 	}
@@ -153,8 +164,8 @@ public class ProposalOverview {
 	// Label Title
 	//////////////////////////////
 
-	private Label title(Customer customer) {
-		Label label = new Label("LÃ¥netilbud for " + customer.getCustomerName());
+	private Label title(String person) {
+		Label label = new Label("Lånetilbud for " + person);
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;
@@ -169,5 +180,4 @@ public class ProposalOverview {
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
-
 }
