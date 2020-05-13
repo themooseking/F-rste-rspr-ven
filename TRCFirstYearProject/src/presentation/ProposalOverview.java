@@ -1,6 +1,5 @@
 package presentation;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
@@ -9,10 +8,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -25,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
@@ -72,17 +68,17 @@ public class ProposalOverview {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
 		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("Låne nr.", "proposalId");
-		//proposalIdCol.setMinWidth(130);
+		proposalIdCol.setMinWidth(130);
 		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
-		//carCol.setMinWidth((1600-130)/6);
+		carCol.setMinWidth((1600-130)/6);
 		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "totalInterest");
-		//interestCol.setMinWidth((1600-130)/6);
+		interestCol.setMinWidth((1600-130)/6);
 		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "apr");
-		//aprCol.setMinWidth((1600-130)/6);
+		aprCol.setMinWidth((1600-130)/6);
 		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
-		//totalSum.setMinWidth((1600-130)/6);
+		totalSum.setMinWidth((1600-130)/6);
 		TableColumnWithStyle statusCol = new TableColumnWithStyle("Status", "proposalStatus");
-		//statusCol.setMinWidth((1600-130)/6);
+		statusCol.setMinWidth((1600-130)/6);
 		
 		table.setItems(eventList);
 		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
@@ -97,7 +93,7 @@ public class ProposalOverview {
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Proposal rowData = row.getItem();
-//					new SignProposalScreen().signProposalUI(rowData);
+					new SignProposalScreen(rowData).signProposalUI();
 				}
 			});
 			return row;

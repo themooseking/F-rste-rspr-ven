@@ -124,7 +124,7 @@ public class CPRScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
 		button.setOnAction(e -> {
-
+			new ProposalForSalesmanOverview().proposalForSalesmanOverviewUI();
 		});
 
 		return grid;
