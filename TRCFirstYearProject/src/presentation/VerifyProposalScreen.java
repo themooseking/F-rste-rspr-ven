@@ -118,7 +118,7 @@ public class VerifyProposalScreen {
 	}
 
 	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), newProposalButton());
+		HBox hbox = new HBox(icon(), backButton());
 		hbox.setAlignment(Pos.CENTER_LEFT);
 		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
 				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
@@ -138,24 +138,12 @@ public class VerifyProposalScreen {
 		return grid;
 	}
 
-	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-
-		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
-		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
-
-		});
-
-		return grid;
-	}
-
 	//////////////////////////////
 	// Label Title
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Welcome " + LoggedInST.getUser().getTitle() + " what do you wish to sign today, " + LoggedInST.getUser() + "?");
+		Label label = new Label("Welcome " + LoggedInST.getUser().getTitle());
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;
