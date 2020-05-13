@@ -34,13 +34,11 @@ import styles.VBoxWithStyle;
 
 public class ProposalOverview {
 	private StyleClass style = new StyleClass();
-	
+	private Customer customer;	
 	private DB_Controller controller = new DB_Controller();
 
-
 	public void proposalOverviewUI(String customerCPR) {
-		System.out.println(Customer.removeDashFromCpr(customerCPR));
-		Customer customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
+		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
 		HBox hbox = new HBox(proposalTableView(customer));
 		hbox.setAlignment(Pos.CENTER);
@@ -135,7 +133,6 @@ public class ProposalOverview {
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
 			new CPRScreen().cprUI();
-
 		});
 
 		return grid;
@@ -146,8 +143,7 @@ public class ProposalOverview {
 
 		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
 		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
-
+			new NewPropsalScreen(customer).newProposalUI();
 		});
 
 		return grid;
