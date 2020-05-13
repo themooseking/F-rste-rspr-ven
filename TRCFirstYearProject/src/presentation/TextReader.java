@@ -4,10 +4,10 @@ import java.text.DecimalFormat;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -54,12 +54,11 @@ public class TextReader {
 	}
 
 	public VBox textReader() {
-		VBox vbox = new VBox(
-				customerTitle(), customerInfo(), carTitle(), carInfo(), carPriceTitle(), carPriceInfo(),
-				proposalInfo(), priceSum(), totalPrice()
-				);
+		VBox vbox = new VBox(customerTitle(), customerInfo(), carTitle(), carInfo(), carPriceTitle(), carPriceInfo(),
+				proposalInfo(), priceSum(), totalPrice());
 		vbox.setBorder(style.elementBorder());
-
+		vbox.setBackground(new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY))); 
+		vbox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 20, 0, 5, 5));
 		checkDone();
 
 		return vbox;
@@ -200,6 +199,7 @@ public class TextReader {
 
 		LabelWithStyle label = new LabelWithStyle("Kunde", grid, 0, 0);
 		label.setFont(Font.font(style.textFont(), 25));
+		label.setTextFill(Color.web(style.enterTextColor()));
 
 		return grid;
 	}
@@ -210,6 +210,7 @@ public class TextReader {
 
 		LabelWithStyle label = new LabelWithStyle("Bil", grid, 0, 0);
 		label.setFont(Font.font(style.textFont(), 25));
+		label.setTextFill(Color.web(style.enterTextColor()));
 
 		return grid;
 	}
@@ -219,7 +220,8 @@ public class TextReader {
 		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
 
 		LabelWithStyle label = new LabelWithStyle("Bilpris", grid, 0, 0);
-		label.setFont(Font.font(style.textFont(), 25)); 
+		label.setFont(Font.font(style.textFont(), 25));
+		label.setTextFill(Color.web(style.enterTextColor()));
 
 		return grid;
 	}

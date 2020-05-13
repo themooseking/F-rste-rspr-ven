@@ -21,7 +21,7 @@ public class TableViewWithStyle extends TableView<Proposal>{
 
 		super.setPrefSize(1600, 800);
 
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.red()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
 		
 		super.setBackground(background);

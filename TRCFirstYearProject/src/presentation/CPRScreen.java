@@ -94,7 +94,7 @@ public class CPRScreen {
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		continueButton = new ButtonWithStyle("Vålg", grid, 0, 3);
+		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
 			new ProposalOverview().customerUI(textfield.getText());
@@ -148,7 +148,7 @@ public class CPRScreen {
 	private Label title() {
 		Label label = new Label("Customer CPR");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
+		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
 

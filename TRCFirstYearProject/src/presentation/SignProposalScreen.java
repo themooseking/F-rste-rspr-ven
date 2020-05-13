@@ -164,8 +164,8 @@ public class SignProposalScreen {
 
 	private Label title(Proposal proposal) {
 		Label label = new Label("Underskrift for " + proposal.getCar());
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(style.defaultTextColor()));
+		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 80));
+		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
 

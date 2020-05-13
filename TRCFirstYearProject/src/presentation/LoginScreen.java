@@ -68,14 +68,14 @@ public class LoginScreen {
 	private Label title() {
 		Label label = new Label("The Red Car Låne System");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
+		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
 	
 	private Label company() {
 		Label label = new Label("Den Regionale Ferrari Forhandler");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 40));
-		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
+		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
 

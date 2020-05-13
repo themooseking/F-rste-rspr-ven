@@ -15,7 +15,7 @@ public class TextAreaWithStyle extends TextArea{
 		super.setWrapText(true);
 		super.setEditable(false);
 		
-		super.setStyle("-fx-control-inner-background: " + style.defaultHoverColor() + ";");
+		super.setStyle("-fx-control-inner-background: " + style.red() + ";");
 		
 		GridPane.setConstraints(this, row, col);
 		grid.getChildren().add(this);

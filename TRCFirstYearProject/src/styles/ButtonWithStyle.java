@@ -3,6 +3,9 @@ package styles;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -18,7 +21,7 @@ public class ButtonWithStyle extends Button {
 	public ButtonWithStyle(String buttonText, GridPane grid, int col, int row) {
 		super.setText(buttonText);
 		super.setFont(Font.font(style.textFont(), FontWeight.BOLD, 30));
-		super.setPrefSize(200, 120);
+		super.setPrefSize(300, 90);
 
 		defaultEffect(this);
 
@@ -30,8 +33,10 @@ public class ButtonWithStyle extends Button {
 	}
 	
 	private void enterEffect(Button obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.enterHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.grey()), new CornerRadii(4), Insets.EMPTY);
 		Background background = new Background(background_fill);
+		
+		setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.BLACK, 10, 0, 0, 0));
 
 		obj.setBackground(background);
 		obj.setCursor(Cursor.HAND);
@@ -39,12 +44,14 @@ public class ButtonWithStyle extends Button {
 	}
 
 	private void defaultEffect(Button obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.grey()), new CornerRadii(4), Insets.EMPTY);
 		Background background = new Background(background_fill);
+		
+		setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.BLACK, 0, 0, 0, 0));
 
 		obj.setBackground(background);
 		obj.setCursor(Cursor.DEFAULT);
-		obj.setTextFill(Color.web(style.defaultTextColor()));
+		obj.setTextFill(Color.web(style.white()));
 	}
 
 }

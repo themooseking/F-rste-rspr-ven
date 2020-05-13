@@ -12,10 +12,10 @@ public class StyleClass {
 	private int sceney = 1000;
 	private int scenex = 1800;
 
-	private String enterhovercolor = "#e33635";
-	private String defaulthovercolor = "#3D3D3D";
-	private String defaulttextcolor = "#e33635";
-	private String entertextcolor = "#ffffff";
+	private String grey = "#707070";
+	private String red = "#e33635";
+	private String white = "#ffffff";
+	private String entertextcolor = "#e33635";
 	private String backgroundcolor = "#242224";
 
 	private String textfont = "Lucida Fax";
@@ -40,16 +40,16 @@ public class StyleClass {
 		return sceney;
 	}
 
-	public String enterHoverColor() {
-		return enterhovercolor;
+	public String grey() {
+		return grey;
 	}
 
-	public String defaultHoverColor() {
-		return defaulthovercolor;
+	public String red() {
+		return red;
 	}
 
-	public String defaultTextColor() {
-		return defaulttextcolor;
+	public String white() {
+		return white;
 	}
 
 	public String enterTextColor() {
@@ -87,5 +87,4 @@ public class StyleClass {
 	public Border elementBorder() {
 		return elementborder;
 	}
-
 }

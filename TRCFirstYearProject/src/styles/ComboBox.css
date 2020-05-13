@@ -1,6 +1,16 @@
+.combo-box 
+{
+	-fx-effect: innershadow( gaussian , rgba(0,0,0,0.7) , 20,0,0,0 );
+}
+
+.combo-box:hover
+{
+	-fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );
+}
+
 .combo-box > .list-cell
 {	
-	-fx-text-fill: #e33635;
+	-fx-text-fill: #707070;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
@@ -8,7 +18,7 @@
 
 .combo-box:hover > .list-cell
 {	
-	-fx-text-fill: #ffffff;
+	-fx-text-fill: #707070;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
@@ -22,8 +32,8 @@
 
 .combo-box-popup .list-cell
 {	
-	-fx-text-fill: #e33635;
-	-fx-background-color: #3D3D3D;
+	-fx-text-fill: #707070;
+	-fx-background-color: #ffffff;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
@@ -31,11 +41,12 @@
 
 .combo-box-popup .list-cell:hover
 {	
-	-fx-text-fill: #ffffff;
-	-fx-background-color: #e33635;
+	-fx-text-fill: #707070;
+	-fx-background-color: #ffffff;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
+	-fx-effect: innershadow( gaussian , rgba(0,0,0,1) , 2,1,0,0 );
 } 
 
 

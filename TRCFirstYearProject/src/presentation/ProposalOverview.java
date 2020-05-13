@@ -167,7 +167,7 @@ public class ProposalOverview {
 	private Label title(String person) {
 		Label label = new Label("Lånetilbud for " + person);
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(style.defaultTextColor()));
+		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
 

@@ -52,7 +52,7 @@ public class NewPropsalScreen {
 	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
 	private ButtonWithStyle nextButton;
-	
+
 	public NewPropsalScreen(Customer customer) {
 		this.customer = customer;
 		this.proposal = new Proposal(customer, LoggedInST.getUser());
@@ -73,8 +73,9 @@ public class NewPropsalScreen {
 		VBox vbox = new VBox(indentInput(), apiValues());
 		vbox.setBorder(new Border(
 				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+		vbox.setBackground(new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY))); 
 
-		return vbox; 
+		return vbox;
 	}
 
 	//////////////////////////////
@@ -118,7 +119,7 @@ public class NewPropsalScreen {
 			modelcb.setOnHiding(e -> {
 				proposal.setCar((Car) modelcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-				
+
 				nextButtonDisable();
 			});
 
@@ -171,7 +172,7 @@ public class NewPropsalScreen {
 			regnrcb.setOnHiding(e -> {
 				proposal.setCar((Car) regnrcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-				
+
 				nextButtonDisable();
 			});
 		}
@@ -186,7 +187,7 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setLoanDuration(0);
 			}
-			
+
 			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -205,7 +206,7 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setDownPayment(0);
 			}
-			
+
 			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -220,11 +221,15 @@ public class NewPropsalScreen {
 
 	private GridPane apiValues() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.BASELINE_LEFT);
-		grid.setBackground(new Background(
-				new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY)));
+		grid.setBackground(
+				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
 
-		new LabelWithStyle("Bank Rente:	", grid, 0, 0);
+		LabelWithStyle interestLabel = new LabelWithStyle("Bank Rente:	", grid, 0, 0);
+		interestLabel.setTextFill(Color.web(style.white()));
 		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
+		apiInteresttf.setBackground(null);
+		apiInteresttf.setBorder(null);
+		apiInteresttf.setStyle("-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
 		apiInteresttf.setMaxWidth(100);
 		apiInteresttf.setDisable(true);
 		apiInteresttf.setOpacity(100);
@@ -243,8 +248,12 @@ public class NewPropsalScreen {
 
 		new LabelWithStyle("			", grid, 2, 0);
 
-		new LabelWithStyle("Kredit Score: ", grid, 3, 0);
+		LabelWithStyle creditScore = new LabelWithStyle("Kredit Score: ", grid, 3, 0);
+		creditScore.setTextFill(Color.web(style.white()));
 		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
+		apiCredittf.setBackground(null);
+		apiCredittf.setBorder(null);
+		apiCredittf.setStyle("-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
@@ -301,11 +310,12 @@ public class NewPropsalScreen {
 
 		return grid;
 	}
-	
+
 	private void nextButtonDisable() {
 		if (!rbState && regnrcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
-		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()) {
+		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty()
+				&& !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
 		} else {
 			nextButton.setDisable(true);
@@ -319,7 +329,7 @@ public class NewPropsalScreen {
 	private Label title() {
 		Label label = new Label("Nyt Låneforslag");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(style.defaultTextColor()));
+		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
 
