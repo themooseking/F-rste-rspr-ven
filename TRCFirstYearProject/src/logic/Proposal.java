@@ -51,6 +51,7 @@ public class Proposal extends Thread {
 	}
 
 	public double calcInterest() {
+		totalInterest = 0;
 		if (creditScore == null) {
 			creditScore = customer.getCreditScore();
 		}

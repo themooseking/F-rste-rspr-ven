@@ -180,7 +180,7 @@ public class TextReader {
 	}
 
 	private GridPane totalPrice() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_RIGHT);
 		grid.setPadding(new Insets(0, style.textReaderInsets() + 51, 0, style.textReaderInsets()));
 
 		new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 220, 1, 1);

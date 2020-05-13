@@ -36,7 +36,7 @@ import styles.VBoxWithStyle;
 
 public class NewPropsalScreen {
 
-	private Customer customer = new Customer(6, 88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk",
+	private Customer customer = new Customer(6, 88888888, "John Brick", "3103961598", "johnshitsbricks@gmail.dk",
 			"Brick st. 11", 7400);
 	private Proposal proposal = new Proposal(customer, LoggedInST.getUser());
 
@@ -163,6 +163,10 @@ public class NewPropsalScreen {
 			regnrcb.setOnHiding(e -> {
 				proposal.setCar((Car) regnrcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+				
+				if (regnrcb.getValue() ==) {
+					
+				}
 			});
 		}
 
