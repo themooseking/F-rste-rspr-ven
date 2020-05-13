@@ -52,6 +52,7 @@ public class NewPropsalScreen {
 	private ComboBoxWithStyle regnrcb;
 	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
+	private ButtonWithStyle nextButton;
 
 	public void newProposalUI() {
 		HBox hbox = new HBox(inputBox(), tr.textReader());
@@ -112,6 +113,8 @@ public class NewPropsalScreen {
 			modelcb.setOnHiding(e -> {
 				proposal.setCar((Car) modelcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+				
+				nextButtonDisable();
 			});
 
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
@@ -164,9 +167,7 @@ public class NewPropsalScreen {
 				proposal.setCar((Car) regnrcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 				
-				if (regnrcb.getValue() ==) {
-					
-				}
+				nextButtonDisable();
 			});
 		}
 
@@ -180,6 +181,8 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setLoanDuration(0);
 			}
+			
+			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
@@ -197,6 +200,8 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setDownPayment(0);
 			}
+			
+			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
@@ -270,8 +275,8 @@ public class NewPropsalScreen {
 	private GridPane nextButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
-		ButtonWithStyle button = new ButtonWithStyle("Næste", grid, 0, 0);
-		button.setOnAction(e -> {
+		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
+		nextButton.setOnAction(e -> {
 			new SignProposalScreen(proposal).signProposalUI();
 		});
 
@@ -287,6 +292,18 @@ public class NewPropsalScreen {
 		});
 
 		return grid;
+	}
+	
+	private void nextButtonDisable() {
+		if (!rbState && regnrcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
+			System.out.println(".");
+			nextButton.setDisable(false);
+		} else if (rbState && modelcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
+			System.out.println(durationtf.getText());
+			nextButton.setDisable(false);
+		} else {
+			nextButton.setDisable(true);
+		}
 	}
 
 	//////////////////////////////

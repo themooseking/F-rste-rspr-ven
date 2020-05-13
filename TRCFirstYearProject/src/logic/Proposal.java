@@ -94,6 +94,13 @@ public class Proposal extends Thread {
 		} else {
 			interest = dbInterest;
 		}
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		doubleProperty.set(interest);
 	}
 
