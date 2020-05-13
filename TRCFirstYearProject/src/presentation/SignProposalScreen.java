@@ -31,7 +31,21 @@ public class SignProposalScreen {
 	}
 
 	public void signProposalUI() {
-		HBox hbox = new HBox(tr.textReader(), signInput());
+		int i = 0;
+		HBox hbox = new HBox(tr.textReader(), signInput(i));
+		hbox.setSpacing(50);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		vbox.setAlignment(Pos.CENTER);
+
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
+	}
+	
+	public void cosSignProposalUI() {
+		int i = 1;
+		HBox hbox = new HBox(tr.textReader(), signInput(i));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
@@ -42,12 +56,12 @@ public class SignProposalScreen {
 		sceneSetup(scene);
 	}
 
-	private VBox signInput() {
+	private VBox signInput(int i) {
 		VBox vbox = new VBox(textFields(), signButtons());
 		vbox.setBorder(style.elementBorder());
 		vbox.setPadding(new Insets(0, 0, 0, 50));
 
-		VBox vbox2 = new VBox(vbox, buttons());
+		VBox vbox2 = new VBox(vbox, buttons(i));
 		vbox2.setPadding(new Insets(100, 0, 0, 0));
 		vbox2.setAlignment(Pos.CENTER);
 
@@ -97,8 +111,8 @@ public class SignProposalScreen {
 	// Buttons
 	//////////////////////////////
 
-	private HBox buttons() {
-		HBox hbox = new HBox(backButton(), csvButton());
+	private HBox buttons(int i) {
+		HBox hbox = new HBox(backButton(i), csvButton());
 		hbox.setPadding(new Insets(100, 0, 0, 0));
 		hbox.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -116,12 +130,16 @@ public class SignProposalScreen {
 		return grid;
 	}
 
-	private GridPane backButton() {
+	private GridPane backButton(int i) {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			new ProposalOverview().proposalOverviewUI(proposal.getCustomer().getCpr());
+			if (i == 0) {
+				new ProposalOverview().proposalOverviewUI(proposal.getCustomer().getCpr());
+			} else if (i == 1) {
+				
+			}
 		});
 
 		return grid;
