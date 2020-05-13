@@ -31,4 +31,7 @@ public class Salesman {
 		return title;
 	}
 
+	public int getProposalLimit() {
+		return proposalLimit;
+	}
 }

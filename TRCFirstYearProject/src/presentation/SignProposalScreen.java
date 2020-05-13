@@ -32,7 +32,19 @@ public class SignProposalScreen {
 
 	public void signProposalUI() {
 		int i = 0;
-		HBox hbox = new HBox(tr.textReader(), signInput(i));
+		HBox hbox = new HBox(tr.textReader(), signInput(i)); 
+		hbox.setSpacing(50);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		vbox.setAlignment(Pos.CENTER);
+
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
+	}
+	
+	public void salesmanSignProposalUI() {
+		HBox hbox = new HBox(tr.textReader(), signInput(1));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
@@ -44,8 +56,7 @@ public class SignProposalScreen {
 	}
 	
 	public void cosSignProposalUI() {
-		int i = 1;
-		HBox hbox = new HBox(tr.textReader(), signInput(i));
+		HBox hbox = new HBox(tr.textReader(), signInput(2));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
@@ -54,7 +65,7 @@ public class SignProposalScreen {
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
-	}
+	}	
 
 	private VBox signInput(int i) {
 		VBox vbox = new VBox(textFields(), signButtons());
@@ -136,9 +147,11 @@ public class SignProposalScreen {
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
 			if (i == 0) {
-				new ProposalOverview().proposalOverviewUI(proposal.getCustomer().getCpr());
+				new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
 			} else if (i == 1) {
-				
+				new ProposalOverview().salesmanUI();
+			} else if (i == 2) {
+				new ProposalOverview().cosUI();
 			}
 		});
 

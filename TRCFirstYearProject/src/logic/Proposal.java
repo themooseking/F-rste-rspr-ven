@@ -28,9 +28,9 @@ public class Proposal extends Thread {
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
 		this.proposalDate = LocalDate.now();
-		this.proposalStatus = "ONGOING";
 		this.salesman = salesman;
 		this.doubleProperty = new SimpleDoubleProperty(0);
+		checkLimit();
 		start();
 	}
 
@@ -122,6 +122,14 @@ public class Proposal extends Thread {
 
 	public double totalProposalPrice() {
 		return totalCarPrice() + totalInterestSum();
+	}
+	
+	public void checkLimit() {
+		if(salesman.getProposalLimit() < totalProposalPrice()) {
+			proposalStatus = "AWAITING";
+		} else {
+			proposalStatus = "ONGOING";
+		}
 	}
 
 
