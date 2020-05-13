@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,7 +20,7 @@ public class ButtonWithStyle extends Button {
 	public ButtonWithStyle(String buttonText, GridPane grid, int col, int row) {
 		super.setText(buttonText);
 		super.setFont(Font.font(style.textFont(), FontWeight.BOLD, 30));
-		super.setPrefSize(300, 90);
+		super.setMinSize(300, 90);
 
 		defaultEffect(this);
 

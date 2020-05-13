@@ -59,7 +59,7 @@ public class TextReader {
 		vbox.setBorder(style.elementBorder());
 		vbox.setBackground(new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY))); 
 		vbox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 20, 0, 5, 5));
-		checkDone();
+		checkDone(); 
 
 		return vbox;
 	}

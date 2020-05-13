@@ -11,7 +11,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		PrimaryStageST.setStage(primaryStage);
+		PrimaryStageST.setStage(primaryStage); 
 		new LoginScreen().loginUI();
 	}
 }

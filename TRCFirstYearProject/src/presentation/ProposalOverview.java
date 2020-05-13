@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -133,7 +134,8 @@ public class ProposalOverview {
 
 	private HBox buttons() {
 		HBox hbox = new HBox(backButton(), newProposalButton());
-		hbox.setAlignment(Pos.CENTER_LEFT);
+		hbox.setAlignment(Pos.BASELINE_RIGHT);
+		hbox.setPadding(new Insets(105, 50, 0, 0));
 
 		return hbox;
 	}

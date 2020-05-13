@@ -60,7 +60,8 @@ public class NewPropsalScreen {
 	}
 
 	public void newProposalUI() {
-		HBox hbox = new HBox(inputBox(), tr.textReader());
+		HBox hbox = new HBox(10, fitter(), tr.textReader());
+		hbox.setAlignment(Pos.CENTER);
 
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
@@ -69,26 +70,34 @@ public class NewPropsalScreen {
 		sceneSetup(scene);
 	}
 
-	private VBox inputBox() {
-		VBox vbox = new VBox(indentInput(), apiValues());
-		vbox.setBorder(new Border(
-				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
-		vbox.setBackground(new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY))); 
-
-		return vbox;
-	}
-
 	//////////////////////////////
 	// Input Fields
 	//////////////////////////////
 
+	private VBox fitter() {
+		VBox vbox = new VBox(inputBox());
+		vbox.setAlignment(Pos.TOP_CENTER);
+
+		return vbox;
+	}
+
+	private VBox inputBox() {
+		VBox vbox = new VBox(indentInput(), apiValues());
+		vbox.setBorder(new Border(
+				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+		vbox.setBackground(
+				new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY)));
+
+		return vbox;
+	}
+
 	private GridPane indentInput() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(0));
-		grid.setVgap(10);
+		grid.setVgap(5);
 
 		if (recreate == true) {
-			grid.setPadding(new Insets(10, 10, 100, 10));
+			grid.setPadding(new Insets(0, 0, 10, 0));
 			recreate = false;
 		}
 
@@ -113,7 +122,7 @@ public class NewPropsalScreen {
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
 			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
-			modelcb.setMinWidth(600);
+			modelcb.setMinWidth(400);
 			GridPane.setColumnSpan(modelcb, 2);
 
 			modelcb.setOnHiding(e -> {
@@ -125,16 +134,18 @@ public class NewPropsalScreen {
 
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setVisible(false);
+			GridPane.setColumnSpan(yearcb, 2);
 
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
 			regnrcb.setVisible(false);
+			GridPane.setColumnSpan(regnrcb, 2);
 
 		} else {
 
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
 			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getCarModels()), grid, 3, 1);
-			modelcb.setMinWidth(600);
+			modelcb.setMinWidth(400);
 			GridPane.setColumnSpan(modelcb, 2);
 			modelcb.setOnAction(e -> {
 				if (modelcb.getValue() != null) {
@@ -153,7 +164,7 @@ public class NewPropsalScreen {
 
 			new LabelWithStyle("År: ", grid, 1, 2);
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-			yearcb.setMinWidth(600);
+			yearcb.setMinWidth(400);
 			yearcb.setDisable(true);
 			GridPane.setColumnSpan(yearcb, 2);
 			yearcb.setOnHiding(e -> {
@@ -167,7 +178,7 @@ public class NewPropsalScreen {
 			LabelWithStyle regnr = new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
 			GridPane.setColumnSpan(regnr, 2);
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getUsedCars()), grid, 3, 3);
-			regnrcb.setMinWidth(600);
+			regnrcb.setMinWidth(400);
 			GridPane.setColumnSpan(regnrcb, 2);
 			regnrcb.setOnHiding(e -> {
 				proposal.setCar((Car) regnrcb.getValue());
@@ -180,6 +191,8 @@ public class NewPropsalScreen {
 		LabelWithStyle durationLabel = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
 		GridPane.setColumnSpan(durationLabel, 2);
 		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
+		durationtf.setMinWidth(300);
+		durationtf.setMaxWidth(300);
 		new LabelWithStyle(" Måned(er)", grid, 4, 4);
 		durationtf.setOnKeyReleased(e -> {
 			if (!durationtf.getText().isEmpty()) {
@@ -196,6 +209,8 @@ public class NewPropsalScreen {
 		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
 		GridPane.setColumnSpan(payment, 2);
 		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
+		paymenttf.setMinWidth(300);
+		paymenttf.setMaxWidth(300);
 		if (customer.getCreditScore() == null) {
 			paymenttf.setDisable(true);
 		}
@@ -224,12 +239,18 @@ public class NewPropsalScreen {
 		grid.setBackground(
 				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
 
-		LabelWithStyle interestLabel = new LabelWithStyle("Bank Rente:	", grid, 0, 0);
+		LabelWithStyle interestLabel = new LabelWithStyle("Bank Rente:", grid, 0, 0);
 		interestLabel.setTextFill(Color.web(style.white()));
+		interestLabel.setMinWidth(230);
+		interestLabel.setPrefWidth(230);
+		interestLabel.setMaxWidth(230);
 		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
 		apiInteresttf.setBackground(null);
 		apiInteresttf.setBorder(null);
-		apiInteresttf.setStyle("-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiInteresttf.setStyle(
+				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiInteresttf.setMinWidth(100);
+		apiInteresttf.setPrefWidth(100);
 		apiInteresttf.setMaxWidth(100);
 		apiInteresttf.setDisable(true);
 		apiInteresttf.setOpacity(100);
@@ -246,14 +267,20 @@ public class NewPropsalScreen {
 			}
 		});
 
-		new LabelWithStyle("			", grid, 2, 0);
+		new LabelWithStyle("		", grid, 2, 0);
 
-		LabelWithStyle creditScore = new LabelWithStyle("Kredit Score: ", grid, 3, 0);
+		LabelWithStyle creditScore = new LabelWithStyle("Kredit Score:", grid, 3, 0);
 		creditScore.setTextFill(Color.web(style.white()));
+		creditScore.setMinWidth(230);
+		creditScore.setPrefWidth(230);
+		creditScore.setMaxWidth(230);
 		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
 		apiCredittf.setBackground(null);
 		apiCredittf.setBorder(null);
-		apiCredittf.setStyle("-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiCredittf.setStyle(
+				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiCredittf.setMinWidth(100);
+		apiCredittf.setPrefWidth(100);
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
@@ -281,7 +308,8 @@ public class NewPropsalScreen {
 
 	private HBox buttons() {
 		HBox hbox = new HBox(backButton(), nextButton());
-		hbox.setAlignment(Pos.CENTER_LEFT);
+		hbox.setAlignment(Pos.CENTER_RIGHT);
+		hbox.setPadding(new Insets(8, 50, 0, 0));
 
 		return hbox;
 	}

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import styles.ButtonWithStyle;
@@ -27,8 +28,7 @@ public class CPRScreen {
 	private Button continueButton;
 
 	public void cprUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(logoutButton(), title(), cprTextfield(), showProposalsButton(),
-				verifyProposalsButton(), continueButton());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 310, 0));
 
@@ -91,6 +91,18 @@ public class CPRScreen {
 		return grid;
 	}
 
+	//////////////////////////////
+	// Buttons
+	//////////////////////////////
+
+	private HBox buttons() {
+		HBox hbox = new HBox(logoutButton(), showProposalsButton(), verifyProposalsButton(), continueButton());
+		hbox.setAlignment(Pos.BASELINE_RIGHT);
+		hbox.setPadding(new Insets(270, 50, 0, 0));
+
+		return hbox;
+	}
+
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
@@ -130,8 +142,6 @@ public class CPRScreen {
 
 	private GridPane logoutButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setAlignment(Pos.TOP_RIGHT);
-		grid.setPadding(new Insets(0, 0, 180, 0));
 
 		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -146,7 +156,8 @@ public class CPRScreen {
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Customer CPR");
+		Label label = new Label("Kundens CPR-nummer");
+		label.setPadding(new Insets(595, 0, 0, 0));
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;

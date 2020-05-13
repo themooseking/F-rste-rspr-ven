@@ -5,7 +5,6 @@ import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -20,7 +19,7 @@ public class TextFieldWithStyle extends TextField {
 		super.getStylesheets().add("/styles/TextField.css");
 
 		super.setFont(Font.font(style.textFont(), 24));
-		super.setPrefSize(400, 80);
+		super.setMinSize(400, 80);		
 
 		defaultEffect(this);
 

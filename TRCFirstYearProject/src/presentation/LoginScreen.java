@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.DB_Controller;
@@ -23,8 +24,8 @@ public class LoginScreen {
 	private StyleClass style = new StyleClass();
 	private ComboBoxWithStyle selectedUser;
 
-	public void loginUI() {		
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), loginSetup());
+	public void loginUI() {
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -49,7 +50,19 @@ public class LoginScreen {
 		return grid;
 	}
 
-	private GridPane loginSetup() {
+	//////////////////////////////
+	// Buttons
+	//////////////////////////////
+
+	private HBox buttons() {
+		HBox hbox = new HBox(loginButton());
+		hbox.setAlignment(Pos.BASELINE_RIGHT);
+		hbox.setPadding(new Insets(270, 50, 0, 0));
+
+		return hbox;
+	}
+
+	private GridPane loginButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
@@ -71,9 +84,10 @@ public class LoginScreen {
 		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
-	
+
 	private Label company() {
 		Label label = new Label("Den Regionale Ferrari Forhandler");
+		label.setPadding(new Insets(240, 0, 0, 0));
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 40));
 		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
