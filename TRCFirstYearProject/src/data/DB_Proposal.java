@@ -169,8 +169,8 @@ public class DB_Proposal {
 		try {
 			String sql = "SELECT * " 
 					+ "FROM proposal " 
-					+ "WHERE status='APPROVED' "
-					+ "OR status='AWAITING APPROVAL'";
+					+ "WHERE proposalStatus='APPROVED' "
+					+ "OR proposalStatus='AWAITING'";
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
