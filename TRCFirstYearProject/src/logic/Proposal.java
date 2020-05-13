@@ -22,6 +22,7 @@ public class Proposal extends Thread {
 	private String proposalStatus;
 	private Rating creditScore;
 	private Salesman salesman;
+	private double proposalTotalSum;
 	private double apr;
 	private double totalInterest;
 
@@ -120,12 +121,12 @@ public class Proposal extends Thread {
 		return monthlyPayment() * loanDuration - totalCarPrice();
 	}
 
-	public double totalProposalPrice() {
-		return totalCarPrice() + totalInterestSum();
+	public void totalProposalPrice() {
+		proposalTotalSum = totalCarPrice() + totalInterestSum();
 	}
 	
 	public void checkLimit() {
-		if(salesman.getProposalLimit() < totalProposalPrice()) {
+		if(salesman.getProposalLimit() < proposalTotalSum) {
 			proposalStatus = "AWAITING";
 		} else {
 			proposalStatus = "ONGOING";
@@ -210,6 +211,7 @@ public class Proposal extends Thread {
 	}
 
 	public double getProposalTotalSum() {
-		return totalProposalPrice();
+		totalProposalPrice();
+		return proposalTotalSum;
 	}
 }

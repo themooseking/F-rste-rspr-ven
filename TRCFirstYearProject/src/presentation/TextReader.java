@@ -219,7 +219,7 @@ public class TextReader {
 		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
 
 		LabelWithStyle label = new LabelWithStyle("Bilpris", grid, 0, 0);
-		label.setFont(Font.font(style.textFont(), 25));
+		label.setFont(Font.font(style.textFont(), 25)); 
 
 		return grid;
 	}
@@ -253,7 +253,7 @@ public class TextReader {
 			carPriceVat.setText(decimal(proposal.getCar().getVat()));
 			proposalTotalInterest.setText(decimal(proposal.calcInterest()));
 			proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-			proposalTotalSum.setText(decimal(proposal.totalProposalPrice()));
+			proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
 			sumIntereset.setText(decimal(proposal.totalInterestSum()));
 			carPriceTotal.setText(decimal(proposal.totalCarPrice()));
 			sumCarPrice.setText(decimal(proposal.totalCarPrice()));
@@ -307,7 +307,7 @@ public class TextReader {
 			if (!duration.getText().isEmpty() && !payment.getText().isEmpty() && model.getValue() != null) {
 				proposalTotalInterest.setText(decimal(proposal.calcInterest()));
 				proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-				proposalTotalSum.setText(decimal(proposal.totalProposalPrice()));
+				proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
 				sumIntereset.setText(decimal(proposal.totalInterestSum()));
 			}
 
@@ -330,7 +330,7 @@ public class TextReader {
 			if (!duration.getText().isEmpty() && !payment.getText().isEmpty() && regnr.getValue() != null) {
 				proposalTotalInterest.setText(decimal(proposal.calcInterest()));
 				proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-				proposalTotalSum.setText(decimal(proposal.totalProposalPrice()));
+				proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
 				sumIntereset.setText(decimal(proposal.totalInterestSum()));
 			}
 
