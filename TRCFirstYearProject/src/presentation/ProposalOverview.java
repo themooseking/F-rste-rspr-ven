@@ -61,7 +61,7 @@ public class ProposalOverview {
 	//////////////////////////////
 
 	private GridPane proposalTableView(Customer customer) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER); 
 
 		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
 

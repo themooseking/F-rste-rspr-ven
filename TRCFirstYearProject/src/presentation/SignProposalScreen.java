@@ -23,8 +23,6 @@ public class SignProposalScreen {
 	private Proposal proposal;
 	private TextReader tr;
 
-	private TextFieldWithStyle id;
-	private TextFieldWithStyle name;
 	private TextFieldWithStyle password;
 
 	public SignProposalScreen(Proposal proposal) {
@@ -61,10 +59,16 @@ public class SignProposalScreen {
 		grid.setVgap(10);
 
 		new LabelWithStyle("Sælger ID ", grid, 0, 0);
-		id = new TextFieldWithStyle("", grid, 1, 0);
+		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
+		id.setDisable(true);
+		id.setOpacity(100);
+		id.setText(Integer.toString(proposal.getSalesman().getSalesmanId()));
 
 		new LabelWithStyle("Sælger Navn ", grid, 0, 1);
-		name = new TextFieldWithStyle("", grid, 1, 1);
+		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
+		name.setDisable(true);
+		name.setOpacity(100);
+		name.setText(proposal.getSalesman().toString());
 
 		new LabelWithStyle("Kodeord ", grid, 0, 2);
 		password = new TextFieldWithStyle("", grid, 1, 2);
@@ -117,7 +121,7 @@ public class SignProposalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
+			new ProposalOverview().proposalOverviewUI(proposal.getCustomer().getCpr());
 		});
 
 		return grid;
