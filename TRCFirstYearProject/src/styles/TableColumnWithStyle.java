@@ -21,6 +21,6 @@ public class TableColumnWithStyle extends TableColumn<Proposal, Object>{
 		super(columnName);
 		super.setCellValueFactory(new PropertyValueFactory<Proposal, Object>(objectGetter));
 		super.setResizable(false);
-		super.setMinWidth(1600/6);
+		//super.setMinWidth(1600/6);
 	}
 }

@@ -193,6 +193,10 @@ public class Proposal extends Thread {
 	public Salesman getSalesman() {
 		return salesman;
 	}
+	
+	public String getSalesmanTitel() {
+		return salesman.getTitle();
+	}
 
 	public double getInterest() {
 		return interest;

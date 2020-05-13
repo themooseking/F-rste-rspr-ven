@@ -1,9 +1,15 @@
 package presentation;
 
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -16,23 +22,82 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.DB_Controller;
 import logic.Proposal;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
 import styles.StyleClass;
+import styles.TableColumnWithStyle;
+import styles.TableViewWithStyle;
 import styles.VBoxWithStyle;
 
 public class VerifyProposalScreen {
 	private StyleClass style = new StyleClass();
 
+	private DB_Controller controller = new DB_Controller();
 
 	public void verifyProposalUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), buttons());
-		vbox.setAlignment(Pos.CENTER);
+		HBox hbox = new HBox(proposalTableView());
+		hbox.setAlignment(Pos.CENTER);
 
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
+		vbox.setAlignment(Pos.CENTER);
+		
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
+
+	//////////////////////////////
+	// TableView
+	//////////////////////////////
+
+	private GridPane proposalTableView() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+
+		ArrayList<Proposal> proposalsForSalesmanList = controller.getAwaitingProposals();
+
+		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
+		eventList.addAll(proposalsForSalesmanList);
+		
+		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
+		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("Låne nr.", "proposalId");
+		proposalIdCol.setMinWidth(130);
+		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
+		carCol.setMinWidth(300);
+		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "totalInterest");
+		interestCol.setMinWidth((1600-130)/7);
+		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "apr");
+		aprCol.setMinWidth(180);
+		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
+		totalSum.setMinWidth(250);
+		TableColumnWithStyle titleCol = new TableColumnWithStyle("Salgs titel", "salesmanTitel");
+		titleCol.setMinWidth(300);
+		TableColumnWithStyle statusCol = new TableColumnWithStyle("Status", "proposalStatus");
+		statusCol.setMinWidth((1600-130)/7);
+		
+		table.setItems(eventList);
+		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, titleCol, statusCol);
+		accessProposal(table);
+		
+		return grid;
+	}
+
+	private TableRow<Proposal> accessProposal(TableView<Proposal> table) {
+		table.setRowFactory(e -> {
+			TableRow<Proposal> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					Proposal rowData = row.getItem();
+					new SignProposalScreen(rowData).signProposalUI();
+				}
+			});
+			return row;
+		});
+		return null;
+	}
+	
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
@@ -53,7 +118,7 @@ public class VerifyProposalScreen {
 	}
 
 	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), newProposalButton());
+		HBox hbox = new HBox(icon(), backButton());
 		hbox.setAlignment(Pos.CENTER_LEFT);
 		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
 				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
@@ -73,24 +138,12 @@ public class VerifyProposalScreen {
 		return grid;
 	}
 
-	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-
-		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
-		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
-
-		});
-
-		return grid;
-	}
-
 	//////////////////////////////
 	// Label Title
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Welcome " + LoggedInST.getUser().getTitle() + " what do you wish to sign today, " + LoggedInST.getUser() + "?");
+		Label label = new Label("Welcome " + LoggedInST.getUser().getTitle());
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;

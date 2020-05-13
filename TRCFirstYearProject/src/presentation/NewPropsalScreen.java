@@ -36,16 +36,15 @@ import styles.VBoxWithStyle;
 
 public class NewPropsalScreen {
 
-	private Customer customer = new Customer(6, 88888888, "John Brick", "3103961598", "johnshitsbricks@gmail.dk",
-			"Brick st. 11", 7400);
-	private Proposal proposal = new Proposal(customer, LoggedInST.getUser());
+	private Customer customer;
+	private Proposal proposal;
 
 	private StyleClass style = new StyleClass();
 	private DB_Controller controller = new DB_Controller();
 
 	private boolean rbState = false;
 	private boolean recreate = true;
-	private TextReader tr = new TextReader(customer, proposal);
+	private TextReader tr;
 
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
@@ -53,6 +52,12 @@ public class NewPropsalScreen {
 	private TextFieldWithStyle paymenttf;
 	private TextFieldWithStyle durationtf;
 	private ButtonWithStyle nextButton;
+	
+	public NewPropsalScreen(Customer customer) {
+		this.customer = customer;
+		this.proposal = new Proposal(customer, LoggedInST.getUser());
+		this.tr = new TextReader(customer, proposal);
+	}
 
 	public void newProposalUI() {
 		HBox hbox = new HBox(inputBox(), tr.textReader());
@@ -276,7 +281,9 @@ public class NewPropsalScreen {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
 		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
+		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
+			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
 		});
 
@@ -296,10 +303,8 @@ public class NewPropsalScreen {
 	
 	private void nextButtonDisable() {
 		if (!rbState && regnrcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
-			System.out.println(".");
 			nextButton.setDisable(false);
-		} else if (rbState && modelcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
-			System.out.println(durationtf.getText());
+		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
 		} else {
 			nextButton.setDisable(true);
