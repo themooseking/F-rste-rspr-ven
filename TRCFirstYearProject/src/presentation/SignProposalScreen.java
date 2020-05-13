@@ -4,85 +4,142 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Proposal;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
+import styles.LabelWithStyle;
 import styles.StyleClass;
+import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class SignProposalScreen {
+
 	private StyleClass style = new StyleClass();
+	private Proposal proposal;
+	private TextReader tr;
 
-	private GridPaneCenter trgrid;
+	private TextFieldWithStyle password;
 
-	public void signProposalUI(Proposal proposal) {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), buttons());
+	public SignProposalScreen(Proposal proposal) {
+		this.proposal = proposal;
+		this.tr = new TextReader(proposal.getCustomer(), proposal);
+	}
+
+	public void signProposalUI() {
+		int i = 0;
+		HBox hbox = new HBox(tr.textReader(), signInput(i));
+		hbox.setSpacing(50);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	//////////////////////////////
-	// Buttons
-	//////////////////////////////
+	
+	public void cosSignProposalUI() {
+		int i = 1;
+		HBox hbox = new HBox(tr.textReader(), signInput(i));
+		hbox.setSpacing(50);
+		hbox.setAlignment(Pos.CENTER);
 
-	private Pane icon() {
-		Image image = new Image(
-				"https://upload.wikimedia.org/wikipedia/sco/thumb/d/d1/Ferrari-Logo.svg/1200px-Ferrari-Logo.svg.png");
-		ImageView imageview = new ImageView(image);
-		imageview.setFitHeight(150);
-		imageview.setFitWidth(100);
-		imageview.setX(100);
-		imageview.setY(-30);
+		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		vbox.setAlignment(Pos.CENTER);
 
-		Pane pane = new Pane(imageview);
-		pane.setPadding(new Insets(0, 200, 0, 0));
-
-		return pane;
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
 	}
 
-	private HBox buttons() {
-		HBox hbox = new HBox(icon(), backButton(), newProposalButton());
-		hbox.setAlignment(Pos.CENTER_LEFT);
-		hbox.setBorder(new Border(new BorderStroke(Color.web(style.defaultHoverColor()), BorderStrokeStyle.SOLID,
-				CornerRadii.EMPTY, new BorderWidths(7, 0, 0, 0))));
+	private VBox signInput(int i) {
+		VBox vbox = new VBox(textFields(), signButtons());
+		vbox.setBorder(style.elementBorder());
+		vbox.setPadding(new Insets(0, 0, 0, 50));
 
-		return hbox;
+		VBox vbox2 = new VBox(vbox, buttons(i));
+		vbox2.setPadding(new Insets(100, 0, 0, 0));
+		vbox2.setAlignment(Pos.CENTER);
+
+		return vbox2;
 	}
 
-	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+	private GridPaneCenter textFields() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setVgap(10);
 
-		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
-		button.setOnAction(e -> {
-			new CPRScreen().cprUI();
+		new LabelWithStyle("Sælger ID ", grid, 0, 0);
+		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
+		id.setDisable(true);
+		id.setOpacity(100);
+		id.setText(Integer.toString(proposal.getSalesman().getSalesmanId()));
+
+		new LabelWithStyle("Sælger Navn ", grid, 0, 1);
+		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
+		name.setDisable(true);
+		name.setOpacity(100);
+		name.setText(proposal.getSalesman().toString());
+
+		new LabelWithStyle("Kodeord ", grid, 0, 2);
+		password = new TextFieldWithStyle("", grid, 1, 2);
+
+		return grid;
+	}
+
+	private GridPaneCenter signButtons() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setHgap(20);
+
+		ButtonWithStyle delete = new ButtonWithStyle("Slet", grid, 0, 0);
+		delete.setOnAction(e -> {
+
+		});
+
+		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
+		sign.setOnAction(e -> {
 
 		});
 
 		return grid;
 	}
 
-	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter();
-		grid.setAlignment(Pos.CENTER_LEFT);
+	//////////////////////////////
+	// Buttons
+	//////////////////////////////
 
-		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
+	private HBox buttons(int i) {
+		HBox hbox = new HBox(backButton(i), csvButton());
+		hbox.setPadding(new Insets(100, 0, 0, 0));
+		hbox.setAlignment(Pos.BOTTOM_CENTER);
+
+		return hbox;
+	}
+
+	private GridPane csvButton() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+
+		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 0);
 		button.setOnAction(e -> {
-			new NewPropsalScreen().newProposalUI();
 
+		});
+
+		return grid;
+	}
+
+	private GridPane backButton(int i) {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+
+		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
+		button.setOnAction(e -> {
+			if (i == 0) {
+				new ProposalOverview().proposalOverviewUI(proposal.getCustomer().getCpr());
+			} else if (i == 1) {
+				
+			}
 		});
 
 		return grid;
@@ -93,7 +150,7 @@ public class SignProposalScreen {
 	//////////////////////////////
 
 	private Label title(Proposal proposal) {
-		Label label = new Label("Sign Proposal for " + proposal.getProposalId());
+		Label label = new Label("Underskrift for " + proposal.getCar());
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;

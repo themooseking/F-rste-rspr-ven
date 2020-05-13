@@ -2,6 +2,7 @@ package data;
 
 import logic.Customer;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DB_Customer {
 	private Connection connection;
@@ -42,5 +43,34 @@ public class DB_Customer {
 		}
 
 		return customer;
+	}
+	
+	public ArrayList<Customer> getCustomerList() {
+		ArrayList<Customer> customerList =  new ArrayList<Customer>();
+		
+		try {
+			String sql = "SELECT * FROM customer";
+			
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			
+			while(resultSet.next()) {
+				int id = resultSet.getInt("id");
+				int phone = resultSet.getInt("phone");
+				String name = resultSet.getString("customerName");
+				String cpr = resultSet.getString("cpr");
+				String email = resultSet.getString("email");
+				String address = resultSet.getString("customerAddress");
+				int postalCode = resultSet.getInt("postalCode");
+
+				Customer customer = new Customer(id, phone, name, cpr, email, address, postalCode);
+				
+				customerList.add(customer);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return customerList;
 	}
 }

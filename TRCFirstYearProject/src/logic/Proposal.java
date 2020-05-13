@@ -51,6 +51,7 @@ public class Proposal extends Thread {
 	}
 
 	public double calcInterest() {
+		totalInterest = 0;
 		if (creditScore == null) {
 			creditScore = customer.getCreditScore();
 		}
@@ -93,6 +94,13 @@ public class Proposal extends Thread {
 		} else {
 			interest = dbInterest;
 		}
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		doubleProperty.set(interest);
 	}
 
@@ -117,9 +125,6 @@ public class Proposal extends Thread {
 		return totalCarPrice() + totalInterestSum();
 	}
 
-	private void checkInterestDB() {
-
-	}
 
 	/***********************************
 	 * SETTERS

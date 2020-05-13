@@ -22,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
 import styles.ButtonWithStyle;
@@ -32,20 +31,16 @@ import styles.TableColumnWithStyle;
 import styles.TableViewWithStyle;
 import styles.VBoxWithStyle;
 
-public class ProposalOverview {
+public class ProposalForSalesmanOverview {
 	private StyleClass style = new StyleClass();
 	
 	private DB_Controller controller = new DB_Controller();
 
-
-	public void proposalOverviewUI(String customerCPR) {
-		System.out.println(Customer.removeDashFromCpr(customerCPR));
-		Customer customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
-
-		HBox hbox = new HBox(proposalTableView(customer));
+	public void proposalForSalesmanOverviewUI() {
+		HBox hbox = new HBox(proposalTableView());
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer), hbox, buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
 		
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -56,13 +51,13 @@ public class ProposalOverview {
 	// TableView
 	//////////////////////////////
 
-	private GridPane proposalTableView(Customer customer) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER); 
+	private GridPane proposalTableView() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ArrayList<Proposal> proposalsForCustomerList = controller.getProposalByCustomer(customer);
+		ArrayList<Proposal> proposalsForSalesmanList = controller.getProposalBySalesman(LoggedInST.getUser());
 
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
-		eventList.addAll(proposalsForCustomerList);
+		eventList.addAll(proposalsForSalesmanList);
 		
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -70,18 +65,20 @@ public class ProposalOverview {
 		TableColumnWithStyle proposalIdCol = new TableColumnWithStyle("Låne nr.", "proposalId");
 		proposalIdCol.setMinWidth(130);
 		TableColumnWithStyle carCol = new TableColumnWithStyle("Bil", "car");
-		carCol.setMinWidth((1600-130)/6);
+		carCol.setMinWidth(300);
+		TableColumnWithStyle customerCol = new TableColumnWithStyle("Kunde", "customer");
+		customerCol.setMinWidth(300);
 		TableColumnWithStyle interestCol = new TableColumnWithStyle("Rente (%)", "totalInterest");
-		interestCol.setMinWidth((1600-130)/6);
+		interestCol.setMinWidth((1600-130)/7);
 		TableColumnWithStyle aprCol = new TableColumnWithStyle("ÅOP (%)", "apr");
-		aprCol.setMinWidth((1600-130)/6);
+		aprCol.setMinWidth(180);
 		TableColumnWithStyle totalSum = new TableColumnWithStyle("Sum (DKK)", "proposalTotalSum");
-		totalSum.setMinWidth((1600-130)/6);
+		totalSum.setMinWidth(250);
 		TableColumnWithStyle statusCol = new TableColumnWithStyle("Status", "proposalStatus");
-		statusCol.setMinWidth((1600-130)/6);
+		statusCol.setMinWidth((1600-130)/7);
 		
 		table.setItems(eventList);
-		table.getColumns().addAll(proposalIdCol, carCol, interestCol, aprCol, totalSum, statusCol);
+		table.getColumns().addAll(proposalIdCol, carCol, customerCol, interestCol, aprCol, totalSum, statusCol);
 		accessProposal(table);
 		
 		return grid;
@@ -130,7 +127,8 @@ public class ProposalOverview {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setAlignment(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -142,7 +140,8 @@ public class ProposalOverview {
 	}
 
 	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		grid.setAlignment(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -157,8 +156,8 @@ public class ProposalOverview {
 	// Label Title
 	//////////////////////////////
 
-	private Label title(Customer customer) {
-		Label label = new Label("Lånetilbud for " + customer.getCustomerName());
+	private Label title() {
+		Label label = new Label(LoggedInST.getUser() + "'s kunder og tilbud");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.defaultTextColor()));
 		return label;

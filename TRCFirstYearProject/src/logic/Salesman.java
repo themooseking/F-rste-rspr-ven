@@ -26,5 +26,9 @@ public class Salesman {
 	public int getSalesmanId() {
 		return salesmanId;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
 
 }

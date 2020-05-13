@@ -78,6 +78,37 @@ public class DB_Controller {
 		return proposalList;
 	}
 	
+	public ArrayList<Proposal> getProposalBySalesman(Salesman salesman) {
+		ArrayList<Car> carList = carDB.getCars();
+		ArrayList<Customer> customerList = customerDB.getCustomerList();
+		
+		ArrayList<Proposal> proposalList = proposalDB.getProposalBySalesman(salesman, carList, customerList);
+		
+		for(Proposal prop : proposalList) {
+			double interest = getInterest(prop.getDate());
+			
+			prop.setInterest(interest);
+		}
+		
+		return proposalList;
+	}
+	
+	public ArrayList<Proposal> getAwaitingProposals() {
+		ArrayList<Salesman> salesmanList = salesmanDB.getSalesmanList();
+		ArrayList<Car> carList = carDB.getCars();
+		ArrayList<Customer> customerList = customerDB.getCustomerList();
+		
+		ArrayList<Proposal> proposalList = proposalDB.getAwaitingProposals(salesmanList, carList, customerList);
+		
+		for(Proposal prop : proposalList) {
+			double interest = getInterest(prop.getDate());
+			
+			prop.setInterest(interest);
+		}
+		
+		return proposalList;
+	}
+	
 	/***********************************
 	 * READ INTEREST
 	 ***********************************/
@@ -94,7 +125,7 @@ public class DB_Controller {
 	}
 	
 	/***********************************
-	 * UPDATE
+	 * UPDATE PROPOSAL
 	 ***********************************/
 
 	public void updateProposalStatus(Proposal proposal) {

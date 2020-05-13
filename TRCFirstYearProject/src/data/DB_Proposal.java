@@ -93,7 +93,116 @@ public class DB_Proposal {
 
 				Salesman salesman = null;
 				for (int i = 0; i < salesmanList.size(); i++) {
-					if (salesmanList.get(i).getSalesmanId() == resultSet.getInt("id")) {
+					if (salesmanList.get(i).getSalesmanId() == resultSet.getInt("salesman")) {
+						salesman = salesmanList.get(i);
+						break;
+					}
+				}
+				
+				Proposal proposal = new Proposal(proposalId, car, customer, downPayment, loanDuration,
+						proposalDate, proposalStatus, creditScore, salesman);
+
+				proposalList.add(proposal);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return proposalList;
+	}
+	
+	public ArrayList<Proposal> getProposalBySalesman(Salesman salesman, ArrayList<Car> carList,
+			ArrayList<Customer> customerList) {
+		ArrayList<Proposal> proposalList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * " 
+					+ "FROM proposal " 
+					+ "WHERE salesman=?";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, salesman.getSalesmanId());
+
+			ResultSet resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				int proposalId = resultSet.getInt("id");
+				
+				Car car = null;
+				for (int i = 0; i < carList.size(); i++) {
+					if (carList.get(i).getId() == resultSet.getInt("car")) {
+						car = carList.get(i);
+						break;
+					}
+				}
+				
+				Customer customer = null;
+				for (int i = 0; i < customerList.size(); i++) {
+					if (customerList.get(i).getCustomerId() == resultSet.getInt("customer")) {
+						customer = customerList.get(i);
+						break;
+					}
+				}
+				
+				int downPayment = resultSet.getInt("downPayment");
+				int loanDuration = resultSet.getInt("loanDuration");
+				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
+				String proposalStatus = resultSet.getString("proposalStatus");
+				String creditScore = resultSet.getString("creditScore");
+				
+				Proposal proposal = new Proposal(proposalId, car, customer, downPayment, loanDuration,
+						proposalDate, proposalStatus, creditScore, salesman);
+
+				proposalList.add(proposal);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return proposalList;
+	}
+	
+	public ArrayList<Proposal> getAwaitingProposals(ArrayList<Salesman> salesmanList, ArrayList<Car> carList,
+			ArrayList<Customer> customerList) {
+		ArrayList<Proposal> proposalList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * " 
+					+ "FROM proposal " 
+					+ "WHERE status='APPROVED' "
+					+ "OR status='AWAITING APPROVAL'";
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int proposalId = resultSet.getInt("id");
+				
+				Car car = null;
+				for (int i = 0; i < carList.size(); i++) {
+					if (carList.get(i).getId() == resultSet.getInt("car")) {
+						car = carList.get(i);
+						break;
+					}
+				}
+				
+				Customer customer = null;
+				for (int i = 0; i < customerList.size(); i++) {
+					if (customerList.get(i).getCustomerId() == resultSet.getInt("customer")) {
+						customer = customerList.get(i);
+						break;
+					}
+				}
+				
+				int downPayment = resultSet.getInt("downPayment");
+				int loanDuration = resultSet.getInt("loanDuration");
+				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
+				String proposalStatus = resultSet.getString("proposalStatus");
+				String creditScore = resultSet.getString("creditScore");
+				
+				Salesman salesman = null;
+				for (int i = 0; i < salesmanList.size(); i++) {
+					if (salesmanList.get(i).getSalesmanId() == resultSet.getInt("salesman")) {
 						salesman = salesmanList.get(i);
 						break;
 					}
@@ -146,7 +255,6 @@ public class DB_Proposal {
 		try {
 			String sql = "UPDATE proposal SET proposalStatus=? WHERE id=?";
 
-//			Statement statement = connection.createStatement();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement.setString(1, proposal.getProposalStatus());
