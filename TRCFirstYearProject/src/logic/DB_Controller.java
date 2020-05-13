@@ -125,7 +125,7 @@ public class DB_Controller {
 	}
 	
 	/***********************************
-	 * UPDATE
+	 * UPDATE PROPOSAL
 	 ***********************************/
 
 	public void updateProposalStatus(Proposal proposal) {

@@ -255,7 +255,6 @@ public class DB_Proposal {
 		try {
 			String sql = "UPDATE proposal SET proposalStatus=? WHERE id=?";
 
-//			Statement statement = connection.createStatement();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement.setString(1, proposal.getProposalStatus());
