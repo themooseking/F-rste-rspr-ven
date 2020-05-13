@@ -22,7 +22,6 @@ public class Proposal extends Thread {
 	private String proposalStatus;
 	private Rating creditScore;
 	private Salesman salesman;
-	private double proposalTotalSum;
 	private double apr;
 	private double totalInterest;
 
