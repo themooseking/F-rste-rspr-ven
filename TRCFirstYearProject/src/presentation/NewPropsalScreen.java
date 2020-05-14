@@ -284,6 +284,9 @@ public class NewPropsalScreen {
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
+		if (customer.getCreditScore() != null) {
+			apiCredittf.setText(customer.getCreditScore().toString());
+		}
 		customer.stringProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

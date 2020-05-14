@@ -19,7 +19,7 @@ public class StyleClass {
 	private String backgroundcolor = "#242224";
 
 	private String textfont = "Lucida Fax";
-	private int textsize = 30;
+	private int textsize = 14;
 
 	private int textunitwidth = 110;
 	private int textreaderinsets = 25;
