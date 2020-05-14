@@ -106,7 +106,7 @@ public class CPRScreen {
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
+		continueButton = new ButtonWithStyle("VÃ¦lg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
 			new ProposalOverview().customerUI(textfield.getText());
@@ -132,7 +132,7 @@ public class CPRScreen {
 	private GridPane showProposalsButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("LÃ¥netilbud", grid, 0, 1);
 		button.setOnAction(e -> {
 			new ProposalOverview().salesmanUI();
 		});

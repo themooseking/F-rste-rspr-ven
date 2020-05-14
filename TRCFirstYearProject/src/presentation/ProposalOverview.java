@@ -77,13 +77,13 @@ public class ProposalOverview {
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(); 
 
-		map.put("Låne nr.", "proposalId");
+		map.put("LÃ¥ne nr.", "proposalId");
 		map.put("Bil", "car");
 		if (i == 1) {
 			map.put("Kunde", "customer");
 		}
 		map.put("Rente (%)", "totalInterest");
-		map.put("ÅOP (%)", "apr");
+		map.put("Ã…OP (%)", "apr");
 		map.put("Sum (DKK)", "proposalTotalSum");
 		if (i == 2) {
 			map.put("Salgs titel", "salesmanTitel");
@@ -167,7 +167,7 @@ public class ProposalOverview {
 	//////////////////////////////
 
 	private Label title(String person) {
-		Label label = new Label("Lånetilbud for " + person);
+		Label label = new Label("Lï¿½netilbud for " + person);
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;

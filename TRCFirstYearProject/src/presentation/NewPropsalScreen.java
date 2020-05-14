@@ -162,7 +162,7 @@ public class NewPropsalScreen {
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 			});
 
-			new LabelWithStyle("År: ", grid, 1, 2);
+			new LabelWithStyle("Ã…r: ", grid, 1, 2);
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setMinWidth(400);
 			yearcb.setDisable(true);
@@ -193,7 +193,7 @@ public class NewPropsalScreen {
 		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
 		durationtf.setMinWidth(300);
 		durationtf.setMaxWidth(300);
-		new LabelWithStyle(" Måned(er)", grid, 4, 4);
+		new LabelWithStyle(" Mï¿½ned(er)", grid, 4, 4);
 		durationtf.setOnKeyReleased(e -> {
 			if (!durationtf.getText().isEmpty()) {
 				proposal.setLoanDuration(Integer.parseInt(durationtf.getText()));
@@ -317,7 +317,7 @@ public class NewPropsalScreen {
 	private GridPane nextButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
-		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
+		nextButton = new ButtonWithStyle("Nï¿½ste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
 			proposal.checkLimit();
@@ -355,7 +355,7 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Nyt Låneforslag");
+		Label label = new Label("Nyt LÃ¥neforslag");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
