@@ -21,7 +21,7 @@ class JProposal {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		customer = new Customer(1, 88888888, "John Brick", "3213909874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
+		customer = new Customer(1, 88888888, "John Brick", "3213909874", "johnbrick@gmail.dk", "Brick st. 11", 7400);
 		salesman = new Salesman(1, 77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
 		car = new Car(1, "Ferrari GT12", 5000000, 5, 2020, "NEW");
 		proposal = new Proposal(1, car, customer, car.getPrice(), 0, LocalDate.now(), "AWAITING", Rating.D.toString(), salesman);
