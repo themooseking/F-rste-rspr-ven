@@ -19,10 +19,11 @@ public class StyleClass {
 	private String backgroundcolor = "#242224";
 
 	private String textfont = "Lucida Fax";
-	private int textsize = 14;
+	private int textsize = 20;
 
 	private int textunitwidth = 110;
 	private int textreaderinsets = 25;
+	private int textreadertextwidth = 300;
 
 	private Border underline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 3, 0)));
@@ -74,6 +75,10 @@ public class StyleClass {
 
 	public int textReaderInsets() {
 		return textreaderinsets;
+	}
+	
+	public int textReaderTextWidth() {
+		return textreadertextwidth;
 	}
 
 	public Border underLine() {

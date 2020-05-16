@@ -4,6 +4,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,51 +35,58 @@ public class SignProposalScreen {
 
 	public void signProposalUI() {
 		int i = 0;
-		HBox hbox = new HBox(tr.textReader(), signInput(i)); 
+		HBox hbox = new HBox(tr.textReader(), fitter(i));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	
+
 	public void salesmanSignProposalUI() {
-		HBox hbox = new HBox(tr.textReader(), signInput(1));
+		int i = 1;
+		HBox hbox = new HBox(tr.textReader(), fitter(i));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	
+
 	public void cosSignProposalUI() {
-		HBox hbox = new HBox(tr.textReader(), signInput(2));
+		int i = 2;
+		HBox hbox = new HBox(tr.textReader(), fitter(i));
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(proposal), hbox);
+		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
-	}	
+	}
+
+	private VBox fitter(int i) {
+		VBox vbox = new VBox(signInput(i));
+		vbox.setAlignment(Pos.CENTER);
+
+		return vbox;
+	}
 
 	private VBox signInput(int i) {
-		VBox vbox = new VBox(textFields(), signButtons());
+		VBox vbox = new VBox(textFields(), signButtons(i));
+		vbox.setBackground(
+				new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY)));
 		vbox.setBorder(style.elementBorder());
 		vbox.setPadding(new Insets(0, 0, 0, 50));
 
-		VBox vbox2 = new VBox(vbox, buttons(i));
-		vbox2.setPadding(new Insets(100, 0, 0, 0));
-		vbox2.setAlignment(Pos.CENTER);
-
-		return vbox2;
+		return vbox;
 	}
 
 	private GridPaneCenter textFields() {
@@ -101,7 +111,7 @@ public class SignProposalScreen {
 		return grid;
 	}
 
-	private GridPaneCenter signButtons() {
+	private GridPaneCenter signButtons(int i) {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setHgap(20);
 
@@ -111,9 +121,17 @@ public class SignProposalScreen {
 		});
 
 		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
-		sign.setOnAction(e -> {
+		if (i == 2) {
+			sign.setText("Godkend");
+			sign.setOnAction(e -> {
 
-		});
+			});
+		} else {
+			sign.setOnAction(e -> {
+
+			});
+		}
+
 
 		return grid;
 	}
@@ -124,8 +142,8 @@ public class SignProposalScreen {
 
 	private HBox buttons(int i) {
 		HBox hbox = new HBox(backButton(i), csvButton());
-		hbox.setPadding(new Insets(100, 0, 0, 0));
-		hbox.setAlignment(Pos.BOTTOM_CENTER);
+		hbox.setPadding(new Insets(45, 50, 0, 0));
+		hbox.setAlignment(Pos.BOTTOM_RIGHT);
 
 		return hbox;
 	}
@@ -162,8 +180,13 @@ public class SignProposalScreen {
 	// Label Title
 	//////////////////////////////
 
-	private Label title(Proposal proposal) {
-		Label label = new Label("Underskrift for " + proposal.getCar());
+	private Label title(int i) {
+		Label label = new Label();
+		if (i == 0 || i == 1) {
+			label.setText("Underskrift for " + proposal.getCar());
+		} else if (i == 2) {
+			label.setText("Godekendelse for lånetilbud " + proposal.getId());
+		}
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 80));
 		label.setTextFill(Color.web(style.grey()));
 		return label;

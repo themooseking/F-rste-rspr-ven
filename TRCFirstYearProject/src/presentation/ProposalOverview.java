@@ -31,25 +31,30 @@ public class ProposalOverview {
 	private DB_Controller controller = new DB_Controller();
 
 	public void customerUI(String customerCPR) {
+		int i = 0;
 		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString()), proposalTableView(0), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString()), proposalTableView(i), buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	
+
 	public void salesmanUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(1), buttons());
+		int i = 1;
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
-	
+
 	public void cosUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(2), buttons());
+		int i = 2;
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -75,7 +80,7 @@ public class ProposalOverview {
 		ObservableList<Proposal> eventList = FXCollections.observableArrayList();
 		eventList.addAll(arrayList);
 
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(); 
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
 		map.put("Låne nr.", "proposalId");
 		map.put("Bil", "car");
@@ -117,14 +122,15 @@ public class ProposalOverview {
 					} else if (i == 1) {
 						new SignProposalScreen(rowData).salesmanSignProposalUI();
 					} else if (i == 2) {
-						new SignProposalScreen(rowData).cosSignProposalUI();;
+						new SignProposalScreen(rowData).cosSignProposalUI();
+						;
 					}
 				}
 			});
-			
+
 			return row;
 		});
-		
+
 		return null;
 	}
 
@@ -132,10 +138,14 @@ public class ProposalOverview {
 	// Buttons
 	//////////////////////////////
 
-	private HBox buttons() {
-		HBox hbox = new HBox(backButton(), newProposalButton());
+	private HBox buttons(int i) {
+		HBox hbox = new HBox(backButton());
 		hbox.setAlignment(Pos.BASELINE_RIGHT);
 		hbox.setPadding(new Insets(105, 50, 0, 0));
+
+		if (i == 0) {
+			hbox.getChildren().add(newProposalButton());
+		}
 
 		return hbox;
 	}

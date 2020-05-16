@@ -29,6 +29,7 @@ import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
 import styles.LabelWithStyle;
+import styles.ProgressIndicatorWithStyle;
 import styles.RadioButtonWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
@@ -60,10 +61,10 @@ public class NewPropsalScreen {
 	}
 
 	public void newProposalUI() {
-		HBox hbox = new HBox(10, fitter(), tr.textReader());
+		HBox hbox = new HBox(50, fitter(), tr.textReader());
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons()); 
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -115,6 +116,7 @@ public class NewPropsalScreen {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
 			tr.clearTR();
+			nextButton.setDisable(true);
 		});
 
 		if (rbState) {
@@ -284,9 +286,14 @@ public class NewPropsalScreen {
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
+		
+		ProgressIndicatorWithStyle progressIndicator = new ProgressIndicatorWithStyle(grid, 4, 0);
+
 		if (customer.getCreditScore() != null) {
+			progressIndicator.setVisible(false);
 			apiCredittf.setText(customer.getCreditScore().toString());
 		}
+
 		customer.stringProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -294,6 +301,7 @@ public class NewPropsalScreen {
 				apiCredittf.setText(creditScore);
 				tr.creditScoreUpdate(creditScore);
 				paymenttf.setDisable(false);
+				progressIndicator.setVisible(false);
 			}
 		});
 
@@ -343,7 +351,7 @@ public class NewPropsalScreen {
 	}
 
 	private void nextButtonDisable() {
-		if (!rbState && regnrcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
+		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
 		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty()
 				&& !paymenttf.getText().isEmpty()) {
@@ -351,7 +359,7 @@ public class NewPropsalScreen {
 		} else {
 			nextButton.setDisable(true);
 		}
-	}
+	} 
 
 	//////////////////////////////
 	// Label Title
