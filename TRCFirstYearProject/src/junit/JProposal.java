@@ -2,6 +2,7 @@ package junit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.Before;
@@ -23,8 +24,8 @@ public class JProposal {
 	@Before
 	public void setUp() throws Exception {
 		customer = new Customer(1, 88888888, "John Brick", "3213909874", "johnbrick@gmail.dk", "Brick st. 11", 7400);
-		salesman = new Salesman(1, 77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", 1500000);
-		car = new Car(1, "Ferrari GT12", 5000000, 5, 2020, "NEW");
+		salesman = new Salesman(1, 77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", new BigDecimal(1500000));
+		car = new Car(1, "Ferrari GT12", new BigDecimal(5000000), 5, 2020, "NEW");
 		proposal = new Proposal(1, car, customer, car.getPrice(), 0, LocalDate.now(), "AWAITING", Rating.D.toString(), salesman);
 
 		proposal.setInterest(0);
@@ -37,7 +38,7 @@ public class JProposal {
 
 	@Test
 	public void testCalcInterestDownPayment() {
-		proposal.setDownPayment((int) (car.getPrice() * 0.33));
+		proposal.setDownPayment(car.getPrice().multiply(new BigDecimal(0.33)));
 
 		assertEquals(1.0, proposal.calcInterest());
 	}
@@ -72,7 +73,7 @@ public class JProposal {
 
 	@Test
 	public void testCalcInterestSum() {	
-		proposal.setDownPayment((int) (car.getPrice() * 0.25));
+		proposal.setDownPayment(car.getPrice().multiply(new BigDecimal(0.25)));
 		proposal.setInterest(5);
 		proposal.setLoanDuration(72);
 		proposal.setCreditScore(Rating.C);
@@ -82,9 +83,9 @@ public class JProposal {
 
 	@Test
 	public void testTotalCarPrice() {	
-		proposal.setDownPayment(1000000);
+		proposal.setDownPayment(new BigDecimal(1000000));
 
-		assertEquals(5250000, proposal.totalCarPrice());
+		assertEquals(new BigDecimal(5250000), proposal.totalCarPrice());
 
 	}
 
@@ -110,7 +111,7 @@ public class JProposal {
 	//Salesman's loan limit is below the requested loan amount
 	@Test
 	public void testCheckLimitOver() {
-		proposal.setProposalTotalSum(5250000);
+		proposal.setProposalTotalSum(new BigDecimal(5250000));
 		proposal.checkLimit();
 
 		assertEquals("AWAITING", proposal.getProposalStatus());		
@@ -119,8 +120,8 @@ public class JProposal {
 	//Salesman's is qualified to make a loan of the requested loan amount
 		@Test
 		public void testCheckLimitUnder() {
-			proposal.setProposalTotalSum(5250000);
-			salesman.setProposalLimit(10000000);
+			proposal.setProposalTotalSum(new BigDecimal(5250000));
+			salesman.setProposalLimit(new BigDecimal(10000000));
 			proposal.checkLimit();
 
 			assertEquals("ONGOING", proposal.getProposalStatus());		

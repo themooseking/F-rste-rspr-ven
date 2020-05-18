@@ -1,5 +1,6 @@
 package presentation;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
@@ -225,9 +226,9 @@ public class NewPropsalScreen {
 		new LabelWithStyle(" DKK", grid, 4, 5);
 		paymenttf.setOnKeyReleased(e -> {
 			if (!paymenttf.getText().isEmpty()) {
-				proposal.setDownPayment(Integer.parseInt(paymenttf.getText()));
+				proposal.setDownPayment(new BigDecimal(paymenttf.getText()));
 			} else {
-				proposal.setDownPayment(0);
+				proposal.setDownPayment(new BigDecimal(0));
 			}
 
 			nextButtonDisable();
