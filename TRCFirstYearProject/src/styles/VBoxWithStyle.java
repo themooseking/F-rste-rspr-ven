@@ -28,7 +28,7 @@ public class VBoxWithStyle extends VBox {
 	private void background() {
 		super.setStyle(
 				"-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
-			  + "-fx-background-image: url(\"file:resources/background/Background1.jpg\"); "
+			  + "-fx-background-image: url(\"file:resources/background/BackgroundCPR.jpg\"); "
 			  + "-fx-background-repeat: no-repeat;");
 
 //		super.setStyle("-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";");
