@@ -1,6 +1,8 @@
 package presentation;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -8,7 +10,11 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -21,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Popup;
 import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
@@ -204,9 +211,9 @@ public class NewPropsalScreen {
 		new LabelWithStyle(" DKK", grid, 4, 5);
 		paymenttf.setOnKeyReleased(e -> {
 			if (!paymenttf.getText().isEmpty()) {
-				proposal.setDownPayment(Integer.parseInt(paymenttf.getText()));
+				proposal.setDownPayment(new BigDecimal(paymenttf.getText()));
 			} else {
-				proposal.setDownPayment(0);
+				proposal.setDownPayment(new BigDecimal(0));
 			}
 			nextButtonDisable();
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -320,7 +327,43 @@ public class NewPropsalScreen {
 			}
 		});
 	}
+	
+	//////////////////////////////
+	// Alert boxes
+	//////////////////////////////
 
+	private void popupSaveContinue() {
+		Alert saveContinue = new Alert(AlertType.CONFIRMATION);
+		saveContinue.getDialogPane().setPrefHeight(280);
+		saveContinue.getDialogPane().setPrefWidth(500);
+		saveContinue.setTitle("Error");
+		saveContinue.setHeaderText(null);
+		saveContinue.setContentText("Cloning isn't possible yet.");
+		
+		ButtonType buttonTypeSave = new ButtonType("Gem");
+		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
+		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
+		
+		saveContinue.getButtonTypes().setAll(buttonTypeSave, buttonTypeContinue, buttonTypeCancel);
+		
+		Optional<ButtonType> result = saveContinue.showAndWait();
+		if	(result.get() == buttonTypeSave) {
+			proposal.checkLimit();
+			controller.createProposal(proposal);
+			new ProposalOverview().customerUI(customer.getCpr());
+		}
+		else if	(result.get() == buttonTypeContinue) {
+			proposal.checkLimit();
+			controller.createProposal(proposal);
+			new SignProposalScreen(proposal).signProposalUI();
+		}
+		else {
+			saveContinue.close();
+		}
+		
+	}
+	
+	
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
@@ -339,9 +382,7 @@ public class NewPropsalScreen {
 		nextButton = new ButtonWithStyle("N�ste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
-			proposal.checkLimit();
-			controller.createProposal(proposal);
-			new SignProposalScreen(proposal).signProposalUI();
+			popupSaveContinue();
 		});
 
 		return grid;

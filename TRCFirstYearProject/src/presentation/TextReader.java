@@ -1,5 +1,6 @@
 package presentation;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import javafx.geometry.Insets;
@@ -267,7 +268,7 @@ public class TextReader {
 
 	public void clearTR() {
 		proposal.setCar(null);
-		proposal.setDownPayment(0);
+		proposal.setDownPayment(new BigDecimal(0));
 		proposal.setLoanDuration(0);
 
 		carModel.setText("");
@@ -366,6 +367,11 @@ public class TextReader {
 	}
 
 	private String decimal(double number) {
+		String format = new DecimalFormat("0.00").format(number);
+		return format;
+	}
+	
+	private String decimal(BigDecimal number) {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
 	}
