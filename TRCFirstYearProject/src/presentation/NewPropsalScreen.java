@@ -29,6 +29,7 @@ import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
 import styles.LabelWithStyle;
+import styles.ProgressIndicatorWithStyle;
 import styles.RadioButtonWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
@@ -36,16 +37,15 @@ import styles.VBoxWithStyle;
 
 public class NewPropsalScreen {
 
-	private Customer customer = new Customer(6, 88888888, "John Brick", "3103961598", "johnshitsbricks@gmail.dk",
-			"Brick st. 11", 7400);
-	private Proposal proposal = new Proposal(customer, LoggedInST.getUser());
+	private Customer customer;
+	private Proposal proposal;
 
 	private StyleClass style = new StyleClass();
 	private DB_Controller controller = new DB_Controller();
 
 	private boolean rbState = false;
 	private boolean recreate = true;
-	private TextReader tr = new TextReader(customer, proposal);
+	private TextReader tr;
 
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
@@ -54,35 +54,51 @@ public class NewPropsalScreen {
 	private TextFieldWithStyle durationtf;
 	private ButtonWithStyle nextButton;
 
-	public void newProposalUI() {
-		HBox hbox = new HBox(inputBox(), tr.textReader());
+	public NewPropsalScreen(Customer customer) {
+		this.customer = customer;
+		this.proposal = new Proposal(customer, LoggedInST.getUser());
+		this.tr = new TextReader(customer, proposal);
+	}
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
+	public void newProposalUI() {
+		HBox hbox = new HBox(50, fitter(), tr.textReader());
+		hbox.setAlignment(Pos.CENTER);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons()); 
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
 
-	private VBox inputBox() {
-		VBox vbox = new VBox(indentInput(), apiValues());
-		vbox.setBorder(new Border(
-				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
-
-		return vbox;
-	}
-
 	//////////////////////////////
 	// Input Fields
 	//////////////////////////////
 
+	private VBox fitter() {
+		VBox vbox = new VBox(inputBox());
+		vbox.setAlignment(Pos.TOP_CENTER);
+
+		return vbox;
+	}
+
+	private VBox inputBox() {
+		VBox vbox = new VBox(indentInput(), apiValues());
+		vbox.setBorder(new Border(
+				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+		vbox.setBackground(
+				new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY)));
+
+		return vbox;
+	}
+
 	private GridPane indentInput() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(0));
-		grid.setVgap(10);
+		grid.setVgap(5);
 
 		if (recreate == true) {
-			grid.setPadding(new Insets(10, 10, 100, 10));
+			grid.setPadding(new Insets(0, 0, 10, 0));
 			recreate = false;
 		}
 
@@ -100,6 +116,7 @@ public class NewPropsalScreen {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
 			tr.clearTR();
+			nextButton.setDisable(true);
 		});
 
 		if (rbState) {
@@ -107,28 +124,30 @@ public class NewPropsalScreen {
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
 			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
-			modelcb.setMinWidth(600);
+			modelcb.setMinWidth(400);
 			GridPane.setColumnSpan(modelcb, 2);
 
 			modelcb.setOnHiding(e -> {
 				proposal.setCar((Car) modelcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-				
+
 				nextButtonDisable();
 			});
 
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setVisible(false);
+			GridPane.setColumnSpan(yearcb, 2);
 
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
 			regnrcb.setVisible(false);
+			GridPane.setColumnSpan(regnrcb, 2);
 
 		} else {
 
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
 			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getCarModels()), grid, 3, 1);
-			modelcb.setMinWidth(600);
+			modelcb.setMinWidth(400);
 			GridPane.setColumnSpan(modelcb, 2);
 			modelcb.setOnAction(e -> {
 				if (modelcb.getValue() != null) {
@@ -145,9 +164,9 @@ public class NewPropsalScreen {
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 			});
 
-			new LabelWithStyle("År: ", grid, 1, 2);
+			new LabelWithStyle("Ã…r: ", grid, 1, 2);
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-			yearcb.setMinWidth(600);
+			yearcb.setMinWidth(400);
 			yearcb.setDisable(true);
 			GridPane.setColumnSpan(yearcb, 2);
 			yearcb.setOnHiding(e -> {
@@ -161,12 +180,12 @@ public class NewPropsalScreen {
 			LabelWithStyle regnr = new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
 			GridPane.setColumnSpan(regnr, 2);
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getUsedCars()), grid, 3, 3);
-			regnrcb.setMinWidth(600);
+			regnrcb.setMinWidth(400);
 			GridPane.setColumnSpan(regnrcb, 2);
 			regnrcb.setOnHiding(e -> {
 				proposal.setCar((Car) regnrcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-				
+
 				nextButtonDisable();
 			});
 		}
@@ -174,14 +193,16 @@ public class NewPropsalScreen {
 		LabelWithStyle durationLabel = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
 		GridPane.setColumnSpan(durationLabel, 2);
 		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
-		new LabelWithStyle(" Måned(er)", grid, 4, 4);
+		durationtf.setMinWidth(300);
+		durationtf.setMaxWidth(300);
+		new LabelWithStyle(" Mï¿½ned(er)", grid, 4, 4);
 		durationtf.setOnKeyReleased(e -> {
 			if (!durationtf.getText().isEmpty()) {
 				proposal.setLoanDuration(Integer.parseInt(durationtf.getText()));
 			} else {
 				proposal.setLoanDuration(0);
 			}
-			
+
 			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -190,6 +211,8 @@ public class NewPropsalScreen {
 		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
 		GridPane.setColumnSpan(payment, 2);
 		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
+		paymenttf.setMinWidth(300);
+		paymenttf.setMaxWidth(300);
 		if (customer.getCreditScore() == null) {
 			paymenttf.setDisable(true);
 		}
@@ -200,7 +223,7 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setDownPayment(0);
 			}
-			
+
 			nextButtonDisable();
 
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -215,11 +238,21 @@ public class NewPropsalScreen {
 
 	private GridPane apiValues() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.BASELINE_LEFT);
-		grid.setBackground(new Background(
-				new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY)));
+		grid.setBackground(
+				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
 
-		new LabelWithStyle("Bank Rente:	", grid, 0, 0);
+		LabelWithStyle interestLabel = new LabelWithStyle("Bank Rente:", grid, 0, 0);
+		interestLabel.setTextFill(Color.web(style.white()));
+		interestLabel.setMinWidth(230);
+		interestLabel.setPrefWidth(230);
+		interestLabel.setMaxWidth(230);
 		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
+		apiInteresttf.setBackground(null);
+		apiInteresttf.setBorder(null);
+		apiInteresttf.setStyle(
+				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiInteresttf.setMinWidth(100);
+		apiInteresttf.setPrefWidth(100);
 		apiInteresttf.setMaxWidth(100);
 		apiInteresttf.setDisable(true);
 		apiInteresttf.setOpacity(100);
@@ -236,13 +269,31 @@ public class NewPropsalScreen {
 			}
 		});
 
-		new LabelWithStyle("			", grid, 2, 0);
+		new LabelWithStyle("		", grid, 2, 0);
 
-		new LabelWithStyle("Kredit Score: ", grid, 3, 0);
+		LabelWithStyle creditScore = new LabelWithStyle("Kredit Score:", grid, 3, 0);
+		creditScore.setTextFill(Color.web(style.white()));
+		creditScore.setMinWidth(230);
+		creditScore.setPrefWidth(230);
+		creditScore.setMaxWidth(230);
 		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
+		apiCredittf.setBackground(null);
+		apiCredittf.setBorder(null);
+		apiCredittf.setStyle(
+				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		apiCredittf.setMinWidth(100);
+		apiCredittf.setPrefWidth(100);
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
+		
+		ProgressIndicatorWithStyle progressIndicator = new ProgressIndicatorWithStyle(grid, 4, 0);
+
+		if (customer.getCreditScore() != null) {
+			progressIndicator.setVisible(false);
+			apiCredittf.setText(customer.getCreditScore().toString());
+		}
+
 		customer.stringProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -250,6 +301,7 @@ public class NewPropsalScreen {
 				apiCredittf.setText(creditScore);
 				tr.creditScoreUpdate(creditScore);
 				paymenttf.setDisable(false);
+				progressIndicator.setVisible(false);
 			}
 		});
 
@@ -267,7 +319,8 @@ public class NewPropsalScreen {
 
 	private HBox buttons() {
 		HBox hbox = new HBox(backButton(), nextButton());
-		hbox.setAlignment(Pos.CENTER_LEFT);
+		hbox.setAlignment(Pos.CENTER_RIGHT);
+		hbox.setPadding(new Insets(8, 50, 0, 0));
 
 		return hbox;
 	}
@@ -275,8 +328,11 @@ public class NewPropsalScreen {
 	private GridPane nextButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 
-		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
+		nextButton = new ButtonWithStyle("Nï¿½ste", grid, 0, 0);
+		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
+			proposal.checkLimit();
+			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
 		});
 
@@ -288,32 +344,31 @@ public class NewPropsalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			new ProposalOverview().proposalOverviewUI(customer.getCpr());
+			new ProposalOverview().customerUI(customer.getCpr());
 		});
 
 		return grid;
 	}
-	
+
 	private void nextButtonDisable() {
-		if (!rbState && regnrcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
-			System.out.println(".");
+		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
-		} else if (rbState && modelcb.getValue() != null && durationtf.getText().isEmpty() && paymenttf.getText().isEmpty()) {
-			System.out.println(durationtf.getText());
+		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty()
+				&& !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
 		} else {
 			nextButton.setDisable(true);
 		}
-	}
+	} 
 
 	//////////////////////////////
 	// Label Title
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Nyt Låneforslag");
+		Label label = new Label("Nyt LÃ¥neforslag");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(style.defaultTextColor()));
+		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
 

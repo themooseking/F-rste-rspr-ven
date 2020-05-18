@@ -1,7 +1,6 @@
 package presentation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -9,14 +8,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
-import styles.StyleClass;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
+import styles.StyleClass;
 import styles.VBoxWithStyle;
 
 public class LoginScreen {
@@ -24,8 +24,8 @@ public class LoginScreen {
 	private StyleClass style = new StyleClass();
 	private ComboBoxWithStyle selectedUser;
 
-	public void loginUI() {		
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), loginSetup());
+	public void loginUI() {
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -37,12 +37,6 @@ public class LoginScreen {
 		grid.setPadding(new Insets(30));
 
 		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
-
-//		Salesman sm1 = new Salesman(12345678, "Johnny Sins", "sins@brazzers.com",
-//				"SENIOR VICE LEADING EXECUTIVE SUPREME SALESMAN", 1000000000);
-//		Salesman sm2 = new Salesman(98765432, "Riley Reid", "reid@mylips.com", "SLAVE", 5);
-//		Salesman sm3 = new Salesman(21586895, "Dean", "dean@eamv.dk", "CEO", 100);
-//		ArrayList<Salesman> userList = new ArrayList<Salesman>(Arrays.asList(sm1, sm2, sm3));
 
 		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
 		if (LoggedInST.getUser() == null) {
@@ -56,7 +50,19 @@ public class LoginScreen {
 		return grid;
 	}
 
-	private GridPane loginSetup() {
+	//////////////////////////////
+	// Buttons
+	//////////////////////////////
+
+	private HBox buttons() {
+		HBox hbox = new HBox(loginButton());
+		hbox.setAlignment(Pos.BASELINE_RIGHT);
+		hbox.setPadding(new Insets(270, 50, 0, 0));
+
+		return hbox;
+	}
+
+	private GridPane loginButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
@@ -73,16 +79,17 @@ public class LoginScreen {
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("The Red Car Loan System");
+		Label label = new Label("The Red Car Låne System");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
+		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
-	
+
 	private Label company() {
-		Label label = new Label("The Regional Ferrari Dealer");
+		Label label = new Label("Den Regionale Ferrari Forhandler");
+		label.setPadding(new Insets(240, 0, 0, 0));
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 40));
-		label.setTextFill(Color.web(new StyleClass().defaultTextColor()));
+		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
 	}
 

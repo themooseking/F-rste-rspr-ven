@@ -2,7 +2,7 @@ package logic;
 
 public class Car {
 	
-	private int id;
+	private int carId;
 	private String model;
 	private int price;
 	private int milage;
@@ -10,7 +10,7 @@ public class Car {
 	private String carStatus;
 	
 	public Car(int id, String model, int price, int milage, int factory, String carStatus) {
-		this.id = id;
+		this.carId = id;
 		this.model = model;
 		this.price = price;
 		this.milage = milage;
@@ -19,7 +19,7 @@ public class Car {
 	}
 
 	public int getId() {
-		return id;
+		return carId;
 	}
 
 	public int getPrice() {
@@ -48,6 +48,6 @@ public class Car {
 	
 	@Override
 	public String toString() {
-		return "[" + Integer.toString(id) + "]	" + model;
+		return "[" + Integer.toString(carId) + "]	" + model;
 	}
 }

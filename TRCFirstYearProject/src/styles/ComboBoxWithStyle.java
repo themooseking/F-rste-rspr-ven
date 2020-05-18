@@ -30,16 +30,18 @@ public class ComboBoxWithStyle extends ComboBox<Object> {
 	}
 
 	private void enterEffect(ComboBox<Object> obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.enterHoverColor()), new CornerRadii(0), Insets.EMPTY);
-		Background background = new Background(background_fill);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY);
+		Background background = new Background(background_fill);		
 
 		obj.setBackground(background);
 		obj.setCursor(Cursor.HAND);
 	}
 	
 	private void defaultEffect(ComboBox<Object> obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
+		
+		obj.setBorder(style.elementBorder());
 		
 		obj.setBackground(background);
 		obj.setCursor(Cursor.DEFAULT);

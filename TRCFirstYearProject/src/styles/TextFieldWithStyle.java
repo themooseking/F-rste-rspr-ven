@@ -19,7 +19,7 @@ public class TextFieldWithStyle extends TextField {
 		super.getStylesheets().add("/styles/TextField.css");
 
 		super.setFont(Font.font(style.textFont(), 24));
-		super.setPrefSize(400, 80);
+		super.setMinSize(400, 80);		
 
 		defaultEffect(this);
 
@@ -31,7 +31,7 @@ public class TextFieldWithStyle extends TextField {
 	}
 	
 	private void enterEffect(TextField obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.enterHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
 
 		obj.setBackground(background);
@@ -39,8 +39,10 @@ public class TextFieldWithStyle extends TextField {
 	}
 	
 	private void defaultEffect(TextField obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web(style.defaultHoverColor()), new CornerRadii(0), Insets.EMPTY);
+		BackgroundFill background_fill = new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY);
 		Background background = new Background(background_fill);
+		
+		obj.setBorder(style.elementBorder());
 		
 		obj.setBackground(background);
 		obj.setCursor(Cursor.DEFAULT);

@@ -12,7 +12,7 @@ public class LabelWithStyle extends Label {
 	public LabelWithStyle(String text, GridPaneCenter grid, int row, int col) {
 		super.setText(text);
 		super.setFont(Font.font(style.textFont(), style.textSize()));
-		super.setTextFill(Color.web(style.defaultTextColor()));
+		super.setTextFill(Color.web(style.grey()));
 		
 		GridPane.setConstraints(this, row, col);
 		grid.getChildren().add(this); 

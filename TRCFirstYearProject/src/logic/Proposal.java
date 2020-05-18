@@ -29,9 +29,9 @@ public class Proposal extends Thread {
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
 		this.proposalDate = LocalDate.now();
-		this.proposalStatus = "ONGOING";
 		this.salesman = salesman;
 		this.doubleProperty = new SimpleDoubleProperty(0);
+		checkLimit();
 		start();
 	}
 
@@ -121,8 +121,16 @@ public class Proposal extends Thread {
 		return monthlyPayment() * loanDuration - totalCarPrice();
 	}
 
-	public double totalProposalPrice() {
-		return totalCarPrice() + totalInterestSum();
+	public void totalProposalPrice() {
+		proposalTotalSum = totalCarPrice() + totalInterestSum();
+	}
+	
+	public void checkLimit() {
+		if(salesman.getProposalLimit() < proposalTotalSum) {
+			proposalStatus = "AWAITING";
+		} else {
+			proposalStatus = "ONGOING";
+		}
 	}
 
 
@@ -148,6 +156,10 @@ public class Proposal extends Thread {
 
 	public void setCar(Car car) {
 		this.car = car;
+	}
+	
+	public void setCreditScore(Rating creditScore) {
+		this.creditScore = creditScore;
 	}
 
 	/***********************************
@@ -185,6 +197,10 @@ public class Proposal extends Thread {
 	public Salesman getSalesman() {
 		return salesman;
 	}
+	
+	public String getSalesmanTitel() {
+		return salesman.getTitle();
+	}
 
 	public double getInterest() {
 		return interest;
@@ -199,6 +215,7 @@ public class Proposal extends Thread {
 	}
 
 	public double getProposalTotalSum() {
-		return totalProposalPrice();
+		totalProposalPrice();
+		return proposalTotalSum;
 	}
 }
