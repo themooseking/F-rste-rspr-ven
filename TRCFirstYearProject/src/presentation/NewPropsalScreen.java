@@ -1,6 +1,7 @@
 package presentation;
 
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -8,7 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -21,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Popup;
 import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
@@ -312,7 +318,43 @@ public class NewPropsalScreen {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
 	}
+	
+	//////////////////////////////
+	// Alert boxes
+	//////////////////////////////
 
+	private void popupSaveContinue() {
+		Alert saveContinue = new Alert(AlertType.CONFIRMATION);
+		saveContinue.getDialogPane().setPrefHeight(280);
+		saveContinue.getDialogPane().setPrefWidth(500);
+		saveContinue.setTitle("Error");
+		saveContinue.setHeaderText(null);
+		saveContinue.setContentText("Cloning isn't possible yet.");
+		
+		ButtonType buttonTypeSave = new ButtonType("Gem");
+		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		
+		saveContinue.getButtonTypes().setAll(buttonTypeSave, buttonTypeContinue, buttonTypeCancel);
+		
+		Optional<ButtonType> result = saveContinue.showAndWait();
+		if	(result.get() == buttonTypeSave) {
+			proposal.checkLimit();
+			controller.createProposal(proposal);
+			new ProposalOverview(proposal).customerUI();
+		}
+		else if	(result.get() == buttonTypeContinue) {
+			proposal.checkLimit();
+			controller.createProposal(proposal);
+			new SignProposalScreen(proposal).signProposalUI();
+		}
+		else {
+			
+		}
+		
+	}
+	
+	
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
@@ -331,9 +373,7 @@ public class NewPropsalScreen {
 		nextButton = new ButtonWithStyle("N�ste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
-			proposal.checkLimit();
-			controller.createProposal(proposal);
-			new SignProposalScreen(proposal).signProposalUI();
+			popupSaveContinue();
 		});
 
 		return grid;
