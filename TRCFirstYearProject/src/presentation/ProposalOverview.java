@@ -34,7 +34,7 @@ public class ProposalOverview {
 		int i = 0;
 		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString()), proposalTableView(i), buttons(i));
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString(), i), proposalTableView(i), buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -43,7 +43,7 @@ public class ProposalOverview {
 
 	public void salesmanUI() {
 		int i = 1;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
 				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
@@ -53,7 +53,7 @@ public class ProposalOverview {
 
 	public void cosUI() {
 		int i = 2;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
 				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
@@ -176,8 +176,16 @@ public class ProposalOverview {
 	// Label Title
 	//////////////////////////////
 
-	private Label title(String person) {
-		Label label = new Label("Lï¿½netilbud for " + person);
+	private Label title(String person, int i) {
+		Label label = null;
+		if (i == 0) {
+			label = new Label("Lånetilbud for " + person);
+		} else if (i == 1) {
+			label = new Label(LoggedInST.getUser() + "s lånetilbud");
+		} else if (i == 2) {
+			label = new Label("Godkend tilbud");
+		}
+		
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;

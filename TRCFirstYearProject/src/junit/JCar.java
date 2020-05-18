@@ -3,54 +3,58 @@ package junit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import logic.Car;
 import logic.DB_Controller;
 
-class JCar {
-	
+public class JCar {
 	DB_Controller controller = new DB_Controller();
 	Car car = new Car(1, "812 Superfast", 5600000, 0, 2017, "AVAILABLE");
 
 	@Test
-	void testTypeOfGetCar() {
+	public void testTypeOfGetCar() {
 		assertTrue(controller.getNewCars().get(0) instanceof Car);
 	}
-	
+
+//	@Test
+//	void testGetNewCarsCarStatus() {
+//		assertEquals(car.getCarStatus(), controller.getNewCars().get(0).getCarStatus());
+//	}
+
+//	@Test
+//	void testGetNewCarsFactory() {
+//		assertEquals(car.getFactory(), controller.getNewCars().get(0).getFactory());
+//	}
+
 	@Test
-	void testGetNewCarsCarStatus() {
-		assertEquals(car.getCarStatus(), controller.getNewCars().get(0).getCarStatus());
-	}
-	
-	@Test
-	void testGetNewCarsFactory() {
-		assertEquals(car.getFactory(), controller.getNewCars().get(0).getFactory());
-	}
-	
-	@Test
-	void testGetNewCarsMilage() {
+	public void testGetNewCarsMilage() {
 		assertEquals(car.getMilage(), controller.getNewCars().get(0).getMilage());
 	}
-	
+
 	@Test
-	void testGetNewCarsModel() {
+	public void testGetNewCarsModel() {
 		assertEquals(car.getModel(), controller.getNewCars().get(0).getModel());
 	}
-	
+
 	@Test
-	void testGetNewCarsPrice() {
+	public void testGetNewCarsPrice() {
 		assertEquals(car.getPrice(), controller.getNewCars().get(0).getPrice());
 	}
-	
+
 	@Test
-	void testToString() {
-		assertEquals("812 Superfast", car.toString());
+	public void testToString() {
+		assertEquals("[1]	812 Superfast", car.toString());
 	}
-	
+
 	@Test
-	void testGetPrice() {
+	public void testGetPrice() {
 		assertEquals(5600000, car.getPrice());
+	}
+
+	@Test
+	public void testCarVarPrice() {
+		assertEquals(1400000, car.getVat());
 	}
 
 }

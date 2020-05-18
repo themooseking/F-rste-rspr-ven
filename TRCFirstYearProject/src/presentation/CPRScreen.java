@@ -30,7 +30,11 @@ public class CPRScreen {
 	public void cprUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), buttons());
 		vbox.setAlignment(Pos.CENTER);
-		vbox.setPadding(new Insets(0, 0, 310, 0));
+		vbox.setPadding(new Insets(0, 0, 0, 0));
+		vbox.setStyle(
+				"-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
+			  + "-fx-background-image: url(\"file:resources/background/BackgroundCPR.jpg\"); "
+			  + "-fx-background-repeat: no-repeat;");
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
@@ -38,7 +42,7 @@ public class CPRScreen {
 
 	private GridPane cprTextfield() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setPadding(new Insets(30));
+		grid.setPadding(new Insets(280,0,322,0));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-159");
@@ -98,7 +102,7 @@ public class CPRScreen {
 	private HBox buttons() {
 		HBox hbox = new HBox(logoutButton(), showProposalsButton(), verifyProposalsButton(), continueButton());
 		hbox.setAlignment(Pos.BASELINE_RIGHT);
-		hbox.setPadding(new Insets(270, 50, 0, 0));
+		hbox.setPadding(new Insets(0, 50, 0, 0));
 
 		return hbox;
 	}
@@ -157,9 +161,9 @@ public class CPRScreen {
 
 	private Label title() {
 		Label label = new Label("Kundens CPR-nummer");
-		label.setPadding(new Insets(595, 0, 0, 0));
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(new StyleClass().grey()));
+		label.setPadding(new Insets(0, 0, 0, 0));
+		label.setFont(Font.loadFont(style.titleFont(), 120));
+		label.setTextFill(Color.web(style.black()));
 		return label;
 	}
 
@@ -168,7 +172,7 @@ public class CPRScreen {
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("The Red Car");
+		PrimaryStageST.getStage().setTitle("Ferrari Lånesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}

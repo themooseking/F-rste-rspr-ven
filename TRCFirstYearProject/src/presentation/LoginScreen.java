@@ -25,8 +25,12 @@ public class LoginScreen {
 	private ComboBoxWithStyle selectedUser;
 
 	public void loginUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), buttons());
 		vbox.setAlignment(Pos.CENTER);
+		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
+				+ "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
+				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 1600;"
+				+ "-fx-background-position: center;");
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
@@ -34,7 +38,7 @@ public class LoginScreen {
 
 	private GridPane selectUser() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setPadding(new Insets(30));
+		grid.setPadding(new Insets(250, 0, 0, 0));
 
 		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
 
@@ -78,18 +82,19 @@ public class LoginScreen {
 	// Label Title
 	//////////////////////////////
 
-	private Label title() {
-		Label label = new Label("The Red Car Låne System");
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
-		label.setTextFill(Color.web(new StyleClass().grey()));
-		return label;
-	}
+//	private Label title() {
+//		Label label = new Label("The Red Car Laane System");
+//		label.setFont(Font.loadFont("file:resources/fonts/Compatil Text LT Com Bold.ttf", 110));
+//		label.setPadding(new Insets(0, 0, 0, 0));
+//		label.setTextFill(Color.web(new StyleClass().black()));
+//		return label;
+//	}
 
 	private Label company() {
 		Label label = new Label("Den Regionale Ferrari Forhandler");
-		label.setPadding(new Insets(240, 0, 0, 0));
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 40));
-		label.setTextFill(Color.web(new StyleClass().grey()));
+		label.setPadding(new Insets(0, 0, 0, 0));
+		label.setFont(Font.loadFont(new StyleClass().titleFont(), 100));
+		label.setTextFill(Color.web(new StyleClass().black()));
 		return label;
 	}
 
@@ -98,7 +103,7 @@ public class LoginScreen {
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("The Red Car");
+		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}

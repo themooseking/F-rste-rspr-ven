@@ -15,9 +15,12 @@ public class StyleClass {
 	private String grey = "#707070";
 	private String red = "#e33635";
 	private String white = "#ffffff";
+	private String black = "#000000";
+	
 	private String entertextcolor = "#e33635";
 	private String backgroundcolor = "#242224";
 
+	private String titlefont = "file:resources/fonts/Compatil Text LT Com Bold.ttf";
 	private String textfont = "Lucida Fax";
 	private int textsize = 20;
 
@@ -52,6 +55,10 @@ public class StyleClass {
 	public String white() {
 		return white;
 	}
+	
+	public String black() {
+		return black;
+	}
 
 	public String enterTextColor() {
 		return entertextcolor;
@@ -63,6 +70,10 @@ public class StyleClass {
 
 	public String textFont() {
 		return textfont;
+	}
+	
+	public String titleFont() {
+		return titlefont;
 	}
 
 	public int textSize() {
