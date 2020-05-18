@@ -34,4 +34,8 @@ public class Salesman {
 	public int getProposalLimit() {
 		return proposalLimit;
 	}
+
+	public void setProposalLimit(int proposalLimit) {
+		this.proposalLimit = proposalLimit;
+	}
 }

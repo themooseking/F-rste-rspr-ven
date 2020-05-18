@@ -141,6 +141,10 @@ public class Proposal extends Thread {
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
+	
+	public void setProposalTotalSum(double proposalTotalSum) {
+		this.proposalTotalSum = proposalTotalSum;
+	}
 
 	public void setDownPayment(int downPayment) {
 		this.downPayment = downPayment;
