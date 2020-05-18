@@ -34,7 +34,7 @@ public class ProposalOverview {
 		int i = 0;
 		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString()), proposalTableView(i), buttons(i));
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString(), i), proposalTableView(i), buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -43,7 +43,7 @@ public class ProposalOverview {
 
 	public void salesmanUI() {
 		int i = 1;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
 				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
@@ -53,7 +53,7 @@ public class ProposalOverview {
 
 	public void cosUI() {
 		int i = 2;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString()), proposalTableView(i),
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
 				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
@@ -96,79 +96,14 @@ public class ProposalOverview {
 		map.put("Status", "proposalStatus");
 
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
-		
-		table.setRowFactory(tv -> new TableRow<Proposal>() {
-		    @Override
-		    public void updateItem(Proposal item, boolean empty) {
-		    	System.out.println("hej");
-		        super.updateItem(item, empty) ;
-		        if (item == null) {
-		            setStyle("");
-		        } else if (item.getProposalStatus().equals("AWAITING")) {
-		            setStyle("-fx-background-color: yellow;");
-		        } else {
-		            setStyle("");
-		        }
-		    }
-		});
-		
 		table.setItems(eventList);
 		for (String key : map.keySet()) {
 			table.getColumns().add(createColumn(key, map));
 		}
-		
-
-
- 
-		
-//		table.getColumns().add(makeStringColumn("Status", "proposalStatus"));
-//
-//		int j = 0;
-//		for (Node n : table.lookupAll("TableRow")) {
-//			System.out.println("hej4");
-//			if (n instanceof TableRow) {
-//				TableRow row = (TableRow) n;
-//				System.out.println("hej3");
-//				if (table.getItems().get(j).getProposalStatus() == "AWAITING") {
-//					System.out.println("hej");
-//					row.getStyleClass().add("-fx-background-color: yellow;");
-//					row.setDisable(false);
-//				} else {
-//					System.out.println("hej2");
-//					row.getStyleClass().add("-fx-background-color: green;");
-//					row.setDisable(true);
-//				}
-//				j++;
-//				if (j == table.getItems().size())
-//					break;
-//			}
-//		}
-
 		accessProposal(table, i);
-		System.out.println(table.lookup("Status")); 
+
 		return grid;
 	}
-
-//	private TableColumn<Proposal, String> makeStringColumn(String columnName, String propertyName) {
-//		TableColumn<Proposal, String> column = new TableColumn<>(columnName);
-//		column.setCellValueFactory(new PropertyValueFactory<Proposal, String>(propertyName));
-//		column.setCellFactory(new Callback<TableColumn<Proposal, String>, TableCell<Proposal, String>>() {
-//			@Override
-//			public TableCell<Proposal, String> call(TableColumn<Proposal, String> soCalledFriendStringTableColumn) {
-//				return new TableCell<Proposal, String>() {
-//					@Override
-//					public void updateItem(String item, boolean empty) {
-//						super.updateItem(item, empty);
-//						if (item != null) {
-//							setText(item);
-//						}
-//					}
-//				};
-//			}
-//		});
-//		column.setSortable(false);
-//		return column;
-//	}
 
 	private TableColumnWithStyle createColumn(String key, LinkedHashMap<String, String> map) {
 		TableColumnWithStyle column = new TableColumnWithStyle(key, map.get(key), map);
@@ -241,8 +176,16 @@ public class ProposalOverview {
 	// Label Title
 	//////////////////////////////
 
-	private Label title(String person) {
-		Label label = new Label("Lï¿½netilbud for " + person);
+	private Label title(String person, int i) {
+		Label label = null;
+		if (i == 0) {
+			label = new Label("Lånetilbud for " + person);
+		} else if (i == 1) {
+			label = new Label(LoggedInST.getUser() + "s lånetilbud");
+		} else if (i == 2) {
+			label = new Label("Godkend tilbud");
+		}
+		
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;

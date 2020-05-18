@@ -64,7 +64,7 @@ public class NewPropsalScreen {
 		HBox hbox = new HBox(50, fitter(), tr.textReader());
 		hbox.setAlignment(Pos.CENTER);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons()); 
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), hbox, buttons());
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -237,15 +237,12 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private GridPane apiValues() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.BASELINE_LEFT);
-		grid.setBackground(
-				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
+		GridPaneCenter grid = new GridPaneCenter(Pos.BOTTOM_LEFT);
+		grid.setPadding(new Insets(0, 10, 0, 10));
+		grid.setBackground(new Background(
+				new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
 
-		LabelWithStyle interestLabel = new LabelWithStyle("Bank Rente:", grid, 0, 0);
-		interestLabel.setTextFill(Color.web(style.white()));
-		interestLabel.setMinWidth(230);
-		interestLabel.setPrefWidth(230);
-		interestLabel.setMaxWidth(230);
+		apiLabel("Bank rente:", grid, 0, 0, 150);
 		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
 		apiInteresttf.setBackground(null);
 		apiInteresttf.setBorder(null);
@@ -254,12 +251,16 @@ public class NewPropsalScreen {
 		apiInteresttf.setMinWidth(100);
 		apiInteresttf.setPrefWidth(100);
 		apiInteresttf.setMaxWidth(100);
+		apiInteresttf.setMinHeight(50);
+		apiInteresttf.setPrefHeight(50);
+		apiInteresttf.setMaxHeight(50);
 		apiInteresttf.setDisable(true);
 		apiInteresttf.setOpacity(100);
 
 		if (proposal.getInterest() != 0.0) {
 			apiInteresttf.setText(decimal(proposal.getInterest()));
 		}
+
 		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -286,8 +287,12 @@ public class NewPropsalScreen {
 		apiCredittf.setMaxWidth(100);
 		apiCredittf.setDisable(true);
 		apiCredittf.setOpacity(100);
-		
+		apiCredittf.setMinHeight(50);
+		apiCredittf.setPrefHeight(50);
+		apiCredittf.setMaxHeight(50);
+
 		ProgressIndicatorWithStyle progressIndicator = new ProgressIndicatorWithStyle(grid, 4, 0);
+		progressIndicator.setMaxSize(20, 20);
 
 		if (customer.getCreditScore() != null) {
 			progressIndicator.setVisible(false);
@@ -311,6 +316,16 @@ public class NewPropsalScreen {
 	private String decimal(double number) {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
+	}
+	
+	private LabelWithStyle apiLabel(String text, GridPaneCenter grid, int x, int y, int width) {
+		LabelWithStyle label = new LabelWithStyle(text, grid, x, y);
+		label.setTextFill(Color.web(style.white()));
+		label.setMinWidth(width);
+		label.setPrefWidth(width);
+		label.setMaxWidth(width);
+		
+		return label;
 	}
 
 	//////////////////////////////
@@ -351,7 +366,8 @@ public class NewPropsalScreen {
 	}
 
 	private void nextButtonDisable() {
-		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()) {
+		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty()
+				&& !paymenttf.getText().isEmpty()) {
 			nextButton.setDisable(false);
 		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty()
 				&& !paymenttf.getText().isEmpty()) {
@@ -359,7 +375,7 @@ public class NewPropsalScreen {
 		} else {
 			nextButton.setDisable(true);
 		}
-	} 
+	}
 
 	//////////////////////////////
 	// Label Title

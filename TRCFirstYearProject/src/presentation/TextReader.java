@@ -6,9 +6,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -57,9 +54,11 @@ public class TextReader {
 				proposalInfo(), priceSum(), totalPrice());
 		vbox.setPadding(new Insets(10, 0, 10, 0));
 		vbox.setBorder(style.elementBorder());
-		vbox.setBackground(new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY))); 
 		vbox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 20, 0, 5, 5));
-		checkDone(); 
+		vbox.setStyle("-fx-background-color: \"" + style.white() + "\";"
+				+ "-fx-background-image: url(\"file:resources/background/BackgroundTextReader.jpg\"); "
+				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 500;" + "-fx-background-position: center;");
+		checkDone();
 
 		return vbox;
 	}
@@ -163,7 +162,7 @@ public class TextReader {
 	private GridPane priceSum() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
- 
+
 		new TextWithStyle("Total bilpris: ", grid, 0, 0, style.textReaderTextWidth(), 0, 1);
 		sumCarPrice = new TextWithStyle("", grid, 1, 0, 200, 0, 2);
 		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 0, 1);
