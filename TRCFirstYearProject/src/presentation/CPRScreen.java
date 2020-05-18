@@ -1,13 +1,18 @@
 package presentation;
 
+import java.util.Optional;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -113,7 +118,12 @@ public class CPRScreen {
 		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
-			new ProposalOverview().customerUI(textfield.getText());
+			try {
+				new ProposalOverview().customerUI(textfield.getText());
+			} catch (Exception e2) {
+				Alert wrongCpr = new Alert(AlertType.NONE, ("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
+				Optional<ButtonType> result = wrongCpr.showAndWait();
+			}
 		});
 
 		return grid;
