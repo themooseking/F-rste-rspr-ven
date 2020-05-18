@@ -24,17 +24,21 @@ public class StyleClass {
 	private String textfont = "Lucida Fax";
 	private int textsize = 20;
 
-	private int textunitwidth = 110;
+	private int textunitwidth = 70;
 	private int textreaderinsets = 25;
 	private int textreadertextwidth = 300;
 
 	private Border underline = new Border(
+			new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 1, 0)));
+	private Border sumline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 3, 0)));
 	private Border dottedunderline = new Border(
-			new BorderStroke(Color.BLACK, BorderStrokeStyle.DOTTED, new CornerRadii(0), new BorderWidths(0, 0, 2, 0)));
-
+			new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, new CornerRadii(0), new BorderWidths(0, 0, 1, 0)));
+ 
 	private Border elementborder = new Border(
 			new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3)));
+	
+	private String bold = "-fx-font-weight: BOLD; -fx-text-fill: #4A4A4A;";
 
 	public int sceneX() {
 		return scenex;
@@ -94,6 +98,10 @@ public class StyleClass {
 
 	public Border underLine() {
 		return underline;
+	}	
+	
+	public Border sumLine() {
+		return sumline;
 	}
 
 	public Border dottedUnderLine() {
@@ -102,5 +110,9 @@ public class StyleClass {
 	
 	public Border elementBorder() {
 		return elementborder;
+	}
+	
+	public String bold() {
+		return bold;
 	}
 }
