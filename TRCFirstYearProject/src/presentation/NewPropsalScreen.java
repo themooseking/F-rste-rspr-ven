@@ -349,7 +349,7 @@ public class NewPropsalScreen {
 		
 		ButtonType buttonTypeSave = new ButtonType("Gem");
 		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
-		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
 		
 		saveContinue.getButtonTypes().setAll(buttonTypeSave, buttonTypeContinue, buttonTypeCancel);
 		
@@ -357,7 +357,7 @@ public class NewPropsalScreen {
 		if	(result.get() == buttonTypeSave) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
-			new ProposalOverview(proposal).customerUI();
+			new ProposalOverview().customerUI(customer.getCpr());
 		}
 		else if	(result.get() == buttonTypeContinue) {
 			proposal.checkLimit();
@@ -365,7 +365,7 @@ public class NewPropsalScreen {
 			new SignProposalScreen(proposal).signProposalUI();
 		}
 		else {
-			
+			saveContinue.close();
 		}
 		
 	}
