@@ -7,14 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
@@ -96,14 +101,79 @@ public class ProposalOverview {
 		map.put("Status", "proposalStatus");
 
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
+		
+		table.setRowFactory(tv -> new TableRow<Proposal>() {
+		    @Override
+		    public void updateItem(Proposal item, boolean empty) {
+		    	System.out.println("hej");
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else if (item.getProposalStatus().equals("AWAITING")) {
+		            setStyle("-fx-background-color: yellow;");
+		        } else {
+		            setStyle("");
+		        }
+		    }
+		});
+		
 		table.setItems(eventList);
 		for (String key : map.keySet()) {
 			table.getColumns().add(createColumn(key, map));
 		}
-		accessProposal(table, i);
+		
 
+
+ 
+		
+//		table.getColumns().add(makeStringColumn("Status", "proposalStatus"));
+//
+//		int j = 0;
+//		for (Node n : table.lookupAll("TableRow")) {
+//			System.out.println("hej4");
+//			if (n instanceof TableRow) {
+//				TableRow row = (TableRow) n;
+//				System.out.println("hej3");
+//				if (table.getItems().get(j).getProposalStatus() == "AWAITING") {
+//					System.out.println("hej");
+//					row.getStyleClass().add("-fx-background-color: yellow;");
+//					row.setDisable(false);
+//				} else {
+//					System.out.println("hej2");
+//					row.getStyleClass().add("-fx-background-color: green;");
+//					row.setDisable(true);
+//				}
+//				j++;
+//				if (j == table.getItems().size())
+//					break;
+//			}
+//		}
+
+		accessProposal(table, i);
+		System.out.println(table.lookup("Status")); 
 		return grid;
 	}
+
+//	private TableColumn<Proposal, String> makeStringColumn(String columnName, String propertyName) {
+//		TableColumn<Proposal, String> column = new TableColumn<>(columnName);
+//		column.setCellValueFactory(new PropertyValueFactory<Proposal, String>(propertyName));
+//		column.setCellFactory(new Callback<TableColumn<Proposal, String>, TableCell<Proposal, String>>() {
+//			@Override
+//			public TableCell<Proposal, String> call(TableColumn<Proposal, String> soCalledFriendStringTableColumn) {
+//				return new TableCell<Proposal, String>() {
+//					@Override
+//					public void updateItem(String item, boolean empty) {
+//						super.updateItem(item, empty);
+//						if (item != null) {
+//							setText(item);
+//						}
+//					}
+//				};
+//			}
+//		});
+//		column.setSortable(false);
+//		return column;
+//	}
 
 	private TableColumnWithStyle createColumn(String key, LinkedHashMap<String, String> map) {
 		TableColumnWithStyle column = new TableColumnWithStyle(key, map.get(key), map);

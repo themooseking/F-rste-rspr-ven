@@ -34,58 +34,58 @@ public class JProposal {
 	public void testCalcInterestDefault() {
 		assertEquals(0.0, proposal.calcInterest());
 	}
-	
+
 	@Test
 	public void testCalcInterestDownPayment() {
 		proposal.setDownPayment((int) (car.getPrice() * 0.33));
-		
+
 		assertEquals(1.0, proposal.calcInterest());
 	}
 
 	@Test
 	public void testCalcInterestLoanDuration() {	
 		proposal.setLoanDuration(42);
-		
+
 		assertEquals(1.0, proposal.calcInterest());
 	}
-	
+
 	@Test
 	public void testCalcInterestCreditRatingA() {	
 		proposal.setCreditScore(Rating.A);
-		
+
 		assertEquals(1.0, proposal.calcInterest());
 	}
 
 	@Test
 	public void testCalcInterestCreditRatingB() {	
 		proposal.setCreditScore(Rating.B);
-		
+
 		assertEquals(2.0, proposal.calcInterest());
 	}
-	
+
 	@Test
 	public void testCalcInterestCreditRatingC() {	
 		proposal.setCreditScore(Rating.C);
-		
+
 		assertEquals(3.0, proposal.calcInterest());
 	}
-	
+
 	@Test
 	public void testCalcInterestSum() {	
 		proposal.setDownPayment((int) (car.getPrice() * 0.25));
 		proposal.setInterest(5);
 		proposal.setLoanDuration(72);
 		proposal.setCreditScore(Rating.C);
-		
+
 		assertEquals(10.0, proposal.calcInterest());
 	}
-	
+
 	@Test
 	public void testTotalCarPrice() {	
 		proposal.setDownPayment(1000000);
-		
+
 		assertEquals(5250000, proposal.totalCarPrice());
-		
+
 	}
 
 //	@Test
@@ -105,24 +105,24 @@ public class JProposal {
 //	public void testTotalProposalPrice() {	
 //		
 //	}
-	
-	
+
+
 	//Salesman's loan limit is below the requested loan amount
 	@Test
 	public void testCheckLimitOver() {
 		proposal.setProposalTotalSum(5250000);
 		proposal.checkLimit();
-		
+
 		assertEquals("AWAITING", proposal.getProposalStatus());		
 	}
-	
+
 	//Salesman's is qualified to make a loan of the requested loan amount
 		@Test
 		public void testCheckLimitUnder() {
 			proposal.setProposalTotalSum(5250000);
 			salesman.setProposalLimit(10000000);
 			proposal.checkLimit();
-			
+
 			assertEquals("ONGOING", proposal.getProposalStatus());		
 		}
 }

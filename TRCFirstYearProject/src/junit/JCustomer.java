@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import logic.Customer;
 
@@ -21,13 +20,13 @@ public class JCustomer {
 	public void testConstructorDefault() {
 		assertEquals("3213909874", customer.getCpr());
 	}
-	
+
 	@Test
 	public void testConstructorWithDash() {
 		Customer customerWithDash = new Customer(1, 88888888, "John Brick", "321390-9874", "johnshitsbricks@gmail.dk", "Brick st. 11", 7400);
 		assertEquals("3213909874", customerWithDash.getCpr());
 	}
-	
+
 	@Test
 	public void testCprDashRemover() {
 		String cpr = "321390-9874";
