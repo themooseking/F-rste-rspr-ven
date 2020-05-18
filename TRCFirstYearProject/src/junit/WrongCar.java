@@ -45,7 +45,7 @@ public class WrongCar {
 	
 	@Test
 	void testToString() {
-		assertEquals("[1]	812 Superfast", car.toString());
+		assertEquals("[1]	812 Superfas", car.toString());
 	}
 	
 	@Test

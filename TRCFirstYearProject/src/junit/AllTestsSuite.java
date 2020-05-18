@@ -12,5 +12,4 @@ import org.junit.runners.Suite.SuiteClasses;
 	JProposal.class })
 
 public class AllTestsSuite {
-
 }
