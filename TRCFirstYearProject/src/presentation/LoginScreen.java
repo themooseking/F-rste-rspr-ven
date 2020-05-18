@@ -27,6 +27,10 @@ public class LoginScreen {
 	public void loginUI() {
 		VBoxWithStyle vbox = new VBoxWithStyle(company(), title(), selectUser(), buttons());
 		vbox.setAlignment(Pos.CENTER);
+		vbox.setStyle(
+				"-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
+			  + "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
+			  + "-fx-background-repeat: no-repeat;");
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
@@ -79,7 +83,7 @@ public class LoginScreen {
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("The Red Car Låne System");
+		Label label = new Label("The Red Car Lï¿½ne System");
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(new StyleClass().grey()));
 		return label;
