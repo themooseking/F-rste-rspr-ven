@@ -77,13 +77,14 @@ public class NewPropsalScreen {
 
 	private VBox fitter() {
 		VBox vbox = new VBox(inputBox());
-		vbox.setAlignment(Pos.TOP_CENTER);
+		vbox.setAlignment(Pos.CENTER);
 
 		return vbox;
 	}
 
 	private VBox inputBox() {
-		VBox vbox = new VBox(indentInput(), apiValues());
+		VBox vbox = new VBox(20, indentInput(), apiValues());
+		vbox.setPadding(new Insets(10));
 		vbox.setBorder(new Border(
 				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
 		vbox.setBackground(
@@ -93,9 +94,9 @@ public class NewPropsalScreen {
 	}
 
 	private GridPane indentInput() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER); 
 		grid.setPadding(new Insets(0));
-		grid.setVgap(5);
+		grid.setVgap(15);
 
 		if (recreate == true) {
 			grid.setPadding(new Insets(0, 0, 10, 0));
@@ -109,46 +110,40 @@ public class NewPropsalScreen {
 		RadioButtonWithStyle rbOld = new RadioButtonWithStyle("Gamle Biler", grid, 0, 0);
 		rbState = !rbState;
 		rbOld.setSelected(!rbState);
-		rbOld.setMinWidth(300);
-		GridPane.setColumnSpan(rbOld, 2);
 
 		rbOld.setOnAction(e -> {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
 			tr.clearTR();
 			nextButton.setDisable(true);
-		});
+		}); 
 
 		if (rbState) {
 
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
-			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
-			modelcb.setMinWidth(400);
-			GridPane.setColumnSpan(modelcb, 2);
-
+			indentComboBox(modelcb, 400);
 			modelcb.setOnHiding(e -> {
 				proposal.setCar((Car) modelcb.getValue());
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-
 				nextButtonDisable();
 			});
 
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
 			yearcb.setVisible(false);
+			indentComboBox(yearcb, 400);
 			GridPane.setColumnSpan(yearcb, 2);
 
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
 			regnrcb.setVisible(false);
+			indentComboBox(regnrcb, 400);
 			GridPane.setColumnSpan(regnrcb, 2);
 
 		} else {
 
 			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
-			GridPane.setColumnSpan(modelLabel, 2);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getCarModels()), grid, 3, 1);
-			modelcb.setMinWidth(400);
-			GridPane.setColumnSpan(modelcb, 2);
+			indentComboBox(modelcb, 400);
 			modelcb.setOnAction(e -> {
 				if (modelcb.getValue() != null) {
 					yearcb.getItems().clear();
@@ -164,11 +159,10 @@ public class NewPropsalScreen {
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 			});
 
-			new LabelWithStyle("Ã…r: ", grid, 1, 2);
+			new LabelWithStyle("År: ", grid, 0, 2);
 			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-			yearcb.setMinWidth(400);
+			indentComboBox(yearcb, 400);
 			yearcb.setDisable(true);
-			GridPane.setColumnSpan(yearcb, 2);
 			yearcb.setOnHiding(e -> {
 				if (yearcb.getValue() != null) {
 					regnrcb.setItems(FXCollections.observableArrayList(
@@ -178,41 +172,32 @@ public class NewPropsalScreen {
 			});
 
 			LabelWithStyle regnr = new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
-			GridPane.setColumnSpan(regnr, 2);
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getUsedCars()), grid, 3, 3);
-			regnrcb.setMinWidth(400);
-			GridPane.setColumnSpan(regnrcb, 2);
+			indentComboBox(regnrcb, 400);
 			regnrcb.setOnHiding(e -> {
 				proposal.setCar((Car) regnrcb.getValue());
-				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-
 				nextButtonDisable();
+				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 			});
 		}
 
 		LabelWithStyle durationLabel = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
-		GridPane.setColumnSpan(durationLabel, 2);
 		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
-		durationtf.setMinWidth(300);
-		durationtf.setMaxWidth(300);
-		new LabelWithStyle(" Mï¿½ned(er)", grid, 4, 4);
+		indentTextField(durationtf);
+		new LabelWithStyle(" Måned(er)", grid, 4, 4);
 		durationtf.setOnKeyReleased(e -> {
 			if (!durationtf.getText().isEmpty()) {
 				proposal.setLoanDuration(Integer.parseInt(durationtf.getText()));
 			} else {
 				proposal.setLoanDuration(0);
 			}
-
 			nextButtonDisable();
-
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 
 		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
-		GridPane.setColumnSpan(payment, 2);
 		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
-		paymenttf.setMinWidth(300);
-		paymenttf.setMaxWidth(300);
+		indentTextField(paymenttf);
 		if (customer.getCreditScore() == null) {
 			paymenttf.setDisable(true);
 		}
@@ -223,13 +208,27 @@ public class NewPropsalScreen {
 			} else {
 				proposal.setDownPayment(0);
 			}
-
 			nextButtonDisable();
-
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 
 		return grid;
+	}
+
+	private void indentComboBox(ComboBoxWithStyle cb, int width) {
+		cb.setMinWidth(width);
+		cb.setMinHeight(50);
+		cb.setPrefHeight(50);
+		cb.setMaxHeight(50);
+		GridPane.setColumnSpan(cb, 2);
+	}
+
+	private void indentTextField(TextFieldWithStyle tf) {
+		tf.setMinHeight(50);
+		tf.setPrefHeight(50);
+		tf.setMaxHeight(50);
+		tf.setMinWidth(300);
+		tf.setMaxWidth(300);
 	}
 
 	//////////////////////////////
@@ -239,76 +238,22 @@ public class NewPropsalScreen {
 	private GridPane apiValues() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.BOTTOM_LEFT);
 		grid.setPadding(new Insets(0, 10, 0, 10));
-		grid.setBackground(new Background(
-				new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
+		grid.setBackground(
+				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
 
-		apiLabel("Bank rente:", grid, 0, 0, 150);
+		apiLabel("Bank rente:", grid, 0, 0, 120);
+
 		TextFieldWithStyle apiInteresttf = new TextFieldWithStyle("", grid, 1, 0);
-		apiInteresttf.setBackground(null);
-		apiInteresttf.setBorder(null);
-		apiInteresttf.setStyle(
-				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
-		apiInteresttf.setMinWidth(100);
-		apiInteresttf.setPrefWidth(100);
-		apiInteresttf.setMaxWidth(100);
-		apiInteresttf.setMinHeight(50);
-		apiInteresttf.setPrefHeight(50);
-		apiInteresttf.setMaxHeight(50);
-		apiInteresttf.setDisable(true);
-		apiInteresttf.setOpacity(100);
-
-		if (proposal.getInterest() != 0.0) {
-			apiInteresttf.setText(decimal(proposal.getInterest()));
-		}
-
-		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				String interestFormat = new DecimalFormat("0.00").format(proposal.getInterest());
-				apiInteresttf.setText(interestFormat);
-				tr.interestUpdate(interestFormat);
-			}
-		});
-
-		new LabelWithStyle("		", grid, 2, 0);
-
-		LabelWithStyle creditScore = new LabelWithStyle("Kredit Score:", grid, 3, 0);
-		creditScore.setTextFill(Color.web(style.white()));
-		creditScore.setMinWidth(230);
-		creditScore.setPrefWidth(230);
-		creditScore.setMaxWidth(230);
-		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
-		apiCredittf.setBackground(null);
-		apiCredittf.setBorder(null);
-		apiCredittf.setStyle(
-				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
-		apiCredittf.setMinWidth(100);
-		apiCredittf.setPrefWidth(100);
-		apiCredittf.setMaxWidth(100);
-		apiCredittf.setDisable(true);
-		apiCredittf.setOpacity(100);
-		apiCredittf.setMinHeight(50);
-		apiCredittf.setPrefHeight(50);
-		apiCredittf.setMaxHeight(50);
+		apiTextField(apiInteresttf);
+		interestEvent(apiInteresttf);
 
 		ProgressIndicatorWithStyle progressIndicator = new ProgressIndicatorWithStyle(grid, 4, 0);
-		progressIndicator.setMaxSize(20, 20);
 
-		if (customer.getCreditScore() != null) {
-			progressIndicator.setVisible(false);
-			apiCredittf.setText(customer.getCreditScore().toString());
-		}
+		apiLabel("		Kreditværdighed:", grid, 3, 0, 280);
 
-		customer.stringProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				String creditScore = customer.getCreditScore().toString();
-				apiCredittf.setText(creditScore);
-				tr.creditScoreUpdate(creditScore);
-				paymenttf.setDisable(false);
-				progressIndicator.setVisible(false);
-			}
-		});
+		TextFieldWithStyle apiCredittf = new TextFieldWithStyle("", grid, 4, 0);
+		apiTextField(apiCredittf);
+		creditScoreEvent(apiCredittf, progressIndicator);
 
 		return grid;
 	}
@@ -317,15 +262,63 @@ public class NewPropsalScreen {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
 	}
-	
+
 	private LabelWithStyle apiLabel(String text, GridPaneCenter grid, int x, int y, int width) {
 		LabelWithStyle label = new LabelWithStyle(text, grid, x, y);
 		label.setTextFill(Color.web(style.white()));
 		label.setMinWidth(width);
 		label.setPrefWidth(width);
 		label.setMaxWidth(width);
-		
+
 		return label;
+	}
+
+	private void apiTextField(TextFieldWithStyle tf) {
+		tf.setBackground(null);
+		tf.setBorder(null);
+		tf.setStyle(
+				"-fx-text-fill: " + style.white() + "; -fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );");
+		tf.setMinWidth(100);
+		tf.setPrefWidth(100);
+		tf.setMaxWidth(100);
+		tf.setMinHeight(50);
+		tf.setPrefHeight(50);
+		tf.setMaxHeight(50);
+		tf.setDisable(true);
+		tf.setOpacity(100);
+	}
+
+	private void interestEvent(TextFieldWithStyle tf) {
+		if (proposal.getInterest() != 0.0) {
+			tf.setText(decimal(proposal.getInterest()));
+		}
+
+		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				String interestFormat = new DecimalFormat("0.00").format(proposal.getInterest());
+				tf.setText(interestFormat);
+				tr.interestUpdate(interestFormat);
+			}
+		});
+	}
+
+	private void creditScoreEvent(TextFieldWithStyle tf, ProgressIndicatorWithStyle pi) {
+		if (customer.getCreditScore() != null) {
+			pi.setVisible(false);
+			tf.setText(customer.getCreditScore().toString());
+		}
+
+		customer.stringProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				String creditScore = customer.getCreditScore().toString();
+				tf.setText(creditScore);
+				tr.creditScoreUpdate(creditScore);
+				paymenttf.setDisable(false);
+				pi.setVisible(false);
+			}
+		});
 	}
 
 	//////////////////////////////
@@ -383,7 +376,7 @@ public class NewPropsalScreen {
 
 	private Label title() {
 		Label label = new Label("Nyt LÃ¥neforslag");
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
+		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 60));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
