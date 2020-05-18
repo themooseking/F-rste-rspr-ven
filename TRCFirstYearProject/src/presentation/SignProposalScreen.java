@@ -93,13 +93,13 @@ public class SignProposalScreen {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setVgap(10);
 
-		new LabelWithStyle("Sælger ID ", grid, 0, 0);
+		new LabelWithStyle("Sï¿½lger ID ", grid, 0, 0);
 		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
 		id.setDisable(true);
 		id.setOpacity(100);
 		id.setText(Integer.toString(proposal.getSalesman().getSalesmanId()));
 
-		new LabelWithStyle("Sælger Navn ", grid, 0, 1);
+		new LabelWithStyle("Sï¿½lger Navn ", grid, 0, 1);
 		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
 		name.setDisable(true);
 		name.setOpacity(100);
@@ -185,10 +185,10 @@ public class SignProposalScreen {
 		if (i == 0 || i == 1) {
 			label.setText("Underskrift for " + proposal.getCar());
 		} else if (i == 2) {
-			label.setText("Godekendelse for lånetilbud " + proposal.getId());
+			label.setText("Godekend lÃ¥netilbud " + proposal.getId());
 		}
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 80));
-		label.setTextFill(Color.web(style.grey()));
+		label.setFont(Font.loadFont(style.titleFont(), 80));
+		label.setTextFill(Color.web(style.black()));
 		return label;
 	}
 
@@ -197,7 +197,7 @@ public class SignProposalScreen {
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("The Red Car");
+		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
