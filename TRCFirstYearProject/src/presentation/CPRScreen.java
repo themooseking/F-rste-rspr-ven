@@ -7,18 +7,26 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import logic.DB_Controller;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
 import styles.StyleClass;
@@ -28,7 +36,7 @@ import styles.VBoxWithStyle;
 public class CPRScreen {
 
 	private StyleClass style = new StyleClass();
-
+	private DB_Controller controller = new DB_Controller(); 
 	private TextFieldWithStyle textfield;
 	private Button continueButton;
 
@@ -134,9 +142,13 @@ public class CPRScreen {
 
 		if ((LoggedInST.getUser().getTitle()).equals("Salgschef")) {
 			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
+			button.setContentDisplay(ContentDisplay.CENTER);
+			int numAwaiting = controller.getNumAwaiting();
+			if(numAwaiting > 0) {
+				button.setGraphic(noti(Integer.toString(numAwaiting)));
+			}
 			button.setOnAction(e -> {
 				new ProposalOverview().cosUI();
-				;
 			});
 		}
 
@@ -146,9 +158,15 @@ public class CPRScreen {
 	private GridPane showProposalsButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		ButtonWithStyle button = new ButtonWithStyle("LÃ¥netilbud", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
+		button.setContentDisplay(ContentDisplay.CENTER);
+		int numOngoing = controller.getNumOngoing(LoggedInST.getUser());
+		if(numOngoing > 0) {
+			button.setGraphic(noti(Integer.toString(numOngoing)));
+		}
 		button.setOnAction(e -> {
 			new ProposalOverview().salesmanUI();
+			
 		});
 
 		return grid;
@@ -163,6 +181,29 @@ public class CPRScreen {
 		});
 
 		return grid;
+	}
+	
+	//////////////////////////////
+	// Circle
+	//////////////////////////////
+
+	private Node noti(String number) {
+		GridPane p = new GridPane();
+		p.setTranslateY(-40);
+		p.setTranslateX(145);
+		
+		Label lab = new Label(number);
+		lab.setStyle("-fx-text-fill:white");
+		lab.setFont(Font.loadFont(style.titleFont(), 28));
+		lab.setTextFill(Color.web(style.black()));
+		lab.setPadding(new Insets (0, 0, 0, 12));
+		
+		Circle circle = new Circle(20, Color.web("#060606"));
+		circle.setStrokeWidth(2.0);
+		circle.setStyle("-fx-background-insets: 0 0 -1 0, 0, 0, 0;");
+		circle.setSmooth(true);
+		p.getChildren().addAll(circle, lab);
+		return p;
 	}
 
 	//////////////////////////////
