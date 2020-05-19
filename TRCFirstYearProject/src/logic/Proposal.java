@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import ffl.InterestRate;
 import ffl.Rating;
@@ -26,7 +27,6 @@ public class Proposal extends Thread {
 	private Rating creditScore;
 	private Salesman salesman;
 	private BigDecimal proposalTotalSum;
-	private double apr;
 	private double totalInterest;
 
 	public Proposal(Customer customer, Salesman salesman) {
@@ -97,13 +97,13 @@ public class Proposal extends Thread {
 		} else {
 			interest = dbInterest;
 		}
-		
+
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		interest = Math.round(interest * 10000) / 10000.0;
 		doubleProperty.set(interest);
 	}
@@ -115,47 +115,85 @@ public class Proposal extends Thread {
 	public BigDecimal totalCarPrice() {
 		return car.getPrice().add(car.getVat()).subtract(downPayment);
 	}
-	
-	/***************************************************** 
-	 * Calculates monthly payments with a yearly accrual 
-	 * of interest, and monthly payment<p/>
+
+	private double monthlyRate() {
+		return Math.pow((1.0 + interest / 100.0), 1.0 / 12.0) - 1;
+	}
+
+	/*****************************************************
+	 * Calculates monthly payments with a yearly accrual of interest, and monthly
+	 * payment
+	 * <p/>
 	 * 
-	 * <ul><li><b>interest:</b> r_month = (1 + r_year)^(1/12) - 1;	</li>
+	 * <ul>
+	 * <li><b>interest:</b> r_month = (1 + r_year)^(1/12) - 1;</li>
 	 * 
-	 * <li><b>	payment:</b> y = G * (r / 1 - (1 + r)^(-n));		</li>
-	 * <ul><li>		where G is Principal,			</li>
-	 * <li>			r is interest,					</li>
-	 * <li>			n is number of due dates		</li></ul>
+	 * <li><b> payment:</b> y = G * (r / 1 - (1 + r)^(-n));</li>
+	 * <ul>
+	 * <li>where G is Principal,</li>
+	 * <li>r is interest,</li>
+	 * <li>n is number of due dates</li>
+	 * </ul>
 	 *****************************************************/
 
 	public BigDecimal monthlyPayment() {
 		MathContext m = new MathContext(2);
-			
-		double r = Math.pow((1.0 + interest / 100.0), 1.0 / 12.0) - 1;
+
+		double r = monthlyRate();
 		BigDecimal payment = totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
-		
+
 		return payment.setScale(4, RoundingMode.HALF_UP);
 	}
 
 	public BigDecimal totalInterestSum() {
 		BigDecimal totalInterestSum = monthlyPayment().multiply(new BigDecimal(loanDuration));
-		return  totalInterestSum.subtract(totalCarPrice());
+		return totalInterestSum.subtract(totalCarPrice());
 	}
 
 	public void totalProposalPrice() {
 		proposalTotalSum = totalCarPrice().add(totalInterestSum());
 	}
-	
+
 	public void checkLimit() {
 		int limitCheck = salesman.getProposalLimit().compareTo(proposalTotalSum);
 		int salesChiefCheck = salesman.getProposalLimit().compareTo(new BigDecimal(-1));
-		
-		if(salesChiefCheck != 0 && limitCheck <= 0) {
+
+		if (salesChiefCheck != 0 && limitCheck <= 0) {
 			proposalStatus = "AWAITING";
 		} else {
 			proposalStatus = "ONGOING";
 		}
 	}
+
+
+//	public ArrayList<BigDecimal> loanMonthlyRateAmount() {
+//		ArrayList<BigDecimal> monthlyRateAmountList = new ArrayList<BigDecimal>();
+//		BigDecimal remainingLoanAmount = totalCarPrice();
+//		BigDecimal annuity = monthlyPayment();
+//		
+//		
+//		for (int i = 0; i < loanDuration; i++) {
+//			BigDecimal monthlyRateAmount = remainingLoanAmount.multiply(new BigDecimal(monthlyRate()));
+//			monthlyRateAmountList.add(monthlyRateAmount);
+//			remainingLoanAmount = remainingLoanAmount.subtract(annuity.subtract(monthlyRateAmount));
+//		}
+//		return monthlyRateAmountList;
+//	}
+	
+	public BigDecimal monthlyRateAmount(BigDecimal remainingLoanAmount) {
+		return remainingLoanAmount.multiply(new BigDecimal(monthlyRate()));
+	}
+	
+	public BigDecimal repayment(BigDecimal monthlyRateAmount) {
+		BigDecimal annuity = monthlyPayment();
+		
+		return annuity.subtract(monthlyRateAmount);
+	}
+	
+	public BigDecimal remainingLoanAmount(BigDecimal loanAmount, BigDecimal repayment) {
+		return loanAmount.subtract(repayment);
+	}
+
 
 	/***********************************
 	 * SETTERS
@@ -164,7 +202,7 @@ public class Proposal extends Thread {
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
-	
+
 	public void setProposalTotalSum(BigDecimal proposalTotalSum) {
 		this.proposalTotalSum = proposalTotalSum;
 	}
@@ -184,7 +222,7 @@ public class Proposal extends Thread {
 	public void setCar(Car car) {
 		this.car = car;
 	}
-	
+
 	public void setCreditScore(Rating creditScore) {
 		this.creditScore = creditScore;
 	}
@@ -224,7 +262,7 @@ public class Proposal extends Thread {
 	public Salesman getSalesman() {
 		return salesman;
 	}
-	
+
 	public String getSalesmanTitel() {
 		return salesman.getTitle();
 	}
@@ -235,10 +273,6 @@ public class Proposal extends Thread {
 
 	public double getTotalInterest() {
 		return totalInterest;
-	}
-
-	public double getApr() {
-		return apr;
 	}
 
 	public BigDecimal getProposalTotalSum() {
