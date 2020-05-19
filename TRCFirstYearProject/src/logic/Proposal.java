@@ -1,5 +1,6 @@
 package logic;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import ffl.InterestRate;
@@ -16,13 +17,13 @@ public class Proposal extends Thread {
 	private Car car;
 	private Customer customer;
 	private double interest;
-	private int downPayment;
+	private BigDecimal downPayment;
 	private int loanDuration;
 	private LocalDate proposalDate;
 	private String proposalStatus;
 	private Rating creditScore;
 	private Salesman salesman;
-	private double proposalTotalSum;
+	private BigDecimal proposalTotalSum;
 	private double apr;
 	private double totalInterest;
 
@@ -31,11 +32,10 @@ public class Proposal extends Thread {
 		this.proposalDate = LocalDate.now();
 		this.salesman = salesman;
 		this.doubleProperty = new SimpleDoubleProperty(0);
-		checkLimit();
 		start();
 	}
 
-	public Proposal(int proposalId, Car car, Customer customer, int downPayment, int loanDuration,
+	public Proposal(int proposalId, Car car, Customer customer, BigDecimal downPayment, int loanDuration,
 			LocalDate proposalDate, String proposalStatus, String creditScore, Salesman salesman) {
 		this.proposalId = proposalId;
 		this.car = car;
@@ -72,7 +72,7 @@ public class Proposal extends Thread {
 			break;
 		}
 
-		if (downPayment < car.getPrice() * 0.50) {
+		if (downPayment.compareTo(car.getPrice().multiply(new BigDecimal(0.50))) == -1) {
 			totalInterest += 1.0;
 		}
 
@@ -108,31 +108,43 @@ public class Proposal extends Thread {
 		return doubleProperty;
 	}
 
-	public double totalCarPrice() {
-		return car.getPrice() + car.getVat() - downPayment;
+	public BigDecimal totalCarPrice() {
+		return car.getPrice().add(car.getVat()).subtract(downPayment);
 	}
+	
+	/***************************************************** 
+	 * Calculates monthly payments with a yearly accrual 
+	 * of interest, and monthly payment<p/>
+	 * 
+	 * <ul><li><b>interest:</b> r_month = (1 + r_year)^(1/12) - 1;	</li>
+	 * 
+	 * <li><b>	payment:</b> y = G * (r / 1 - (1 + r)^(-n));		</li>
+	 * <ul><li>		where G is Principal,			</li>
+	 * <li>			r is interest,					</li>
+	 * <li>			n is number of due dates		</li></ul>
+	 *****************************************************/
 
-	public double monthlyPayment() {
+	public BigDecimal monthlyPayment() {
 		double r = Math.pow((1.0 + totalInterest / 100.0), 1.0 / 12.0) - 1;
-		return totalCarPrice() * (r / (1 - Math.pow(1 + r, -loanDuration)));
+		return totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
 	}
 
-	public double totalInterestSum() {
-		return monthlyPayment() * loanDuration - totalCarPrice();
+	public BigDecimal totalInterestSum() {
+		BigDecimal totalInterestSum = monthlyPayment().multiply(new BigDecimal(loanDuration));
+		return  totalInterestSum.subtract(totalCarPrice());
 	}
 
 	public void totalProposalPrice() {
-		proposalTotalSum = totalCarPrice() + totalInterestSum();
+		proposalTotalSum = totalCarPrice().add(totalInterestSum());
 	}
 	
 	public void checkLimit() {
-		if(salesman.getProposalLimit() < proposalTotalSum) {
+		if(salesman.getProposalLimit().compareTo(proposalTotalSum) == -1) {
 			proposalStatus = "AWAITING";
 		} else {
 			proposalStatus = "ONGOING";
 		}
 	}
-
 
 	/***********************************
 	 * SETTERS
@@ -142,11 +154,11 @@ public class Proposal extends Thread {
 		this.interest = interest;
 	}
 	
-	public void setProposalTotalSum(double proposalTotalSum) {
+	public void setProposalTotalSum(BigDecimal proposalTotalSum) {
 		this.proposalTotalSum = proposalTotalSum;
 	}
 
-	public void setDownPayment(int downPayment) {
+	public void setDownPayment(BigDecimal downPayment) {
 		this.downPayment = downPayment;
 	}
 
@@ -190,7 +202,7 @@ public class Proposal extends Thread {
 		return proposalStatus;
 	}
 
-	public int getDownPayment() {
+	public BigDecimal getDownPayment() {
 		return downPayment;
 	}
 
@@ -218,7 +230,7 @@ public class Proposal extends Thread {
 		return apr;
 	}
 
-	public double getProposalTotalSum() {
+	public BigDecimal getProposalTotalSum() {
 		totalProposalPrice();
 		return proposalTotalSum;
 	}

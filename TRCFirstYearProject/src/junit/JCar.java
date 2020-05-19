@@ -3,6 +3,8 @@ package junit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
 
 import logic.Car;
@@ -10,7 +12,7 @@ import logic.DB_Controller;
 
 public class JCar {
 	DB_Controller controller = new DB_Controller();
-	Car car = new Car(1, "812 Superfast", 5600000, 0, 2017, "AVAILABLE");
+	Car car = new Car(1, "812 Superfast", new BigDecimal(5600000), 0, 2017, "AVAILABLE");
 
 	@Test
 	public void testTypeOfGetCar() {
@@ -49,12 +51,12 @@ public class JCar {
 
 	@Test
 	public void testGetPrice() {
-		assertEquals(5600000, car.getPrice());
+		assertEquals(new BigDecimal(5600000), car.getPrice());
 	}
 
 	@Test
 	public void testCarVarPrice() {
-		assertEquals(1400000, car.getVat());
+		assertEquals(new BigDecimal(1400000), car.getVat());
 	}
 
 }

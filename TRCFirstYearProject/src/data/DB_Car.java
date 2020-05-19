@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import logic.Car;
+
+import java.math.BigDecimal;
 import java.sql.*;
 
 public class DB_Car {
@@ -29,7 +31,7 @@ public class DB_Car {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String model = resultSet.getString("model");
-				int price = resultSet.getInt("price");
+				BigDecimal price = resultSet.getBigDecimal("price");
 				int mileage = 0;
 				int factoryYear = Calendar.getInstance().get(Calendar.YEAR);
 				String carStatus = resultSet.getString("carStatus");
@@ -63,7 +65,7 @@ public class DB_Car {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String model = resultSet.getString("model");
-				int price = resultSet.getInt("price");
+				BigDecimal price = resultSet.getBigDecimal("price");
 				int mileage = 0;
 				int factoryYear = Calendar.getInstance().get(Calendar.YEAR);
 				String carStatus = resultSet.getString("carStatus");
@@ -147,7 +149,7 @@ public class DB_Car {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String model = resultSet.getString("model");
-				int price = resultSet.getInt("price");
+				BigDecimal price = resultSet.getBigDecimal("price");
 				int mileage = resultSet.getInt("mileage");
 				int factoryYear = resultSet.getInt("factoryYear");
 				String carStatus = resultSet.getString("carStatus");
@@ -179,7 +181,7 @@ public class DB_Car {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				int price = resultSet.getInt("price");
+				BigDecimal price = resultSet.getBigDecimal("price");
 				int mileage = resultSet.getInt("mileage");
 				int factoryYear = resultSet.getInt("factoryYear");
 				String carStatus = resultSet.getString("carStatus");
@@ -214,7 +216,7 @@ public class DB_Car {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				int price = resultSet.getInt("price");
+				BigDecimal price = resultSet.getBigDecimal("price");
 				int mileage = resultSet.getInt("mileage");
 				String carStatus = resultSet.getString("carStatus");
 

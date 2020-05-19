@@ -1,9 +1,10 @@
 .text-input
 {
 	-fx-background-color: transparent;
-	-fx-font-size: 14;
+	-fx-font-size: 12;
 	-fx-text-fill: #707070;
-	-fx-font-family: "Lucida Fax";
-	-fx-font-weight: BOLD;
+	-fx-font-family: "Lucida Fax";		
+	-fx-padding: 0;
+   	-fx-border: gone;
 } 
 

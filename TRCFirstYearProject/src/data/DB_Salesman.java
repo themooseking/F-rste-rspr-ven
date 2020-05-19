@@ -1,6 +1,8 @@
 package data;
 
 import logic.Salesman;
+
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public class DB_Salesman {
 				String name = resultSet.getString("salesmanName");
 				String email = resultSet.getString("email");
 				String title = resultSet.getString("title");
-				int proposalLimit = resultSet.getInt("proposalLimit");
+				BigDecimal proposalLimit = resultSet.getBigDecimal("proposalLimit");
 
 				Salesman salesman = new Salesman(id, phone, name, email, title, proposalLimit);
 				salesmanList.add(salesman);

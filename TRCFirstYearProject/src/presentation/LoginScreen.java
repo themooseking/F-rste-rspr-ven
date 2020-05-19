@@ -2,7 +2,7 @@ package presentation;
 
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
+import javafx.collections.FXCollections; 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
