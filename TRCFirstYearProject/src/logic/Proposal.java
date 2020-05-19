@@ -1,6 +1,7 @@
 package logic;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 
 import ffl.InterestRate;
@@ -72,7 +73,7 @@ public class Proposal extends Thread {
 			break;
 		}
 
-		if (downPayment.compareTo(car.getPrice().multiply(new BigDecimal(0.50))) == -1) {
+		if (downPayment.compareTo(car.getPrice().multiply(new BigDecimal(0.50))) <= 0) {
 			totalInterest += 1.0;
 		}
 
@@ -125,8 +126,13 @@ public class Proposal extends Thread {
 	 *****************************************************/
 
 	public BigDecimal monthlyPayment() {
-		double r = Math.pow((1.0 + totalInterest / 100.0), 1.0 / 12.0) - 1;
-		return totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
+		MathContext m = new MathContext(2);
+		
+		double interest = Math.round(totalInterest * 100) / 100;	
+		double r = Math.pow((1.0 + interest / 100.0), 1.0 / 12.0) - 1;
+		BigDecimal payment = totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
+		
+		return payment;
 	}
 
 	public BigDecimal totalInterestSum() {
@@ -139,7 +145,10 @@ public class Proposal extends Thread {
 	}
 	
 	public void checkLimit() {
-		if(salesman.getProposalLimit().compareTo(proposalTotalSum) == -1) {
+		int limitCheck = salesman.getProposalLimit().compareTo(proposalTotalSum);
+		int salesChiefCheck = salesman.getProposalLimit().compareTo(new BigDecimal(-1));
+		
+		if(salesChiefCheck != 0 && limitCheck <= 0) {
 			proposalStatus = "AWAITING";
 		} else {
 			proposalStatus = "ONGOING";
@@ -234,5 +243,9 @@ public class Proposal extends Thread {
 	public BigDecimal getProposalTotalSum() {
 		totalProposalPrice();
 		return proposalTotalSum;
+	}
+
+	public Rating getCreditScore() {
+		return creditScore;
 	}
 }
