@@ -91,7 +91,7 @@ public class ProposalOverview {
 		map.put("Sum (DKK)", "proposalTotalSum");
 		if (i == 2) {
 			map.put("Salgs titel", "salesmanTitel");
-			map.put("Sælger Navn", "salesman");
+			map.put("Sælger Navn", "salesman"); 
 		}
 		map.put("Status", "proposalStatus");
 
