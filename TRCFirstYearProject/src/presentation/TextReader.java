@@ -62,7 +62,7 @@ public class TextReader {
 				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 500;"
 				+ "-fx-background-position: center;");
 		checkDone();
-		autoDot("23545618,56");
+		autoDot("23545618,50");
 		return vbox;
 	}
 
@@ -400,10 +400,15 @@ public class TextReader {
 		if (!payment.getText().isEmpty()) {
 			carPriceDownPayment.setText(decimal(proposal.getDownPayment()));
 			proposalDownPayment.setText(decimal(proposal.getDownPayment()));
+		} else if (payment.getText().isEmpty()) {
+			carPriceDownPayment.setText("");
+			proposalDownPayment.setText("");
 		}
 
 		if (!duration.getText().isEmpty()) {
 			proposalDuration.setText(Integer.toString(proposal.getLoanDuration()));
+		} else if (duration.getText().isEmpty()) {
+			proposalDuration.setText("");
 		}
 	}
 
@@ -418,14 +423,9 @@ public class TextReader {
 	}
 
 	private String autoDot(String string) {
-		String newString = "";
+		String str = string.replaceAll(",", ".");		
+		DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
 		
-		for (int i = string.length(); i > 0; i--) {
-			if (string.indexOf(i + 3) != 0) {
-//				string.substring(beginIndex, endIndex);
-			}
-		}
-
-		return newString;
+		return decimalFormat.format(Double.parseDouble(str));
 	}
 }
