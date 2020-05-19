@@ -5,6 +5,7 @@ import logic.Customer;
 import logic.Proposal;
 import logic.Salesman;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class DB_Proposal {
 
 			statement.setInt(1, proposal.getCar().getId());
 			statement.setInt(2, proposal.getCustomer().getCustomerId());
-			statement.setInt(3, proposal.getDownPayment());
+			statement.setBigDecimal(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
 			statement.setDate(5, Date.valueOf(proposal.getDate()));
 			statement.setString(6, proposal.getProposalStatus());
@@ -48,7 +49,7 @@ public class DB_Proposal {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement.setDate(1, Date.valueOf(LocalDate.now()));
-			statement.setFloat(2, (float) interest);
+			statement.setDouble(2, interest);
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -85,7 +86,7 @@ public class DB_Proposal {
 					}
 				}
 				
-				int downPayment = resultSet.getInt("downPayment");
+				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
 				String proposalStatus = resultSet.getString("proposalStatus");
@@ -144,7 +145,7 @@ public class DB_Proposal {
 					}
 				}
 				
-				int downPayment = resultSet.getInt("downPayment");
+				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
 				String proposalStatus = resultSet.getString("proposalStatus");
@@ -194,7 +195,7 @@ public class DB_Proposal {
 					}
 				}
 				
-				int downPayment = resultSet.getInt("downPayment");
+				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
 				String proposalStatus = resultSet.getString("proposalStatus");

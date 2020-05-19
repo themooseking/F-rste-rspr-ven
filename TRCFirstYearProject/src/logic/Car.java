@@ -1,15 +1,17 @@
 package logic;
 
+import java.math.BigDecimal;
+
 public class Car {
 	
 	private int carId;
 	private String model;
-	private int price;
+	private BigDecimal price;
 	private int milage;
 	private int factory;
 	private String carStatus;
 	
-	public Car(int id, String model, int price, int milage, int factory, String carStatus) {
+	public Car(int id, String model, BigDecimal price, int milage, int factory, String carStatus) {
 		this.carId = id;
 		this.model = model;
 		this.price = price;
@@ -22,7 +24,7 @@ public class Car {
 		return carId;
 	}
 
-	public int getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
@@ -42,8 +44,8 @@ public class Car {
 		return carStatus;
 	}	
 	
-	public double getVat() {
-		return getPrice() * 0.25;
+	public BigDecimal getVat() {
+		return getPrice().multiply(new BigDecimal(0.25));
 	}	
 	
 	@Override

@@ -1,5 +1,7 @@
 package logic;
 
+import java.math.BigDecimal;
+
 public class Salesman {
 	
 	private int salesmanId;
@@ -7,9 +9,9 @@ public class Salesman {
 	private String salesmanName;
 	private String email;
 	private String title;
-	private int proposalLimit;
+	private BigDecimal proposalLimit;
 	
-	public Salesman(int salesmanId, int phone, String salesmanName, String email, String title, int proposalLimit) {
+	public Salesman(int salesmanId, int phone, String salesmanName, String email, String title, BigDecimal proposalLimit) {
 		this.salesmanId = salesmanId;
 		this.phone = phone;
 		this.salesmanName = salesmanName;
@@ -31,11 +33,11 @@ public class Salesman {
 		return title;
 	}
 
-	public int getProposalLimit() {
+	public BigDecimal getProposalLimit() {
 		return proposalLimit;
 	}
 
-	public void setProposalLimit(int proposalLimit) {
+	public void setProposalLimit(BigDecimal proposalLimit) {
 		this.proposalLimit = proposalLimit;
 	}
 }

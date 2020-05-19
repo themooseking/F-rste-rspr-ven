@@ -84,6 +84,10 @@ public class Customer extends Thread{
 		return customerName;
 	}
 	
+	public int getPostalCode() {
+		return postalCode;
+	}
+	
 	@Override
 	public String toString() {
 		return customerName;		
