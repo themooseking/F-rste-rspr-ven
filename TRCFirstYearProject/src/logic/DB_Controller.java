@@ -117,8 +117,8 @@ public class DB_Controller {
 		return proposalDB.getNumAwaiting();
 	}
 	
-	public int getNumOngoing() {
-		return proposalDB.getNumOngoing();
+	public int getNumOngoing(Salesman salesman) {
+		return proposalDB.getNumOngoing(salesman);
 	}
 	
 	/***********************************

@@ -247,16 +247,19 @@ public class DB_Proposal {
 		return numAwaiting;
 	}
 	
-	public int getNumOngoing() {
+	public int getNumOngoing(Salesman salesman) {
 		int numAwaiting = 0;
 
 		try {
 			String sql = "SELECT COUNT(*) " 
 					+ "FROM proposal " 
-					+ "WHERE proposalStatus='ONGOING'";
+					+ "WHERE proposalStatus='ONGOING' "
+					+ "AND salesman=?";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, salesman.getSalesmanId());
 
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
 				numAwaiting = resultSet.getInt("");
