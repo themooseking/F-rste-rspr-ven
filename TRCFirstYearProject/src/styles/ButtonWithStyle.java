@@ -21,6 +21,8 @@ public class ButtonWithStyle extends Button {
 		super.setText(buttonText);
 		super.setFont(Font.font(style.textFont(), FontWeight.BOLD, 30));
 		super.setMinSize(300, 90);
+		super.setPrefSize(300, 90);
+		super.setMaxSize(300, 90);
 
 		defaultEffect(this);
 
