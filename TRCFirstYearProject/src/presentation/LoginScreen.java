@@ -29,8 +29,7 @@ public class LoginScreen {
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
-				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 1600;"
-				+ "-fx-background-position: center;");
+				+ "-fx-background-repeat: no-repeat;");
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);

@@ -120,7 +120,7 @@ public class CPRScreen {
 		continueButton.setOnAction(e -> {
 			try {
 				new ProposalOverview().customerUI(textfield.getText());
-			} catch (Exception e2) {
+			} catch (NullPointerException e2) {
 				Alert wrongCpr = new Alert(AlertType.NONE, ("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
 				Optional<ButtonType> result = wrongCpr.showAndWait();
 			}
