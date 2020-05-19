@@ -88,10 +88,10 @@ public class ProposalOverview {
 			map.put("Kunde", "customer");
 		}
 		map.put("Rente (%)", "totalInterest");
-		map.put("Ã…OP (%)", "apr");
 		map.put("Sum (DKK)", "proposalTotalSum");
 		if (i == 2) {
 			map.put("Salgs titel", "salesmanTitel");
+			map.put("Sælger Navn", "salesman");
 		}
 		map.put("Status", "proposalStatus");
 
