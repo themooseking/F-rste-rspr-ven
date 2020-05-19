@@ -2,6 +2,7 @@ package logic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import ffl.InterestRate;
@@ -81,6 +82,7 @@ public class Proposal extends Thread {
 			totalInterest += 1.0;
 		}
 
+		interest = Math.round(interest * 10000) / 10000.0;
 		totalInterest += interest;
 
 		return totalInterest;
@@ -102,6 +104,7 @@ public class Proposal extends Thread {
 			e.printStackTrace();
 		}
 		
+		interest = Math.round(interest * 10000) / 10000.0;
 		doubleProperty.set(interest);
 	}
 
@@ -127,12 +130,11 @@ public class Proposal extends Thread {
 
 	public BigDecimal monthlyPayment() {
 		MathContext m = new MathContext(2);
-		
-		double interest = Math.round(totalInterest * 100) / 100;	
+			
 		double r = Math.pow((1.0 + interest / 100.0), 1.0 / 12.0) - 1;
 		BigDecimal payment = totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
 		
-		return payment;
+		return payment.setScale(4, RoundingMode.HALF_UP);
 	}
 
 	public BigDecimal totalInterestSum() {
