@@ -103,7 +103,7 @@ public class SignProposalScreen {
 		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
 		name.setDisable(true);
 		name.setOpacity(100);
-		name.setText(proposal.getSalesman().toString());
+		name.setText(LoggedInST.getUser().toString());
 
 		new LabelWithStyle("Kodeord ", grid, 0, 2);
 		password = new TextFieldWithStyle("", grid, 1, 2);

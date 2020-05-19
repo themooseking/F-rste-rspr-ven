@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.Car;
 import logic.Customer;
 import logic.Proposal;
@@ -53,14 +54,15 @@ public class TextReader {
 	public VBox textReader() {
 		VBox vbox = new VBox(customerTitle(), customerInfo(), carTitle(), carInfo(), carPriceTitle(), carPriceInfo(),
 				proposalInfo(), priceSum(), totalPrice());
-		vbox.setPadding(new Insets(10, 0, 10, 0));
+		vbox.setPadding(new Insets(30, style.textReaderInsets(), 20, style.textReaderInsets()));
 		vbox.setBorder(style.elementBorder());
 		vbox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 20, 0, 5, 5));
 		vbox.setStyle("-fx-background-color: \"" + style.white() + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundTextReader.jpg\"); "
-				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 500;" + "-fx-background-position: center;");
+				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 500;"
+				+ "-fx-background-position: center;");
 		checkDone();
-
+		autoDot("23545618,50");
 		return vbox;
 	}
 
@@ -70,118 +72,156 @@ public class TextReader {
 
 	private GridPane customerInfo() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 40, 0));
+		grid.setBorder(style.underLine());
+		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
-		new TextWithStyle("Navn: ", grid, 0, 0, 110, 0, 1);
-		new TextWithStyle(customer.getCustomerName(), grid, 1, 0, 200, 0, 1);
+		TextWithStyle name = new TextWithStyle("Navn: ", grid, 1, 0, 110, 1);
+		name.setStyle(style.bold());
+		new TextWithStyle(customer.getCustomerName(), grid, 2, 0, 200, 1);
 
-		new TextWithStyle("Adresse: ", grid, 0, 1, 110, 0, 1);
-		new TextWithStyle(customer.getCustomerAddress(), grid, 1, 1, 200, 0, 1);
+		TextWithStyle adress = new TextWithStyle("Adresse: ", grid, 1, 1, 110, 1);
+		adress.setStyle(style.bold());
+		new TextWithStyle(customer.getCustomerAddress() + ", " + customer.getPostalCode(), grid, 2, 1, 200, 1);
 
-		new TextWithStyle("Telefon nr.: ", grid, 0, 2, 110, 0, 1);
-		new TextWithStyle(Integer.toString(customer.getPhone()), grid, 1, 2, 300, 0, 1);
+		TextWithStyle phone = new TextWithStyle("Telefon nr.: ", grid, 1, 2, 110, 1);
+		phone.setStyle(style.bold());
+		new TextWithStyle(Integer.toString(customer.getPhone()), grid, 2, 2, 300, 1);
 
-		new TextWithStyle("Email: ", grid, 0, 3, 110, 1, 1);
-		new TextWithStyle(customer.getEmail(), grid, 1, 3, 510, 1, 1);
+		TextWithStyle mail = new TextWithStyle("Email: ", grid, 1, 3, 110, 1);
+		mail.setStyle(style.bold());
+		new TextWithStyle(customer.getEmail(), grid, 2, 3, 200, 1);
 
 		return grid;
 	}
 
 	private GridPane carInfo() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 10, 0));
+		grid.setBorder(style.underLine());
+		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
-		new TextWithStyle("Model: ", grid, 0, 0, 90, 0, 1);
-		carModel = new TextWithStyle("", grid, 1, 0, 230, 0, 1);
+		TextWithStyle model = new TextWithStyle("Model: ", grid, 1, 0, 90, 1);
+		model.setStyle(style.bold());
+		carModel = new TextWithStyle("", grid, 2, 0, 290, 1);
 
-		new TextWithStyle("Kilometer: ", grid, 0, 1, 120, 0, 1);
-		carMilage = new TextWithStyle("", grid, 1, 1, 100, 0, 1);
-		new TextWithStyle("km", grid, 2, 1, style.textUnitWidth(), 0, 1);
+		TextWithStyle km = new TextWithStyle("Kilometer: ", grid, 1, 1, 110, 1);
+		km.setStyle(style.bold());
+		carMilage = new TextWithStyle("", grid, 2, 1, 50, 1);
 
-		new TextWithStyle("År: ", grid, 0, 2, 60, 1, 1);
-		carYear = new TextWithStyle("", grid, 1, 2, 500, 1, 1);
-		GridPane.setColumnSpan(carYear, 2);
+		TextWithStyle year = new TextWithStyle("År: ", grid, 1, 2, 60, 1);
+		year.setStyle(style.bold());
+		carYear = new TextWithStyle("", grid, 2, 2, 200, 1);
 
 		return grid;
 	}
 
 	private GridPane carPriceInfo() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 20, 0));
+		grid.setBorder(style.dottedUnderLine());
+		grid.setHgap(5);
+		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
-		carPriceModel = new TextWithStyle("", grid, 0, 0, style.textReaderTextWidth(), 0, 1);
-		carPriceModelPrice = new TextWithStyle("", grid, 1, 0, 200, 0, 2);
-		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 0, 1);
+		carPriceModel = new TextWithStyle("", grid, 1, 0, style.textReaderTextWidth(), 1);
+		carPriceModelPrice = new TextWithStyle("", grid, 2, 0, 200, 2);
+		new TextWithStyle("DKK", grid, 3, 0, style.textUnitWidth(), 1);
 
-		new TextWithStyle("+ Moms (25%) ", grid, 0, 1, 200, 0, 1);
-		carPriceVat = new TextWithStyle("", grid, 1, 1, 200, 0, 2);
-		new TextWithStyle("DKK", grid, 2, 1, style.textUnitWidth(), 0, 1);
+		new TextWithStyle("+ Moms (25%) ", grid, 1, 1, 200, 1);
+		carPriceVat = new TextWithStyle("", grid, 2, 1, 200, 2);
+		new TextWithStyle("DKK", grid, 3, 1, style.textUnitWidth(), 1);
 
-		new TextWithStyle("-  Udbetaling: ", grid, 0, 2, 200, 0, 1);
-		carPriceDownPayment = new TextWithStyle("", grid, 1, 2, 200, 0, 2);
-		new TextWithStyle("DKK", grid, 2, 2, style.textUnitWidth(), 0, 1);
+		new TextWithStyle("-  Udbetaling: ", grid, 1, 2, 200, 1);
+		carPriceDownPayment = new TextWithStyle("", grid, 2, 2, 200, 2);
+		new TextWithStyle("DKK", grid, 3, 2, style.textUnitWidth(), 1);
 
-		new TextWithStyle("Total Bilpris: ", grid, 0, 3, 200, 2, 1);
-		carPriceTotal = new TextWithStyle("", grid, 1, 3, 200, 2, 2);
-		new TextWithStyle("DKK", grid, 2, 3, style.textUnitWidth(), 2, 1);
+		TextWithStyle carprice = new TextWithStyle("Total Bilpris: ", grid, 1, 3, 200, 1);
+		carprice.setStyle(style.bold());
+		carPriceTotal = new TextWithStyle("", grid, 2, 3, 200, 2);
+		carPriceTotal.setStyle(style.bold());
+		TextWithStyle dkk = new TextWithStyle("DKK", grid, 3, 3, style.textUnitWidth(), 1);
+		dkk.setStyle(style.bold());
 
 		return grid;
 	}
 
 	private GridPane proposalInfo() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 3, 0));
+		grid.setBorder(style.dottedUnderLine());
+		grid.setHgap(5);
+		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
-		new TextWithStyle("Bank rente: ", grid, 0, 0, style.textReaderTextWidth(), 0, 1);
-		proposalInterest = new TextWithStyle("", grid, 1, 0, 200, 0, 2);
+		new TextWithStyle("Bank rente: ", grid, 1, 0, style.textReaderTextWidth(), 1);
+		proposalInterest = new TextWithStyle("", grid, 2, 0, 200, 2);
 		checkInterest();
-		new TextWithStyle("%", grid, 2, 0, style.textUnitWidth(), 0, 1);
+		new TextWithStyle("%", grid, 3, 0, style.textUnitWidth(), 1);
 
-		new TextWithStyle("Kreditværdighed: ", grid, 0, 1, 200, 0, 1);
-		proposalCreditScore = new TextWithStyle("", grid, 1, 1, 200, 0, 2);
+		new TextWithStyle("Kreditværdighed: ", grid, 1, 1, 200, 1);
+		proposalCreditScore = new TextWithStyle("", grid, 2, 1, 200, 2);
 		checkCreditScore();
 
-		new TextWithStyle("Udbetaling: ", grid, 0, 2, 200, 0, 1);
-		proposalDownPayment = new TextWithStyle("", grid, 1, 2, 200, 0, 2);
-		new TextWithStyle("DKK", grid, 2, 2, style.textUnitWidth(), 0, 1);
+		new TextWithStyle("Udbetaling: ", grid, 1, 2, 200, 1);
+		proposalDownPayment = new TextWithStyle("", grid, 2, 2, 200, 2);
+		new TextWithStyle("DKK", grid, 3, 2, style.textUnitWidth(), 1);
 
-		new TextWithStyle("Afbetalingsperiode: ", grid, 0, 3, 200, 0, 1);
-		proposalDuration = new TextWithStyle("", grid, 1, 3, 200, 0, 2);
-		new TextWithStyle("Måned(er)", grid, 2, 3, style.textUnitWidth(), 0, 1);
+		new TextWithStyle("Afbetalingsperiode: ", grid, 1, 3, 200, 1);
+		proposalDuration = new TextWithStyle("", grid, 2, 3, 200, 2);
+		new TextWithStyle("Måned(er)", grid, 3, 3, style.textUnitWidth(), 1);
 
-		new TextWithStyle("Total rente: ", grid, 0, 4, 200, 0, 1);
-		proposalTotalInterest = new TextWithStyle("", grid, 1, 4, 100, 0, 2);
-		new TextWithStyle("%", grid, 2, 4, style.textUnitWidth(), 0, 1);
+		TextWithStyle interest = new TextWithStyle("Total rente: ", grid, 1, 4, 200, 1);
+		interest.setStyle(style.bold());
+		proposalTotalInterest = new TextWithStyle("", grid, 2, 4, 100, 2);
+		proposalTotalInterest.setStyle(style.bold());
+		TextWithStyle perc = new TextWithStyle("%", grid, 3, 4, style.textUnitWidth(), 1);
+		perc.setStyle(style.bold());
 
-		new TextWithStyle("Månedlig ydelse: ", grid, 0, 5, 200, 2, 1);
-		proposalMonthlyPayment = new TextWithStyle("", grid, 1, 5, 200, 2, 2);
-		new TextWithStyle("DKK", grid, 2, 5, style.textUnitWidth(), 2, 1);
+		TextWithStyle monthly = new TextWithStyle("Månedlig ydelse: ", grid, 1, 5, 200, 1);
+		monthly.setStyle(style.bold());
+		proposalMonthlyPayment = new TextWithStyle("", grid, 2, 5, 200, 2);
+		proposalMonthlyPayment.setStyle(style.bold());
+		TextWithStyle dkk = new TextWithStyle("DKK", grid, 3, 5, style.textUnitWidth(), 1);
+		dkk.setStyle(style.bold());
 
 		return grid;
 	}
 
 	private GridPane priceSum() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 3, 0));
+		grid.setBorder(style.underLine());
+		grid.setHgap(5);
+		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
-		new TextWithStyle("Total bilpris: ", grid, 0, 0, style.textReaderTextWidth(), 0, 1);
-		sumCarPrice = new TextWithStyle("", grid, 1, 0, 200, 0, 2);
-		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 0, 1);
+		TextWithStyle carprice = new TextWithStyle("Total bilpris: ", grid, 1, 0, style.textReaderTextWidth(), 1);
+		carprice.setStyle(style.bold());
+		sumCarPrice = new TextWithStyle("", grid, 2, 0, 200, 2);
+		sumCarPrice.setStyle(style.bold());
+		TextWithStyle dkk1 = new TextWithStyle("DKK", grid, 3, 0, style.textUnitWidth(), 1);
+		dkk1.setStyle(style.bold());
 
-		new TextWithStyle("Total Renteomkostninger: ", grid, 0, 1, 210, 1, 1);
-		sumIntereset = new TextWithStyle("", grid, 1, 1, 200, 1, 2);
-		new TextWithStyle("DKK", grid, 2, 1, style.textUnitWidth(), 1, 1);
+		TextWithStyle totalinterest = new TextWithStyle("Total Renteomkostninger: ", grid, 1, 1, 210, 1);
+		totalinterest.setStyle(style.bold());
+		sumIntereset = new TextWithStyle("", grid, 2, 1, 200, 2);
+		sumIntereset.setStyle(style.bold());
+		TextWithStyle dkk2 = new TextWithStyle("DKK", grid, 3, 1, style.textUnitWidth(), 1);
+		dkk2.setStyle(style.bold());
 
 		return grid;
 	}
 
 	private GridPane totalPrice() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_RIGHT);
-		grid.setPadding(new Insets(0, style.textReaderInsets() + 10, 0, style.textReaderInsets()));
+		GridPaneCenter grid = new GridPaneCenter(Pos.BASELINE_RIGHT);
+		grid.setPadding(new Insets(15, 0, 5, 0));
+		grid.setBorder(style.sumLine());
+		grid.setHgap(5);
 
-		new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 220, 1, 1);
-		proposalTotalSum = new TextWithStyle("", grid, 1, 0, 150, 1, 2);
-		new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 1, 1);
+		TextWithStyle total = new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 220, 1);
+		total.setStyle(style.bold());
+		proposalTotalSum = new TextWithStyle("", grid, 1, 0, 150, 2);
+		proposalTotalSum.setStyle(style.bold());
+		TextWithStyle dkk = new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 1);
+		dkk.setStyle(style.bold());
 
 		return grid;
 	}
@@ -192,33 +232,33 @@ public class TextReader {
 
 	private GridPane customerTitle() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(0, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Kunde", grid, 0, 0);
-		label.setFont(Font.font(style.textFont(), 25));
-		label.setTextFill(Color.web(style.enterTextColor()));
+		label.setFont(Font.font(style.textFont(), FontWeight.BOLD, 25));
+		label.setTextFill(Color.web(style.grey()));
 
 		return grid;
 	}
 
 	private GridPane carTitle() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Bil", grid, 0, 0);
-		label.setFont(Font.font(style.textFont(), 25));
-		label.setTextFill(Color.web(style.enterTextColor()));
+		label.setFont(Font.font(style.textFont(), FontWeight.BOLD, 25));
+		label.setTextFill(Color.web(style.grey()));
 
 		return grid;
 	}
 
 	private GridPane carPriceTitle() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(0, style.textReaderInsets(), 0, style.textReaderInsets()));
+		grid.setPadding(new Insets(10, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Bilpris", grid, 0, 0);
-		label.setFont(Font.font(style.textFont(), 25));
-		label.setTextFill(Color.web(style.enterTextColor()));
+		label.setFont(Font.font(style.textFont(), FontWeight.BOLD, 25));
+		label.setTextFill(Color.web(style.grey()));
 
 		return grid;
 	}
@@ -245,7 +285,7 @@ public class TextReader {
 				&& proposal.getInterest() != 0 && proposal.getLoanDuration() != 0) {
 
 			carModel.setText(proposal.getCar().getModel());
-			carMilage.setText(Integer.toString(proposal.getCar().getMilage()));
+			carMilage.setText(Integer.toString(proposal.getCar().getMilage()) + " km");
 			carYear.setText(Integer.toString(proposal.getCar().getFactory()));
 			carPriceModel.setText(proposal.getCar().toString());
 			carPriceModelPrice.setText(decimal(proposal.getCar().getPrice()));
@@ -259,6 +299,7 @@ public class TextReader {
 			carPriceDownPayment.setText(decimal(proposal.getDownPayment()));
 			proposalDownPayment.setText(decimal(proposal.getDownPayment()));
 			proposalDuration.setText(Integer.toString(proposal.getLoanDuration()));
+			proposalCreditScore.setText("MANGLER proposal.getCustomer().getCreditScore().toString() fra db");
 		}
 	}
 
@@ -312,7 +353,7 @@ public class TextReader {
 
 			if (model.getValue() != null) {
 				carModel.setText(proposal.getCar().getModel());
-				carMilage.setText(Integer.toString(proposal.getCar().getMilage()));
+				carMilage.setText(Integer.toString(proposal.getCar().getMilage()) + " km");
 				carYear.setText(Integer.toString(proposal.getCar().getFactory()));
 
 				carPriceModel.setText(proposal.getCar().toString());
@@ -335,7 +376,7 @@ public class TextReader {
 
 			if (regnr.getValue() != null) {
 				carModel.setText(proposal.getCar().getModel());
-				carMilage.setText(Integer.toString(proposal.getCar().getMilage()));
+				carMilage.setText(Integer.toString(proposal.getCar().getMilage()) + " km");
 				carYear.setText(Integer.toString(proposal.getCar().getFactory()));
 
 				carPriceModel.setText(proposal.getCar().toString());
@@ -359,10 +400,15 @@ public class TextReader {
 		if (!payment.getText().isEmpty()) {
 			carPriceDownPayment.setText(decimal(proposal.getDownPayment()));
 			proposalDownPayment.setText(decimal(proposal.getDownPayment()));
+		} else if (payment.getText().isEmpty()) {
+			carPriceDownPayment.setText("");
+			proposalDownPayment.setText("");
 		}
 
 		if (!duration.getText().isEmpty()) {
 			proposalDuration.setText(Integer.toString(proposal.getLoanDuration()));
+		} else if (duration.getText().isEmpty()) {
+			proposalDuration.setText("");
 		}
 	}
 
@@ -370,9 +416,16 @@ public class TextReader {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
 	}
-	
+
 	private String decimal(BigDecimal number) {
 		String format = new DecimalFormat("0.00").format(number);
 		return format;
+	}
+
+	private String autoDot(String string) {
+		String str = string.replaceAll(",", ".");		
+		DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+		
+		return decimalFormat.format(Double.parseDouble(str));
 	}
 }
