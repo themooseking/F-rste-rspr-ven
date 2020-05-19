@@ -222,6 +222,54 @@ public class DB_Proposal {
 	}
 	
 	/***********************************
+	 * READ STATUS
+	 ***********************************/
+	
+	public int getNumAwaiting() {
+		int numAwaiting = 0;
+
+		try {
+			String sql = "SELECT COUNT(*) " 
+					+ "FROM proposal " 
+					+ "WHERE proposalStatus='AWAITING'";
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			if (resultSet.next()) {
+				numAwaiting = resultSet.getInt("");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return numAwaiting;
+	}
+	
+	public int getNumOngoing() {
+		int numAwaiting = 0;
+
+		try {
+			String sql = "SELECT COUNT(*) " 
+					+ "FROM proposal " 
+					+ "WHERE proposalStatus='ONGOING'";
+
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			if (resultSet.next()) {
+				numAwaiting = resultSet.getInt("");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return numAwaiting;
+	}
+	
+	/***********************************
 	 * READ INTEREST
 	 ***********************************/
 

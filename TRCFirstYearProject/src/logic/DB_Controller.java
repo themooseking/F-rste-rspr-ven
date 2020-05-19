@@ -110,6 +110,18 @@ public class DB_Controller {
 	}
 	
 	/***********************************
+	 * READ STATUS
+	 ***********************************/
+	
+	public int getNumAwaiting() {
+		return proposalDB.getNumAwaiting();
+	}
+	
+	public int getNumOngoing() {
+		return proposalDB.getNumOngoing();
+	}
+	
+	/***********************************
 	 * READ INTEREST
 	 ***********************************/
 
