@@ -126,7 +126,7 @@ public class NewPropsalScreen {
 
 		if (rbState) {
 
-			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
+			new LabelWithStyle("Model: ", grid, 0, 1);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
 			indentComboBox(modelcb, 400);
 			modelcb.setOnHiding(e -> {
@@ -147,7 +147,7 @@ public class NewPropsalScreen {
 
 		} else {
 
-			LabelWithStyle modelLabel = new LabelWithStyle("Model: ", grid, 0, 1);
+			new LabelWithStyle("Model: ", grid, 0, 1);
 			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getCarModels()), grid, 3, 1);
 			indentComboBox(modelcb, 400);
 			modelcb.setOnAction(e -> {
@@ -177,7 +177,7 @@ public class NewPropsalScreen {
 				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 			});
 
-			LabelWithStyle regnr = new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
+			new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
 			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getUsedCars()), grid, 3, 3);
 			indentComboBox(regnrcb, 400);
 			regnrcb.setOnHiding(e -> {
@@ -187,7 +187,7 @@ public class NewPropsalScreen {
 			});
 		}
 
-		LabelWithStyle durationLabel = new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
+		new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
 		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
 		indentTextField(durationtf);
 		new LabelWithStyle(" Måned(er)", grid, 4, 4);
@@ -201,7 +201,7 @@ public class NewPropsalScreen {
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 
-		LabelWithStyle payment = new LabelWithStyle("Udbetaling: ", grid, 0, 5);
+		new LabelWithStyle("Udbetaling: ", grid, 0, 5);
 		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
 		indentTextField(paymenttf);
 		if (customer.getCreditScore() == null) {
@@ -215,7 +215,6 @@ public class NewPropsalScreen {
 				proposal.setDownPayment(new BigDecimal(0));
 			}
 			nextButtonDisable();
-			System.out.println("hej");
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 

@@ -54,7 +54,7 @@ public class TextReader {
 	public VBox textReader() {
 		VBox vbox = new VBox(customerTitle(), customerInfo(), carTitle(), carInfo(), carPriceTitle(), carPriceInfo(),
 				proposalInfo(), priceSum(), totalPrice());
-		vbox.setPadding(new Insets(30, style.textReaderInsets(), 20, style.textReaderInsets()));
+		vbox.setPadding(new Insets(30, style.textReaderInsets(), 40, style.textReaderInsets()));
 		vbox.setBorder(style.elementBorder());
 		vbox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 20, 0, 5, 5));
 		vbox.setStyle("-fx-background-color: \"" + style.white() + "\";"
@@ -62,7 +62,7 @@ public class TextReader {
 				+ "-fx-background-repeat: no-repeat;" + "-fx-background-size: 500;"
 				+ "-fx-background-position: center;");
 		checkDone();
-		autoDot("23545618,50");
+
 		return vbox;
 	}
 
@@ -72,7 +72,7 @@ public class TextReader {
 
 	private GridPane customerInfo() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
-		grid.setPadding(new Insets(10, 0, 40, 0));
+		grid.setPadding(new Insets(10, 0, 20, 0));
 		grid.setBorder(style.underLine());
 		new TextWithStyle(" ", grid, 0, 0, 5, 1);
 
@@ -216,9 +216,9 @@ public class TextReader {
 		grid.setBorder(style.sumLine());
 		grid.setHgap(5);
 
-		TextWithStyle total = new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 220, 1);
+		TextWithStyle total = new TextWithStyle("Samlet Tilbagebetaling: ", grid, 0, 0, 150, 1);
 		total.setStyle(style.bold());
-		proposalTotalSum = new TextWithStyle("", grid, 1, 0, 150, 2);
+		proposalTotalSum = new TextWithStyle("", grid, 1, 0, 130, 2);
 		proposalTotalSum.setStyle(style.bold());
 		TextWithStyle dkk = new TextWithStyle("DKK", grid, 2, 0, style.textUnitWidth(), 1);
 		dkk.setStyle(style.bold());
@@ -287,19 +287,23 @@ public class TextReader {
 			carModel.setText(proposal.getCar().getModel());
 			carMilage.setText(Integer.toString(proposal.getCar().getMilage()) + " km");
 			carYear.setText(Integer.toString(proposal.getCar().getFactory()));
+			
 			carPriceModel.setText(proposal.getCar().toString());
-			carPriceModelPrice.setText(decimal(proposal.getCar().getPrice()));
-			carPriceVat.setText(decimal(proposal.getCar().getVat()));
-			proposalTotalInterest.setText(decimal(proposal.calcInterest()));
-			proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-			proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
-			sumIntereset.setText(decimal(proposal.totalInterestSum()));
-			carPriceTotal.setText(decimal(proposal.totalCarPrice()));
-			sumCarPrice.setText(decimal(proposal.totalCarPrice()));
-			carPriceDownPayment.setText(decimal(proposal.getDownPayment()));
-			proposalDownPayment.setText(decimal(proposal.getDownPayment()));
+			carPriceModelPrice.setText(autoDotBD(decimal(proposal.getCar().getPrice())));
+			carPriceVat.setText(autoDotBD(decimal(proposal.getCar().getVat())));
+			carPriceDownPayment.setText(autoDotBD(decimal(proposal.getDownPayment())));
+			carPriceTotal.setText(autoDotBD(decimal(proposal.totalCarPrice())));			
+
+			proposalCreditScore.setText(proposal.getCreditScore().toString());
+			proposalDownPayment.setText(autoDotBD(decimal(proposal.getDownPayment())));
 			proposalDuration.setText(Integer.toString(proposal.getLoanDuration()));
-			proposalCreditScore.setText("MANGLER proposal.getCustomer().getCreditScore().toString() fra db");
+			proposalTotalInterest.setText(decimal(proposal.calcInterest()));
+			proposalMonthlyPayment.setText(autoDotBD(decimal(proposal.monthlyPayment())));
+
+			sumCarPrice.setText(autoDotBD(decimal(proposal.totalCarPrice())));
+			sumIntereset.setText(autoDotBD(decimal(proposal.totalInterestSum())));
+
+			proposalTotalSum.setText(autoDotBD(decimal(proposal.getProposalTotalSum())));
 		}
 	}
 
@@ -346,9 +350,9 @@ public class TextReader {
 		if (state) {
 			if (!duration.getText().isEmpty() && !payment.getText().isEmpty() && model.getValue() != null) {
 				proposalTotalInterest.setText(decimal(proposal.calcInterest()));
-				proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-				proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
-				sumIntereset.setText(decimal(proposal.totalInterestSum()));
+				proposalMonthlyPayment.setText(autoDotBD(decimal(proposal.monthlyPayment())));
+				proposalTotalSum.setText(autoDotBD(decimal(proposal.getProposalTotalSum())));
+				sumIntereset.setText(autoDotBD(decimal(proposal.totalInterestSum())));
 			}
 
 			if (model.getValue() != null) {
@@ -357,21 +361,21 @@ public class TextReader {
 				carYear.setText(Integer.toString(proposal.getCar().getFactory()));
 
 				carPriceModel.setText(proposal.getCar().toString());
-				carPriceModelPrice.setText(decimal(proposal.getCar().getPrice()));
-				carPriceVat.setText(decimal(proposal.getCar().getVat()));
+				carPriceModelPrice.setText(autoDotBD(decimal(proposal.getCar().getPrice())));
+				carPriceVat.setText(autoDotBD(decimal(proposal.getCar().getVat())));
 			}
 
 			if (!payment.getText().isEmpty() && model.getValue() != null) {
-				carPriceTotal.setText(decimal(proposal.totalCarPrice()));
-				sumCarPrice.setText(decimal(proposal.totalCarPrice()));
+				carPriceTotal.setText(autoDotBD(decimal(proposal.totalCarPrice())));
+				sumCarPrice.setText(autoDotBD(decimal(proposal.totalCarPrice())));
 			}
 
 		} else {
 			if (!duration.getText().isEmpty() && !payment.getText().isEmpty() && regnr.getValue() != null) {
 				proposalTotalInterest.setText(decimal(proposal.calcInterest()));
-				proposalMonthlyPayment.setText(decimal(proposal.monthlyPayment()));
-				proposalTotalSum.setText(decimal(proposal.getProposalTotalSum()));
-				sumIntereset.setText(decimal(proposal.totalInterestSum()));
+				proposalMonthlyPayment.setText(autoDotBD(decimal(proposal.monthlyPayment())));
+				proposalTotalSum.setText(autoDotBD(decimal(proposal.getProposalTotalSum())));
+				sumIntereset.setText(autoDotBD(decimal(proposal.totalInterestSum())));
 			}
 
 			if (regnr.getValue() != null) {
@@ -380,8 +384,8 @@ public class TextReader {
 				carYear.setText(Integer.toString(proposal.getCar().getFactory()));
 
 				carPriceModel.setText(proposal.getCar().toString());
-				carPriceModelPrice.setText(decimal(proposal.getCar().getPrice()));
-				carPriceVat.setText(decimal(proposal.getCar().getVat()));
+				carPriceModelPrice.setText(autoDotBD(decimal(proposal.getCar().getPrice())));
+				carPriceVat.setText(autoDotBD(decimal(proposal.getCar().getVat())));
 			} else {
 				car = null;
 				proposal.setCar(car);
@@ -392,14 +396,14 @@ public class TextReader {
 			}
 
 			if (!payment.getText().isEmpty() && regnr.getValue() != null) {
-				carPriceTotal.setText(decimal(proposal.totalCarPrice()));
-				sumCarPrice.setText(decimal(proposal.totalCarPrice()));
+				carPriceTotal.setText(autoDotBD(decimal(proposal.totalCarPrice())));
+				sumCarPrice.setText(autoDotBD(decimal(proposal.totalCarPrice())));
 			}
 		}
 
 		if (!payment.getText().isEmpty()) {
-			carPriceDownPayment.setText(decimal(proposal.getDownPayment()));
-			proposalDownPayment.setText(decimal(proposal.getDownPayment()));
+			carPriceDownPayment.setText(autoDotBD(decimal(proposal.getDownPayment())));
+			proposalDownPayment.setText(autoDotBD(decimal(proposal.getDownPayment())));
 		} else if (payment.getText().isEmpty()) {
 			carPriceDownPayment.setText("");
 			proposalDownPayment.setText("");
@@ -422,10 +426,10 @@ public class TextReader {
 		return format;
 	}
 
-	private String autoDot(String string) {
-		String str = string.replaceAll(",", ".");		
+	private String autoDotBD(String string) {	
+		String str = string.replaceAll(",", ".");
 		DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
-		
+
 		return decimalFormat.format(Double.parseDouble(str));
 	}
 }
