@@ -215,6 +215,7 @@ public class NewPropsalScreen {
 				proposal.setDownPayment(new BigDecimal(0));
 			}
 			nextButtonDisable();
+			System.out.println("hej");
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 
