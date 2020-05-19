@@ -339,13 +339,13 @@ public class NewPropsalScreen {
 		return label;
 	}
 
-	private void popupSaveContinue() {
+	private void alertSaveContinue() {
 		Alert saveContinue = new Alert(AlertType.CONFIRMATION);
-		saveContinue.getDialogPane().setPrefHeight(280);
-		saveContinue.getDialogPane().setPrefWidth(500);
-		saveContinue.setTitle("Error");
+		saveContinue.getDialogPane().setPrefHeight(100);
+		saveContinue.getDialogPane().setPrefWidth(350);
+		saveContinue.setTitle("Gem eller underskriv nu");
 		saveContinue.setHeaderText(null);
-		saveContinue.setContentText("Cloning isn't possible yet.");
+		saveContinue.setContentText("Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu");
 		
 		ButtonType buttonTypeSave = new ButtonType("Gem");
 		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
@@ -370,6 +370,29 @@ public class NewPropsalScreen {
 		
 	}
 	
+	private void alertBack() {
+		Alert back = new Alert(AlertType.CONFIRMATION);
+		back.getDialogPane().setPrefHeight(100);
+		back.getDialogPane().setPrefWidth(350);
+		back.setTitle("Tilbage");
+		back.setHeaderText(null);
+		back.setContentText("Er du sikker bare at du ville gå tilbage, hvis du gøre ville alt data blive slettet");
+		
+		ButtonType buttonTypeBack = new ButtonType("Tilbage");
+		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
+		
+		back.getButtonTypes().setAll(buttonTypeBack, buttonTypeCancel);
+		
+		Optional<ButtonType> result = back.showAndWait();
+		if	(result.get() == buttonTypeBack) {
+			new ProposalOverview().customerUI(customer.getCpr());
+			}
+		else {
+			back.close();
+		}
+		
+	}
+	
 	
 	//////////////////////////////
 	// Buttons
@@ -389,7 +412,7 @@ public class NewPropsalScreen {
 		nextButton = new ButtonWithStyle("Nï¿½ste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
-			popupSaveContinue();
+			alertSaveContinue();
 		});
 
 		return grid;
@@ -400,7 +423,7 @@ public class NewPropsalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			new ProposalOverview().customerUI(customer.getCpr());
+			alertBack();
 		});
 
 		return grid;
