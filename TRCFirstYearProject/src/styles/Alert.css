@@ -1,59 +1,34 @@
  .dialog-pane{
-  -fx-background-color: #9A9A9A;
-  -fx-border-color:black;
-  -fx-border-width:2.0px;
+  	-fx-background-color: #e33635;
  }
 
-/**Costumization of The Bar where the buttons are located**/
 .dialog-pane > .button-bar > .container {
-  -fx-background-color: #9A9A9A;
+  	-fx-background-color: #e33635;
 }
 
 .dialog-pane > .content.label {
-   -fx-padding: 0.5em 0.5em 0.5em 0.5em;
-   -fx-background-color: #9A9A9A;
-   -fx-text-fill:black;
-   -fx-font-size:50.0px;
-   -fx-font-family: Calibri;
-   -fx-font-weight: BOLD;
-}
-
-/**Costumization of DialogPane Header**/
-.dialog-pane:header .header-panel {
-  -fx-background-color: black;
-}
-
-.dialog-pane:header .header-panel .label{
-  -fx-background-color: #9A9A9A;
-  -fx-background-radius:10px;
-  -fx-text-fill:black;
-  -fx-font-size:15.0px;
+   	-fx-background-color: #e33635;
+   	-fx-text-fill:black;
+   	-fx-font-size: 20;
+   	-fx-font-family: "Lucida Fax";
+   	-fx-font-weight: BOLD;
 }
 
 
-/**Costumization of Buttons**/
 .dialog-pane .button{
-   -fx-background-color: #FFFFFF;
-   -fx-text-fill:rgb(0, 0, 0);
-   -fx-wrap-text: true;
-   -fx-font-family: Calibri;
-   -fx-font-weight:bold; 
-   -fx-cursor:hand;
-   -fx-font-size: 25;
-   -fx-pref-height: 60px;
-   -fx-pref-width: 200px;
-   -fx-border-color: rgb(0, 0, 0);
-   -fx-border-width: 3;
-   -fx-border-radius: 5;
-   -fx-background-radius: 10;
+   	-fx-background-color: #707070;
+   	-fx-text-fill: #e33635;
+   	-fx-font-family: "Lucida Fax";
+   	-fx-font-weight:bold; 
+   	-fx-cursor:hand;
+   	-fx-font-size: 25;
+   	-fx-pref-height: 60px;
+   	-fx-pref-width: 200px;
+   	-fx-border-width: 3;
+   	-fx-border-radius: 5;
  }
 
-.dialog-pane .button:hover{     
-  -fx-background-color: #707070;
-  -fx-text-fill: #FFFFFF;
-  -fx-font-family: Calibri;
-  -fx-font-weight:bold; 
-  -fx-font-size: 25;
-  -fx-pref-height: 60px;
-  -fx-pref-width: 200px;
+.dialog-pane .button:hover{
+  	-fx-text-fill: #FFFFFF;
+	-fx-effect: innerShadow( gaussian, black, 10, 0, 0, 0);
  }

@@ -3,7 +3,6 @@ package presentation;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
