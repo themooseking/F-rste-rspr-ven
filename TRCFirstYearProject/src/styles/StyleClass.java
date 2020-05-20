@@ -12,7 +12,7 @@ public class StyleClass {
 	private int sceney = 1000;
 	private int scenex = 1800;
 
-	private String grey = "#707070";
+	private String grey = "#303030";
 	private String red = "#e33635";
 	private String white = "#ffffff";
 	private String black = "#000000";
