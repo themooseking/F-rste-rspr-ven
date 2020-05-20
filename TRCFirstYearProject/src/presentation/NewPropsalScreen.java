@@ -253,10 +253,15 @@ public class NewPropsalScreen {
 					tf.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 				if (!tf.getText().isEmpty()) {
-					if (Integer.parseInt(tf.getText()) > 1000) {
+					int tfInt = Integer.parseInt(tf.getText());
+					
+					if (tfInt == 0) {
+						String s = tf.getText().substring(0, 0);
+						tf.setText(s);
+					} else if (tfInt > 1000) {
 						String s = tf.getText().substring(0, 3);
 						tf.setText(s);
-					} else if (Integer.parseInt(tf.getText()) > 290) {
+					} else if (tfInt > 290) {
 						String s = tf.getText().substring(0, 2);
 						tf.setText(s);
 					}
