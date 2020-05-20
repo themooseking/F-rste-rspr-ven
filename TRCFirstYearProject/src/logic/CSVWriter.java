@@ -32,7 +32,7 @@ public class CSVWriter {
 				BigDecimal repayment = proposal.repayment(monthlyRateAmount);
 
 				writer.write(csvFormat(i));
-				writer.write(csvFormat(proposal.getDate().plusMonths(i)));
+				writer.write(csvFormat(proposal.getProposalDate().plusMonths(i)));
 				writer.write(csvFormat(proposal.monthlyPayment()));
 				writer.write(csvFormat(monthlyRateAmount));
 				writer.write(csvFormat(repayment));
