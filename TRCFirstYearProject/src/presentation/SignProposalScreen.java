@@ -29,9 +29,11 @@ public class SignProposalScreen {
 	private StyleClass style = new StyleClass();
 	private Proposal proposal;
 	private TextReader tr;
-
+	private DB_Controller controller = new DB_Controller(); 
+	
 	private PasswordFieldWithStyle password;
 	private TextFieldWithStyle id;
+	
 
 	public SignProposalScreen(Proposal proposal) {
 		this.proposal = proposal;
@@ -122,7 +124,14 @@ public class SignProposalScreen {
 
 		ButtonWithStyle delete = new ButtonWithStyle("Slet", grid, 0, 0);
 		delete.setOnAction(e -> {
-			
+			controller.deleteProposal(proposal);
+			if (i == 0) {
+				new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
+			} else if (i == 1) {
+				new ProposalOverview().salesmanUI();
+			} else if (i == 2) {
+				new ProposalOverview().cosUI();
+			}
 		});
 
 		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
