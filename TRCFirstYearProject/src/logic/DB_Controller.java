@@ -121,7 +121,7 @@ public class DB_Controller {
 	
 	// UPDATE PROPOSAL //
 	public void updateProposalStatus(Proposal proposal) {
-		updateProposalStatus(proposal);
+		proposalDB.updateProposalStatus(proposal);
 	}
 	
 	// DELETE PROPOSAL //
