@@ -1,10 +1,8 @@
 package logic;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import ffl.InterestRate;
 import ffl.Rating;
@@ -137,8 +135,6 @@ public class Proposal extends Thread {
 	 *****************************************************/
 
 	public BigDecimal monthlyPayment() {
-		MathContext m = new MathContext(2);
-
 		double r = monthlyRate();
 		BigDecimal payment = totalCarPrice().multiply(new BigDecimal(r / (1 - Math.pow(1 + r, -loanDuration))));
 
@@ -163,6 +159,8 @@ public class Proposal extends Thread {
 		} else {
 			proposalStatus = Status.IGANG;
 		}
+		
+		controller.createProposal(this);
 	}
 
 
@@ -217,6 +215,7 @@ public class Proposal extends Thread {
 
 	public void setProposalStatus(Status proposalStatus) {
 		this.proposalStatus = proposalStatus;
+		controller.updateProposalStatus(this);
 	}
 
 	public void setCar(Car car) {

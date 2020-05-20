@@ -171,8 +171,8 @@ public class DB_Proposal {
 		try {
 			String sql = "SELECT * " 
 					+ "FROM proposal " 
-					+ "WHERE proposalStatus='APPROVED' "
-					+ "OR proposalStatus='AWAITING'";
+					+ "WHERE proposalStatus='GODKENDT' "
+					+ "OR proposalStatus='AFVENTER'";
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -232,7 +232,7 @@ public class DB_Proposal {
 		try {
 			String sql = "SELECT COUNT(*) " 
 					+ "FROM proposal " 
-					+ "WHERE proposalStatus='AWAITING'";
+					+ "WHERE proposalStatus='AFVENTER'";
 
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -254,7 +254,7 @@ public class DB_Proposal {
 		try {
 			String sql = "SELECT COUNT(*) " 
 					+ "FROM proposal " 
-					+ "WHERE proposalStatus='ONGOING' "
+					+ "WHERE proposalStatus='IGANG' "
 					+ "AND salesman=?";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);

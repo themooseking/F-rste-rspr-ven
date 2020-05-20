@@ -424,11 +424,9 @@ public class NewPropsalScreen {
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bSave) {
 			proposal.checkLimit();
-			controller.createProposal(proposal);
 			new ProposalOverview().customerUI(customer.getCpr());
 		} else if (result.get() == bContinue) {
 			proposal.checkLimit();
-			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
 		} else {
 			alert.close();
