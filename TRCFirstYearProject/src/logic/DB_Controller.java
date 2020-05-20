@@ -136,6 +136,10 @@ public class DB_Controller {
 		return salesmanDB.getSalesmanList();
 	}
 	
+	public Salesman getSalesman(int id, String password) {
+		return salesmanDB.getSalesman(id, password);
+	}
+	
 	/***********************************
 	 * UPDATE PROPOSAL
 	 ***********************************/

@@ -47,4 +47,37 @@ public class DB_Salesman {
 
 		return salesmanList;
 	}
+	
+	public Salesman getSalesman(int id, String password) {
+		Salesman salesman = null;
+		
+		try {
+			String sql = "SELECT * "
+					+ "FROM salesman "
+					+ "JOIN salesmanrank "
+					+ "ON salesmanrank.title = salesman.title "
+					+ "WHERE id=? "
+					+ "AND sPassword=?";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			statement.setString(2, password);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				int phone = resultSet.getInt("phone");
+				String name = resultSet.getString("salesmanName");
+				String email = resultSet.getString("email");
+				String title = resultSet.getString("title");
+				BigDecimal proposalLimit = resultSet.getBigDecimal("proposalLimit");
+
+				salesman = new Salesman(id, phone, name, email, title, proposalLimit);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return salesman;
+	}
 }
