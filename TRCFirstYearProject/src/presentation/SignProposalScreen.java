@@ -216,7 +216,7 @@ public class SignProposalScreen {
 		if (i == 0 || i == 1) {
 			label.setText("Underskrift for " + proposal.getCar());
 		} else if (i == 2) {
-			label.setText("Godekend lånetilbud " + proposal.getId());
+			label.setText("Godekend lånetilbud " + proposal.getProposalId());
 		}
 		label.setFont(Font.loadFont(style.titleFont(), 80));
 		label.setTextFill(Color.web(style.black()));
