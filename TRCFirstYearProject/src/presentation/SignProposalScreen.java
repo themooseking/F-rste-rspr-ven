@@ -12,10 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.DB_Controller;
 import logic.Proposal;
+import logic.Salesman;
+import logic.Status;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
 import styles.LabelWithStyle;
+import styles.PasswordFieldWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
@@ -26,7 +30,8 @@ public class SignProposalScreen {
 	private Proposal proposal;
 	private TextReader tr;
 
-	private TextFieldWithStyle password;
+	private PasswordFieldWithStyle password;
+	private TextFieldWithStyle id;
 
 	public SignProposalScreen(Proposal proposal) {
 		this.proposal = proposal;
@@ -94,7 +99,7 @@ public class SignProposalScreen {
 		grid.setVgap(10);
 
 		new LabelWithStyle("S�lger ID ", grid, 0, 0);
-		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
+		id = new TextFieldWithStyle("", grid, 1, 0);
 		id.setDisable(true);
 		id.setOpacity(100);
 		id.setText(Integer.toString(LoggedInST.getUser().getSalesmanId()));
@@ -106,7 +111,7 @@ public class SignProposalScreen {
 		name.setText(LoggedInST.getUser().toString());
 
 		new LabelWithStyle("Kodeord ", grid, 0, 2);
-		password = new TextFieldWithStyle("", grid, 1, 2);
+		password = new PasswordFieldWithStyle("kodeord", grid, 1, 2);
 
 		return grid;
 	}
@@ -117,21 +122,38 @@ public class SignProposalScreen {
 
 		ButtonWithStyle delete = new ButtonWithStyle("Slet", grid, 0, 0);
 		delete.setOnAction(e -> {
-
+			
 		});
 
 		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
 		if (i == 2) {
 			sign.setText("Godkend");
 			sign.setOnAction(e -> {
-
+				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
+				if (salesman != null) {
+					proposal.setProposalStatus(Status.GODKENDT);
+					new ProposalOverview().cosUI();
+				}
+				else {
+					System.out.println("Wrong password");
+				}
 			});
 		} else {
 			sign.setOnAction(e -> {
-
+				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
+				if (salesman != null) {
+					proposal.setProposalStatus(Status.AFSLUTTET);
+					if (i == 0) {
+						new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
+					} else if (i == 1) {
+						new ProposalOverview().salesmanUI();
+				}
+				else {
+					System.out.println("Wrong password");
+					}
+				}
 			});
 		}
-
 
 		return grid;
 	}

@@ -23,7 +23,7 @@ public class Proposal extends Thread {
 	private BigDecimal downPayment;
 	private int loanDuration;
 	private LocalDate proposalDate;
-	private String proposalStatus;
+	private Status proposalStatus;
 	private Rating creditScore;
 	private Salesman salesman;
 	private BigDecimal proposalTotalSum;
@@ -38,7 +38,7 @@ public class Proposal extends Thread {
 	}
 
 	public Proposal(int proposalId, Car car, Customer customer, BigDecimal downPayment, int loanDuration,
-			LocalDate proposalDate, String proposalStatus, String creditScore, Salesman salesman) {
+			LocalDate proposalDate, Status proposalStatus, String creditScore, Salesman salesman) {
 		this.proposalId = proposalId;
 		this.car = car;
 		this.customer = customer;
@@ -159,9 +159,9 @@ public class Proposal extends Thread {
 		int salesChiefCheck = salesman.getProposalLimit().compareTo(new BigDecimal(-1));
 
 		if (salesChiefCheck != 0 && limitCheck <= 0) {
-			proposalStatus = "AWAITING";
+			proposalStatus = Status.AFVENTER;
 		} else {
-			proposalStatus = "ONGOING";
+			proposalStatus = Status.IGANG;
 		}
 	}
 
@@ -215,7 +215,7 @@ public class Proposal extends Thread {
 		this.loanDuration = loanDuration;
 	}
 
-	public void setProposalStatus(String proposalStatus) {
+	public void setProposalStatus(Status proposalStatus) {
 		this.proposalStatus = proposalStatus;
 	}
 
@@ -247,7 +247,7 @@ public class Proposal extends Thread {
 		return car;
 	}
 
-	public String getProposalStatus() {
+	public Status getProposalStatus() {
 		return proposalStatus;
 	}
 
