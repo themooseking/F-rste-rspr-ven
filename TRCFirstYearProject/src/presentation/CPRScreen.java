@@ -1,7 +1,5 @@
 package presentation;
 
-import java.util.Optional;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -95,6 +93,11 @@ public class CPRScreen {
 								textfield.setText(newValue.replaceAll("[^\\d]", ""));
 							}
 						}
+						
+						if (textfield.getText().length() > 11) {
+							String s = textfield.getText().substring(0, 11);
+							textfield.setText(s);
+						}
 					}
 				});
 			}
@@ -126,7 +129,7 @@ public class CPRScreen {
 			} catch (NullPointerException e2) {
 				Alert wrongCpr = new Alert(AlertType.NONE,
 						("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
-				Optional<ButtonType> result = wrongCpr.showAndWait();
+				wrongCpr.showAndWait();
 			}
 		});
 
@@ -223,5 +226,4 @@ public class CPRScreen {
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
-
 }
