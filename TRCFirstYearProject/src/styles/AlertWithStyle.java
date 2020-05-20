@@ -11,10 +11,10 @@ public class AlertWithStyle extends Alert {
 
 	public AlertWithStyle(AlertType alert, String text, String title, ArrayList<ButtonType> arrayList) {
 		super(alert);
-		super.getDialogPane().setMinSize(350, 100);
-		super.getDialogPane().setPrefSize(350, 100);
-		super.getDialogPane().setMaxSize(350, 100);
-		super.getDialogPane().getStylesheets().add("/styles/Alert.css");		
+		super.getDialogPane().setMinSize(800, 200);
+		super.getDialogPane().setPrefSize(800, 200);
+		super.getDialogPane().setMaxSize(800, 200);
+		super.getDialogPane().getStylesheets().add("/styles/Alert.css");
 
 		super.setHeaderText(null);
 		super.setTitle(title);
