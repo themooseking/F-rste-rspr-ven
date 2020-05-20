@@ -32,7 +32,7 @@ public class DB_Proposal {
 			statement.setInt(2, proposal.getCustomer().getCustomerId());
 			statement.setBigDecimal(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
-			statement.setDate(5, Date.valueOf(proposal.getDate()));
+			statement.setDate(5, Date.valueOf(proposal.getProposalDate()));
 			statement.setString(6, proposal.getProposalStatus().toString());
 			statement.setString(7, proposal.getCustomer().getCreditScore().name());
 			statement.setInt(8, proposal.getSalesman().getSalesmanId());

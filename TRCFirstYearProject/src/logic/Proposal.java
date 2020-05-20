@@ -230,7 +230,7 @@ public class Proposal extends Thread {
 	 * GETTERS
 	 ***********************************/
 
-	public LocalDate getDate() {
+	public LocalDate getProposalDate() {
 		return proposalDate;
 	}
 

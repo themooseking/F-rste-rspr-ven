@@ -83,15 +83,18 @@ public class ProposalOverview {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
 		map.put("LÃ¥ne nr.", "proposalId");
+		map.put("Dato", "proposalDate");
 		map.put("Bil", "car");
 		if (i == 1) {
 			map.put("Kunde", "customer");
 		}
 		map.put("Rente (%)", "totalInterest");
 		map.put("Sum (DKK)", "proposalTotalSum");
+		if (i != 1) {
+			map.put("Sælger Navn", "salesman");
+		}
 		if (i == 2) {
-			map.put("Salgs titel", "salesmanTitel");
-			map.put("Sælger Navn", "salesman"); 
+			map.put("Salgs titel", "salesmanTitel"); 
 		}
 		map.put("Status", "proposalStatus");
 

@@ -80,7 +80,7 @@ public class DB_Controller {
 		ArrayList<Proposal> proposalList = proposalDB.getProposalByCustomer(customer, carList, salesmanList);
 
 		for (Proposal prop : proposalList) {
-			double interest = getInterest(prop.getDate());
+			double interest = getInterest(prop.getProposalDate());
 
 			prop.setInterest(interest);
 		}
@@ -95,7 +95,7 @@ public class DB_Controller {
 		ArrayList<Proposal> proposalList = proposalDB.getProposalBySalesman(salesman, carList, customerList);
 
 		for (Proposal prop : proposalList) {
-			double interest = getInterest(prop.getDate());
+			double interest = getInterest(prop.getProposalDate());
 
 			prop.setInterest(interest);
 		}
@@ -111,7 +111,7 @@ public class DB_Controller {
 		ArrayList<Proposal> proposalList = proposalDB.getAwaitingProposals(salesmanList, carList, customerList);
 
 		for (Proposal prop : proposalList) {
-			double interest = getInterest(prop.getDate());
+			double interest = getInterest(prop.getProposalDate());
 
 			prop.setInterest(interest);
 		}

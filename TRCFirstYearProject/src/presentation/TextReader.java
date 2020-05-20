@@ -281,7 +281,7 @@ public class TextReader {
 	}
 
 	private void checkDone() {
-		if (proposal.getCar() != null && proposal.getCustomer() != null && proposal.getDate() != null
+		if (proposal.getCar() != null && proposal.getCustomer() != null && proposal.getProposalDate() != null
 				&& proposal.getInterest() != 0 && proposal.getLoanDuration() != 0) {
 
 			carModel.setText(proposal.getCar().getModel());
