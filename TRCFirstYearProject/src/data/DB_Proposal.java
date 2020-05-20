@@ -17,7 +17,7 @@ public class DB_Proposal {
 	public DB_Proposal(Connection connection) {
 		this.connection = connection;
 	}
-
+ 
 	/***********************************
 	 * CREATE
 	 ***********************************/
