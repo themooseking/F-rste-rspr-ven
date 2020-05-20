@@ -2,6 +2,8 @@ package presentation;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
@@ -31,6 +33,7 @@ import logic.Car;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
+import styles.AlertWithStyle;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
@@ -408,26 +411,24 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private void alertSaveContinue() {
-		Alert saveContinue = new Alert(AlertType.CONFIRMATION);
-		saveContinue.getDialogPane().setPrefHeight(100);
-		saveContinue.getDialogPane().setPrefWidth(350);
-		saveContinue.setTitle("Gem eller underskriv nu");
-		saveContinue.setHeaderText(null);
-		saveContinue
-				.setContentText("Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu");
+		ButtonType bSave = new ButtonType("Gem");
+		ButtonType bContinue = new ButtonType("Underskriv");
+		ButtonType bCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
 
-		ButtonType buttonTypeSave = new ButtonType("Gem");
-		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
-		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
-
-		saveContinue.getButtonTypes().setAll(buttonTypeSave, buttonTypeContinue, buttonTypeCancel);
+		ArrayList<ButtonType> arrayList = new ArrayList<ButtonType>();
+		arrayList.add(bSave);
+		arrayList.add(bContinue);
+		arrayList.add(bCancel);		
+		
+		String text = "Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu";
+		AlertWithStyle saveContinue = new AlertWithStyle(AlertType.CONFIRMATION, text, "Gem eller underskriv nu", arrayList);
 
 		Optional<ButtonType> result = saveContinue.showAndWait();
-		if (result.get() == buttonTypeSave) {
+		if (result.get() == bSave) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
 			new ProposalOverview().customerUI(customer.getCpr());
-		} else if (result.get() == buttonTypeContinue) {
+		} else if (result.get() == bContinue) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
