@@ -428,7 +428,7 @@ public class TextReader {
 
 	private String autoDotBD(String string) {	
 		String str = string.replaceAll(",", ".");
-		DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+		DecimalFormat decimalFormat = new DecimalFormat("###,##0.00");
 
 		return decimalFormat.format(Double.parseDouble(str));
 	}

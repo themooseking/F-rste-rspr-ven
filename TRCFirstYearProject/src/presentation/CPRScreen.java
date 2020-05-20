@@ -10,22 +10,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import logic.DB_Controller;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
@@ -36,7 +32,7 @@ import styles.VBoxWithStyle;
 public class CPRScreen {
 
 	private StyleClass style = new StyleClass();
-	private DB_Controller controller = new DB_Controller(); 
+	private DB_Controller controller = new DB_Controller();
 	private TextFieldWithStyle textfield;
 	private Button continueButton;
 
@@ -44,10 +40,9 @@ public class CPRScreen {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 0, 0));
-		vbox.setStyle(
-				"-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
-			  + "-fx-background-image: url(\"file:resources/background/BackgroundCPR.jpg\"); "
-			  + "-fx-background-repeat: no-repeat;");
+		vbox.setStyle("-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
+				+ "-fx-background-image: url(\"file:resources/background/BackgroundCPR.jpg\"); "
+				+ "-fx-background-repeat: no-repeat;");
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
@@ -55,7 +50,7 @@ public class CPRScreen {
 
 	private GridPane cprTextfield() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setPadding(new Insets(280,0,322,0));
+		grid.setPadding(new Insets(280, 0, 322, 0));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-159");
@@ -129,7 +124,8 @@ public class CPRScreen {
 			try {
 				new ProposalOverview().customerUI(textfield.getText());
 			} catch (NullPointerException e2) {
-				Alert wrongCpr = new Alert(AlertType.NONE, ("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
+				Alert wrongCpr = new Alert(AlertType.NONE,
+						("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
 				Optional<ButtonType> result = wrongCpr.showAndWait();
 			}
 		});
@@ -144,7 +140,7 @@ public class CPRScreen {
 			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
 			button.setContentDisplay(ContentDisplay.CENTER);
 			int numAwaiting = controller.getNumAwaiting();
-			if(numAwaiting > 0) {
+			if (numAwaiting > 0) {
 				button.setGraphic(noti(Integer.toString(numAwaiting)));
 			}
 			button.setOnAction(e -> {
@@ -161,12 +157,12 @@ public class CPRScreen {
 		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
 		button.setContentDisplay(ContentDisplay.CENTER);
 		int numOngoing = controller.getNumOngoing(LoggedInST.getUser());
-		if(numOngoing > 0) {
+		if (numOngoing > 0) {
 			button.setGraphic(noti(Integer.toString(numOngoing)));
 		}
 		button.setOnAction(e -> {
 			new ProposalOverview().salesmanUI();
-			
+
 		});
 
 		return grid;
@@ -182,7 +178,7 @@ public class CPRScreen {
 
 		return grid;
 	}
-	
+
 	//////////////////////////////
 	// Circle
 	//////////////////////////////
@@ -191,13 +187,13 @@ public class CPRScreen {
 		GridPane p = new GridPane();
 		p.setTranslateY(-40);
 		p.setTranslateX(145);
-		
+
 		Label lab = new Label(number);
 		lab.setStyle("-fx-text-fill:white");
 		lab.setFont(Font.loadFont(style.titleFont(), 28));
 		lab.setTextFill(Color.web(style.black()));
-		lab.setPadding(new Insets (0, 0, 0, 12));
-		
+		lab.setPadding(new Insets(0, 0, 0, 12));
+
 		Circle circle = new Circle(20, Color.web("#060606"));
 		circle.setStrokeWidth(2.0);
 		circle.setStyle("-fx-background-insets: 0 0 -1 0, 0, 0, 0;");

@@ -50,7 +50,6 @@ public class NewPropsalScreen {
 	private DB_Controller controller = new DB_Controller();
 
 	private boolean rbState = false;
-	private boolean recreate = true;
 	private TextReader tr;
 
 	private ComboBoxWithStyle modelcb;
@@ -99,127 +98,131 @@ public class NewPropsalScreen {
 		return vbox;
 	}
 
+	//////////////////////////////
+	// INDENT
+	//////////////////////////////
+
 	private GridPane indentInput() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER); 
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(0));
 		grid.setVgap(15);
 
-		if (recreate == true) {
-			grid.setPadding(new Insets(0, 0, 10, 0));
-			recreate = false;
+		rbState = !rbState;
+
+		RadioButtonWithStyle rbOldCars = new RadioButtonWithStyle("Gamle Biler", grid, 0, 0);
+		radioButtonEvent(rbOldCars, grid);
+
+		new LabelWithStyle("Model: ", grid, 0, 1);
+		modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 1);
+		indentComboBox(modelcb, 400);
+		modelcbEvent();
+
+		yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
+		indentComboBox(yearcb, 400);
+
+		regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
+		indentComboBox(regnrcb, 400);
+
+		if (rbState) {
+
+			modelcb.setItems(FXCollections.observableArrayList(controller.getNewCars()));
+			yearcb.setVisible(false);
+			regnrcb.setVisible(false);
+
+		} else {
+
+			modelcb.setItems(FXCollections.observableArrayList(controller.getCarModels()));
+
+			new LabelWithStyle("År: ", grid, 0, 2);
+			yearcb.setDisable(true);
+			yearcbEvent();
+
+			new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
+			regnrcb.setItems(FXCollections.observableArrayList(controller.getUsedCars()));
+			regnrEvent();
+
 		}
 
-		//////////////////////////////
-		// Toggle
-		//////////////////////////////
+		new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
+		durationtf = new TextFieldWithStyle("", grid, 3, 4);
+		durationtf.setAlignment(Pos.CENTER_RIGHT);
+		indentTextField(durationtf);
+		durationEvent(durationtf);
+		new LabelWithStyle(" Måned(er)", grid, 4, 4);
 
-		RadioButtonWithStyle rbOld = new RadioButtonWithStyle("Gamle Biler", grid, 0, 0);
-		rbState = !rbState;
-		rbOld.setSelected(!rbState);
+		new LabelWithStyle("Udbetaling: ", grid, 0, 5);
+		paymenttf = new TextFieldWithStyle("", grid, 3, 5);
+		paymenttf.setAlignment(Pos.CENTER_RIGHT);
+		indentTextField(paymenttf);
+		downPaymentEvent(paymenttf);
+		new LabelWithStyle(" DKK", grid, 4, 5);
 
-		rbOld.setOnAction(e -> {
+		return grid;
+	}
+
+	//////////////////////////////
+	// COMBOBOX EVENTS
+	//////////////////////////////
+
+	private void radioButtonEvent(RadioButtonWithStyle rb, GridPaneCenter grid) {
+		rb.setSelected(!rbState);
+
+		rb.setOnAction(e -> {
 			grid.getChildren().clear();
 			grid.getChildren().add(indentInput());
 			tr.clearTR();
 			nextButton.setDisable(true);
-		}); 
+		});
+	}
 
-		if (rbState) {
+	private void modelcbEvent() {
+		modelcb.setOnHiding(e -> {
+			if (rbState) {
 
-			new LabelWithStyle("Model: ", grid, 0, 1);
-			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getNewCars()), grid, 3, 1);
-			indentComboBox(modelcb, 400);
-			modelcb.setOnHiding(e -> {
 				proposal.setCar((Car) modelcb.getValue());
-				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 				nextButtonDisable();
-			});
 
-			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-			yearcb.setVisible(false);
-			indentComboBox(yearcb, 400);
-			GridPane.setColumnSpan(yearcb, 2);
+			} else {
 
-			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
-			regnrcb.setVisible(false);
-			indentComboBox(regnrcb, 400);
-			GridPane.setColumnSpan(regnrcb, 2);
-
-		} else {
-
-			new LabelWithStyle("Model: ", grid, 0, 1);
-			modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getCarModels()), grid, 3, 1);
-			indentComboBox(modelcb, 400);
-			modelcb.setOnAction(e -> {
 				if (modelcb.getValue() != null) {
 					yearcb.getItems().clear();
-					yearcb.setItems(FXCollections
-							.observableArrayList(controller.getCarFactoryYears(modelcb.getValue().toString())));
 					yearcb.setDisable(false);
+
+					if (yearcb.getValue() == null) {						
+						regnrcb.setItems(FXCollections
+								.observableArrayList(controller.getUsedCars(modelcb.getValue().toString())));
+					} else {
+						yearcb.setItems(FXCollections
+								.observableArrayList(controller.getCarFactoryYears(modelcb.getValue().toString())));
+					}
 				}
-
-				if (modelcb.getValue() != null && yearcb.getValue() == null) {
-					regnrcb.setItems(
-							FXCollections.observableArrayList(controller.getUsedCars(modelcb.getValue().toString())));
-				}
-				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-			});
-
-			new LabelWithStyle("År: ", grid, 0, 2);
-			yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-			indentComboBox(yearcb, 400);
-			yearcb.setDisable(true);
-			yearcb.setOnHiding(e -> {
-				if (yearcb.getValue() != null) {
-					regnrcb.setItems(FXCollections.observableArrayList(
-							controller.getUsedCars(modelcb.getValue().toString(), yearcb.getValue().toString())));
-				}
-				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-			});
-
-			new LabelWithStyle("Reg. Nr.: ", grid, 0, 3);
-			regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(controller.getUsedCars()), grid, 3, 3);
-			indentComboBox(regnrcb, 400);
-			regnrcb.setOnHiding(e -> {
-				proposal.setCar((Car) regnrcb.getValue());
-				nextButtonDisable();
-				tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-			});
-		}
-
-		new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
-		durationtf = new TextFieldWithStyle("ex. 32", grid, 3, 4);
-		indentTextField(durationtf);
-		new LabelWithStyle(" Måned(er)", grid, 4, 4);
-		durationtf.setOnKeyReleased(e -> {
-			if (!durationtf.getText().isEmpty()) {
-				proposal.setLoanDuration(Integer.parseInt(durationtf.getText()));
-			} else {
-				proposal.setLoanDuration(0);
 			}
-			nextButtonDisable();
+			
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
-
-		new LabelWithStyle("Udbetaling: ", grid, 0, 5);
-		paymenttf = new TextFieldWithStyle("ex. 1234567", grid, 3, 5);
-		indentTextField(paymenttf);
-		if (customer.getCreditScore() == null) {
-			paymenttf.setDisable(true);
-		}
-		new LabelWithStyle(" DKK", grid, 4, 5);
-		paymenttf.setOnKeyReleased(e -> {
-			if (!paymenttf.getText().isEmpty()) {
-				proposal.setDownPayment(new BigDecimal(paymenttf.getText()));
-			} else {
-				proposal.setDownPayment(new BigDecimal(0));
-			}
-			nextButtonDisable();
-			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
-		});
-
-		return grid;
 	}
+	
+	private void yearcbEvent() {
+		yearcb.setOnHiding(e -> {
+			if (yearcb.getValue() != null) {
+				regnrcb.setItems(FXCollections.observableArrayList(
+						controller.getUsedCars(modelcb.getValue().toString(), yearcb.getValue().toString())));
+			}
+			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+		});
+	}
+	
+	private void regnrEvent() {
+		regnrcb.setOnHiding(e -> {
+			proposal.setCar((Car) regnrcb.getValue());
+			nextButtonDisable();
+			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+		});
+	}
+
+	//////////////////////////////
+	// TEXTFIELD / COMBOBOX STYLES
+	//////////////////////////////
 
 	private void indentComboBox(ComboBoxWithStyle cb, int width) {
 		cb.setMinWidth(width);
@@ -238,7 +241,72 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// BANK RATE AND CREDIT SCORE
+	// TEXTFIELD EVENTS
+	//////////////////////////////
+
+	private void durationEvent(TextFieldWithStyle tf) {
+		tf.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
+					final String newValue) {
+				if (!newValue.matches("\\d*")) {
+					tf.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+				if (!tf.getText().isEmpty()) {
+					if (Integer.parseInt(tf.getText()) > 1000) {
+						String s = tf.getText().substring(0, 3);
+						tf.setText(s);
+					} else if (Integer.parseInt(tf.getText()) > 290) {
+						String s = tf.getText().substring(0, 2);
+						tf.setText(s);
+					}
+				}
+			}
+		});
+
+		tf.setOnKeyReleased(e -> {
+			if (!tf.getText().isEmpty()) {
+				proposal.setLoanDuration(Integer.parseInt(tf.getText()));
+			} else {
+				proposal.setLoanDuration(0);
+			}
+			nextButtonDisable();
+			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+		});
+	}
+
+	private void downPaymentEvent(TextFieldWithStyle tf) {
+		if (customer.getCreditScore() == null) {
+			tf.setDisable(true);
+		}
+
+		tf.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
+					final String newValue) {
+				if (!newValue.matches("\\d*")) {
+					tf.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+				if (tf.getText().length() > 8) {
+					String s = tf.getText().substring(0, 8);
+					tf.setText(s);
+				}
+			}
+		});
+
+		tf.setOnKeyReleased(e -> {
+			if (!tf.getText().isEmpty()) {
+				proposal.setDownPayment(new BigDecimal(tf.getText()));
+			} else {
+				proposal.setDownPayment(new BigDecimal(0));
+			}
+			nextButtonDisable();
+			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
+		});
+	}
+
+	//////////////////////////////
+	// API VALUES
 	//////////////////////////////
 
 	private GridPane apiValues() {
@@ -264,10 +332,9 @@ public class NewPropsalScreen {
 		return grid;
 	}
 
-	private String decimal(double number) {
-		String format = new DecimalFormat("0.00").format(number);
-		return format;
-	}
+	//////////////////////////////
+	// API STYLES
+	//////////////////////////////
 
 	private LabelWithStyle apiLabel(String text, GridPaneCenter grid, int x, int y, int width) {
 		LabelWithStyle label = new LabelWithStyle(text, grid, x, y);
@@ -278,7 +345,7 @@ public class NewPropsalScreen {
 
 		return label;
 	}
-	
+
 	private void apiTextField(TextFieldWithStyle tf) {
 		tf.setBackground(null);
 		tf.setBorder(null);
@@ -294,9 +361,13 @@ public class NewPropsalScreen {
 		tf.setOpacity(100);
 	}
 
+	//////////////////////////////
+	// API EVENTS
+	//////////////////////////////
+
 	private void interestEvent(TextFieldWithStyle tf) {
 		if (proposal.getInterest() != 0.0) {
-			tf.setText(decimal(proposal.getInterest()));
+			tf.setText(new DecimalFormat("0.00").format(proposal.getInterest()));
 		}
 
 		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
@@ -326,7 +397,7 @@ public class NewPropsalScreen {
 			}
 		});
 	}
-	
+
 	//////////////////////////////
 	// Alert boxes
 	//////////////////////////////
@@ -337,31 +408,29 @@ public class NewPropsalScreen {
 		saveContinue.getDialogPane().setPrefWidth(350);
 		saveContinue.setTitle("Gem eller underskriv nu");
 		saveContinue.setHeaderText(null);
-		saveContinue.setContentText("Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu");
-		
+		saveContinue
+				.setContentText("Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu");
+
 		ButtonType buttonTypeSave = new ButtonType("Gem");
 		ButtonType buttonTypeContinue = new ButtonType("Underskriv");
 		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
-		
+
 		saveContinue.getButtonTypes().setAll(buttonTypeSave, buttonTypeContinue, buttonTypeCancel);
-		
+
 		Optional<ButtonType> result = saveContinue.showAndWait();
-		if	(result.get() == buttonTypeSave) {
+		if (result.get() == buttonTypeSave) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
 			new ProposalOverview().customerUI(customer.getCpr());
-		}
-		else if	(result.get() == buttonTypeContinue) {
+		} else if (result.get() == buttonTypeContinue) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
-		}
-		else {
+		} else {
 			saveContinue.close();
 		}
-		
 	}
-	
+
 	private void alertBack() {
 		Alert back = new Alert(AlertType.CONFIRMATION);
 		back.getDialogPane().setPrefHeight(100);
@@ -369,22 +438,20 @@ public class NewPropsalScreen {
 		back.setTitle("Tilbage");
 		back.setHeaderText(null);
 		back.setContentText("Er du sikker bare at du ville gå tilbage, hvis du gøre ville alt data blive slettet");
-		
+
 		ButtonType buttonTypeBack = new ButtonType("Tilbage");
 		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
-		
+
 		back.getButtonTypes().setAll(buttonTypeBack, buttonTypeCancel);
-		
+
 		Optional<ButtonType> result = back.showAndWait();
-		if	(result.get() == buttonTypeBack) {
+		if (result.get() == buttonTypeBack) {
 			new ProposalOverview().customerUI(customer.getCpr());
-			}
-		else {
+		} else {
 			back.close();
 		}
-		
-	}	
-	
+	}
+
 	//////////////////////////////
 	// Buttons
 	//////////////////////////////
@@ -452,5 +519,4 @@ public class NewPropsalScreen {
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
-
 }
