@@ -167,7 +167,7 @@ public class SignProposalScreen {
 				}
 			});
 		}
-
+ 
 		return grid;
 	}
 
