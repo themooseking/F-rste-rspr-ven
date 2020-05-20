@@ -52,21 +52,17 @@ public class CPRScreen {
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-159");
+		textFieldEvent();
 
-		textfield.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			int tfl = 1;
+		return grid;
+	}
 
+	private void textFieldEvent() {
+		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
 
-				tfl = textfield.getLength();
-				if (tfl == 11) {
-					continueButton.setDisable(false);
-				} else {
-					continueButton.setDisable(true);
-				}
-
-				textfield.end();
+				int tfl = textfield.getLength();
 
 				if (keyEvent.getCode() == KeyCode.ENTER) {
 					System.out.println("Hej");
@@ -84,27 +80,41 @@ public class CPRScreen {
 					textfield.end();
 				}
 
-				textfield.textProperty().addListener(new ChangeListener<String>() {
-					@Override
-					public void changed(ObservableValue<? extends String> observable, String oldValue,
-							String newValue) {
-						if (!newValue.matches("\\d*")) {
-							if (tfl < 6) {
-								textfield.setText(newValue.replaceAll("[^\\d]", ""));
-							}
-						}
-						
-						if (textfield.getText().length() > 11) {
-							String s = textfield.getText().substring(0, 11);
-							textfield.setText(s);
-						}
-					}
-				});
+				if (tfl > 10) {
+					String s = textfield.getText().substring(0, 10);
+					textfield.setText(s);
+					textfield.end();
+				}
+
+//				if (tfl < 3) {
+//					onlyDigits(keyEvent);
+//				}
 			}
 		});
 
-		return grid;
+		textfield.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				int tfl = textfield.getLength();
+				if (tfl == 11) {
+					continueButton.setDisable(false);
+				} else {
+					continueButton.setDisable(true); 
+				}
+			}
+		});
 	}
+
+//	private void onlyDigits(KeyEvent keyEvent) {
+//		textfield.textProperty().addListener(new ChangeListener<String>() {
+//			@Override
+//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//				if (!newValue.matches("\\d*")) {
+//					textfield.setText(newValue.replaceAll("[^\\d]", ""));
+//				}
+//			}
+//		});
+//	}
 
 	//////////////////////////////
 	// Buttons
