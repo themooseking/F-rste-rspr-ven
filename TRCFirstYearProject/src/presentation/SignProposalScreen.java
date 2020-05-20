@@ -1,5 +1,8 @@
 package presentation;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import logic.CSVWriter;
 import logic.DB_Controller;
 import logic.Proposal;
 import logic.Salesman;
@@ -184,9 +188,15 @@ public class SignProposalScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 0);
 		button.setOnAction(e -> {
+			try {
+				new CSVWriter().csvWriter(proposal);
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
 
+				e1.printStackTrace();
+			}
 		});
-
 		return grid;
 	}
 

@@ -10,9 +10,11 @@ import java.text.DecimalFormat;
 public class CSVWriter {
 	public void csvWriter(Proposal proposal) throws FileNotFoundException, IOException {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"C:\\Users\\Moose\\Documents\\FirstYearProjectCSV\\proposal" + proposal.getProposalId() + ".txt", true))) {
+				"C:\\Users\\Moose\\Documents\\FirstYearProjectCSV\\lånetilbud" + proposal.getProposalId() + ".txt"))) {
 			
 			writer.write("Låneoversigt;");
+			writer.newLine();
+			writer.write("Kunde;" + proposal.getCustomer());
 			writer.newLine();
 			writer.write("Total rente:;" + proposal.getTotalInterest());
 			writer.newLine();
