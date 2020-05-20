@@ -13,6 +13,7 @@ import logic.Car;
 import logic.Customer;
 import logic.Proposal;
 import logic.Salesman;
+import logic.Status;
 
 public class JProposal {
 
@@ -26,7 +27,7 @@ public class JProposal {
 		customer = new Customer(1, 88888888, "John Brick", "3213909874", "johnbrick@gmail.dk", "Brick st. 11", 7400);
 		salesman = new Salesman(1, 77777777, "Hugh Hefner", "playboy@gmail.com", "JUNIOR SALES ASSISTANT", new BigDecimal(1500000));
 		car = new Car(1, "Ferrari GT12", new BigDecimal(5000000), 5, 2020, "NEW");
-		proposal = new Proposal(1, car, customer, car.getPrice(), 0, LocalDate.now(), "AWAITING", Rating.D.toString(), salesman);
+		proposal = new Proposal(1, car, customer, car.getPrice(), 0, LocalDate.now(), Status.AFVENTER, Rating.D.toString(), salesman);
 
 		proposal.setInterest(0);
 	}
