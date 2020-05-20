@@ -16,16 +16,19 @@ import logic.Salesman;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
+import styles.PasswordFieldWithStyle;
 import styles.StyleClass;
+import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
 public class LoginScreen {
 
 	private StyleClass style = new StyleClass();
 	private ComboBoxWithStyle selectedUser;
+	private PasswordFieldWithStyle password;
 
 	public void loginUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), userPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
@@ -50,6 +53,17 @@ public class LoginScreen {
 
 		selectedUser.setMinSize(150, 50);
 
+		return grid; 
+	}
+	
+	//////////////////////////////	
+	// PasswordField
+	//////////////////////////////
+
+	private GridPane userPassword() {
+		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		password = new PasswordFieldWithStyle("Adgangskode", grid, 0, 0);
+		
 		return grid;
 	}
 
@@ -95,7 +109,7 @@ public class LoginScreen {
 		label.setFont(Font.loadFont(new StyleClass().titleFont(), 100));
 		label.setTextFill(Color.web(new StyleClass().black()));
 		return label;
-	}
+	} 
 
 	//////////////////////////////
 	// Scene stuff
