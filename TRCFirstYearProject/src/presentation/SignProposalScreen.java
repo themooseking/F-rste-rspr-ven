@@ -97,7 +97,7 @@ public class SignProposalScreen {
 		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
 		id.setDisable(true);
 		id.setOpacity(100);
-		id.setText(Integer.toString(proposal.getSalesman().getSalesmanId()));
+		id.setText(Integer.toString(LoggedInST.getUser().getSalesmanId()));
 
 		new LabelWithStyle("S�lger Navn ", grid, 0, 1);
 		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
