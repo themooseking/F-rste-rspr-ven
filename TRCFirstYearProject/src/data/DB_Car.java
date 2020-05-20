@@ -15,6 +15,24 @@ public class DB_Car {
 		this.connection = connection;
 	}
 	
+	public void createCar(Car car) {
+		try {
+			String sql = "INSERT INTO car VALUES (?, ?, ?, ?, ?)";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setString(1, car.getModel());
+			statement.setBigDecimal(2, car.getPrice());
+			statement.setInt(3, car.getMilage());
+			statement.setInt(4, car.getFactory());
+			statement.setString(5, car.getCarStatus());
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/***********************************
 	 * READ CAR
 	 ***********************************/

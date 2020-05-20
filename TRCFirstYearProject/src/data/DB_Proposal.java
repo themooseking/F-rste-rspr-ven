@@ -318,4 +318,23 @@ public class DB_Proposal {
 			e.printStackTrace();
 		}
 	}
+	
+	/***********************************
+	 * DELETE
+	 ***********************************/
+
+	public void deleteProposal(Proposal proposal) {
+		try {
+			String sql = "DELETE FROM proposal WHERE id=?";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, proposal.getProposalId());
+
+			if (statement.executeUpdate() == 0) {
+				System.out.println("No proposal to be deleted!");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
