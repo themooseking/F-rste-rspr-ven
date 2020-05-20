@@ -141,7 +141,7 @@ public class SignProposalScreen {
 				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
 				if (salesman != null) {
 					proposal.setProposalStatus(Status.GODKENDT);
-					new ProposalOverview().cosUI();
+					new ProposalOverview().cosUI(); 
 				}
 				else {
 					System.out.println("Wrong password");
