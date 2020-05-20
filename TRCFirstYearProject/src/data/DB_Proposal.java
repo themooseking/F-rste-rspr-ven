@@ -4,6 +4,7 @@ import logic.Car;
 import logic.Customer;
 import logic.Proposal;
 import logic.Salesman;
+import logic.Status;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -32,7 +33,7 @@ public class DB_Proposal {
 			statement.setBigDecimal(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
 			statement.setDate(5, Date.valueOf(proposal.getDate()));
-			statement.setString(6, proposal.getProposalStatus());
+			statement.setString(6, proposal.getProposalStatus().toString());
 			statement.setString(7, proposal.getCustomer().getCreditScore().name());
 			statement.setInt(8, proposal.getSalesman().getSalesmanId());
 			statement.executeUpdate();
@@ -89,7 +90,7 @@ public class DB_Proposal {
 				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
-				String proposalStatus = resultSet.getString("proposalStatus");
+				Status proposalStatus = Status.valueOf(resultSet.getString("proposalStatus"));
 				String creditScore = resultSet.getString("creditScore");
 
 				Salesman salesman = null;
@@ -148,7 +149,7 @@ public class DB_Proposal {
 				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
-				String proposalStatus = resultSet.getString("proposalStatus");
+				Status proposalStatus = Status.valueOf(resultSet.getString("proposalStatus"));
 				String creditScore = resultSet.getString("creditScore");
 				
 				Proposal proposal = new Proposal(proposalId, car, customer, downPayment, loanDuration,
@@ -198,7 +199,7 @@ public class DB_Proposal {
 				BigDecimal downPayment = resultSet.getBigDecimal("downPayment");
 				int loanDuration = resultSet.getInt("loanDuration");
 				LocalDate proposalDate = resultSet.getDate("proposalDate").toLocalDate();
-				String proposalStatus = resultSet.getString("proposalStatus");
+				Status proposalStatus = Status.valueOf(resultSet.getString("proposalStatus"));
 				String creditScore = resultSet.getString("creditScore");
 				
 				Salesman salesman = null;
@@ -309,7 +310,7 @@ public class DB_Proposal {
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setString(1, proposal.getProposalStatus());
+			statement.setString(1, proposal.getProposalStatus().toString());
 			statement.setInt(2, proposal.getProposalId());
 
 			if (statement.executeUpdate() == 0)
