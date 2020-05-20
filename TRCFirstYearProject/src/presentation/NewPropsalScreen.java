@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -190,7 +189,7 @@ public class NewPropsalScreen {
 					yearcb.getItems().clear();
 					yearcb.setDisable(false);
 
-					if (yearcb.getValue() == null) {						
+					if (yearcb.getValue() == null) {
 						regnrcb.setItems(FXCollections
 								.observableArrayList(controller.getUsedCars(modelcb.getValue().toString())));
 					} else {
@@ -199,11 +198,11 @@ public class NewPropsalScreen {
 					}
 				}
 			}
-			
+
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 	}
-	
+
 	private void yearcbEvent() {
 		yearcb.setOnHiding(e -> {
 			if (yearcb.getValue() != null) {
@@ -213,7 +212,7 @@ public class NewPropsalScreen {
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 	}
-	
+
 	private void regnrEvent() {
 		regnrcb.setOnHiding(e -> {
 			proposal.setCar((Car) regnrcb.getValue());
@@ -256,7 +255,7 @@ public class NewPropsalScreen {
 				}
 				if (!tf.getText().isEmpty()) {
 					int tfInt = Integer.parseInt(tf.getText());
-					
+
 					if (tfInt == 0) {
 						String s = tf.getText().substring(0, 0);
 						tf.setText(s);
@@ -417,12 +416,12 @@ public class NewPropsalScreen {
 		ArrayList<ButtonType> arrayList = new ArrayList<ButtonType>();
 		arrayList.add(bSave);
 		arrayList.add(bContinue);
-		arrayList.add(bCancel);		
-		
-		String text = "Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu";
-		AlertWithStyle saveContinue = new AlertWithStyle(AlertType.CONFIRMATION, text, "Gem eller underskriv nu", arrayList);
+		arrayList.add(bCancel);
 
-		Optional<ButtonType> result = saveContinue.showAndWait();
+		String text = "Ville du gemme lånet til en senere underskrivelse eller ville du under skrive det nu?";
+		AlertWithStyle alert = new AlertWithStyle(AlertType.CONFIRMATION, text, "Gem eller underskriv nu", arrayList);
+
+		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bSave) {
 			proposal.checkLimit();
 			controller.createProposal(proposal);
@@ -432,28 +431,26 @@ public class NewPropsalScreen {
 			controller.createProposal(proposal);
 			new SignProposalScreen(proposal).signProposalUI();
 		} else {
-			saveContinue.close();
+			alert.close();
 		}
 	}
 
 	private void alertBack() {
-		Alert back = new Alert(AlertType.CONFIRMATION);
-		back.getDialogPane().setPrefHeight(100);
-		back.getDialogPane().setPrefWidth(350);
-		back.setTitle("Tilbage");
-		back.setHeaderText(null);
-		back.setContentText("Er du sikker bare at du ville gå tilbage, hvis du gøre ville alt data blive slettet");
+		ButtonType bBack = new ButtonType("Tilbage");
+		ButtonType bCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
 
-		ButtonType buttonTypeBack = new ButtonType("Tilbage");
-		ButtonType buttonTypeCancel = new ButtonType("Fortryd", ButtonData.CANCEL_CLOSE);
+		ArrayList<ButtonType> arrayList = new ArrayList<ButtonType>();
+		arrayList.add(bBack);
+		arrayList.add(bCancel);
 
-		back.getButtonTypes().setAll(buttonTypeBack, buttonTypeCancel);
+		String text = "Er du sikker bare at du ville gå tilbage, hvis du gøre ville alt data blive slettet";
+		AlertWithStyle alert = new AlertWithStyle(AlertType.CONFIRMATION, text, "Tilbage", arrayList);
 
-		Optional<ButtonType> result = back.showAndWait();
-		if (result.get() == buttonTypeBack) {
-			new ProposalOverview().customerUI(customer.getCpr());
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == bBack) {
+			new ProposalOverview().customerUI(customer.getCpr()); 
 		} else {
-			back.close();
+			alert.close();
 		}
 	}
 
