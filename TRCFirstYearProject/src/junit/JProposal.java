@@ -115,7 +115,7 @@ public class JProposal {
 		proposal.setProposalTotalSum(new BigDecimal(5250000));
 		proposal.checkLimit();
 
-		assertEquals("AWAITING", proposal.getProposalStatus());		
+		assertEquals(Status.AFVENTER, proposal.getProposalStatus());		
 	}
 
 	//Salesman's is qualified to make a loan of the requested loan amount
@@ -125,6 +125,6 @@ public class JProposal {
 			salesman.setProposalLimit(new BigDecimal(10000000));
 			proposal.checkLimit();
 
-			assertEquals("ONGOING", proposal.getProposalStatus());		
+			assertEquals(Status.IGANG, proposal.getProposalStatus());		
 		}
 }
