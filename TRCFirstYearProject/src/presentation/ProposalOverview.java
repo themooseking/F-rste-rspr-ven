@@ -14,9 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -89,7 +86,7 @@ public class ProposalOverview {
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
-		map.put("LÃ¥ne nr.", "proposalId");
+		map.put("Låne nr.", "proposalId");
 		map.put("Dato", "proposalDate");
 		map.put("Bil", "car");
 		if (i == 1) {
@@ -98,12 +95,11 @@ public class ProposalOverview {
 		map.put("Rente (%)", "totalInterest");
 		map.put("Sum (DKK)", "proposalTotalSum");
 		if (i != 1) {
-			map.put("Sï¿½lger Navn", "salesman");
+			map.put("Sælger Navn", "salesman");
 		}
 		if (i == 2) {
 			map.put("Salgs titel", "salesmanTitel");
 		}
-		//map.put("Status", "proposalStatus");
 
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
 		table.setItems(eventList);
@@ -112,13 +108,10 @@ public class ProposalOverview {
 		}
 		TableColumn<Proposal, Status> statusCol = new TableColumn<Proposal, Status>("Status");
 		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, Status>("proposalStatus"));
+		statusCol.setMinWidth((style.sceneX() - 200) / (map.size() + 1));
 		table.getColumns().add(statusCol);
 
 		customiseFactory(statusCol);
-		
-		//table.getColumns().get(4).setStyle("-fx-alignment: CENTER;");
-		//table.getColumns().get(4).getStyleClass().add("numbers");
-		//table.getColumns().get(5).setStyle("-fx-alignment: CENTER;");
 
 		accessProposal(table, i);
 
@@ -133,7 +126,6 @@ public class ProposalOverview {
 					super.updateItem(item, empty);
 
 					setText(empty ? "" : getItem().toString());
-					//setGraphic(null);
 
 					TableRow<Proposal> currentRow = getTableRow();
 					
@@ -227,9 +219,9 @@ public class ProposalOverview {
 	private Label title(String person, int i) {
 		Label label = null;
 		if (i == 0) {
-			label = new Label("Lï¿½netilbud for " + person);
+			label = new Label("Lånetilbud for " + person);
 		} else if (i == 1) {
-			label = new Label(LoggedInST.getUser() + "s lï¿½netilbud");
+			label = new Label(LoggedInST.getUser() + "s lånetilbud");
 		} else if (i == 2) {
 			label = new Label("Godkend tilbud");
 		}
