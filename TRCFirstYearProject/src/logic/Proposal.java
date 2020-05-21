@@ -80,7 +80,7 @@ public class Proposal extends Thread {
 			totalInterest += 1.0;
 		}
 
-		interest = Math.round(interest * 10000) / 10000.0;
+		interest = Math.round(interest * 10000.0) / 10000.0;
 		totalInterest += interest;
 
 		return totalInterest;
@@ -102,7 +102,7 @@ public class Proposal extends Thread {
 			e.printStackTrace();
 		}
 
-		interest = Math.round(interest * 10000) / 10000.0;
+		interest = Math.round(interest * 10000.0) / 10000.0;
 		doubleProperty.set(interest);
 	}
 
@@ -261,12 +261,16 @@ public class Proposal extends Thread {
 	}
 
 	public double getTotalInterest() {
-		return totalInterest;
+		double interest = Math.round(totalInterest * 100.0) / 100.0;
+		
+		return interest;
 	}
 
 	public BigDecimal getProposalTotalSum() {
 		totalProposalPrice();
-		return proposalTotalSum;
+		BigDecimal totalSum = proposalTotalSum.setScale(2, RoundingMode.HALF_UP);
+		
+		return totalSum;
 	}
 
 	public Rating getCreditScore() {
