@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import logic.CSVWriter;
 import logic.DB_Controller;
 import logic.Proposal;
@@ -33,11 +34,11 @@ public class SignProposalScreen {
 	private StyleClass style = new StyleClass();
 	private Proposal proposal;
 	private TextReader tr;
-	private DB_Controller controller = new DB_Controller(); 
-	
+	private DB_Controller controller = new DB_Controller();
+
 	private PasswordFieldWithStyle password;
 	private TextFieldWithStyle id;
-	
+	private LabelWithStyle wrong;
 
 	public SignProposalScreen(Proposal proposal) {
 		this.proposal = proposal;
@@ -118,6 +119,9 @@ public class SignProposalScreen {
 
 		new LabelWithStyle("Kodeord ", grid, 0, 2);
 		password = new PasswordFieldWithStyle("kodeord", grid, 1, 2);
+		
+		wrong = new LabelWithStyle("", grid, 1, 3);
+		wrong.setTextFill(Color.web(style.red()));
 
 		return grid;
 	}
@@ -145,10 +149,10 @@ public class SignProposalScreen {
 				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
 				if (salesman != null) {
 					proposal.setProposalStatus(Status.GODKENDT);
-					new ProposalOverview().cosUI(); 
-				}
-				else {
-					System.out.println("Wrong password");
+					new ProposalOverview().cosUI();
+				} else {
+					wrong.setText("Forkert adgangskode");
+					System.out.println("FORKERT");
 				}
 			});
 		} else {
@@ -160,14 +164,15 @@ public class SignProposalScreen {
 						new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
 					} else if (i == 1) {
 						new ProposalOverview().salesmanUI();
+					}
 				}
 				else {
-					System.out.println("Wrong password");
-					}
+					wrong.setText("Forkert adgangskode");
+					System.out.println("FORKERT");
 				}
 			});
 		}
- 
+
 		return grid;
 	}
 

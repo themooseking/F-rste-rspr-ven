@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.DB_Controller;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
@@ -34,9 +35,10 @@ public class CPRScreen {
 	private DB_Controller controller = new DB_Controller();
 	private TextFieldWithStyle textfield;
 	private Button continueButton;
+	private Label wrong;
 
 	public void cprUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 0, 0));
 		vbox.setStyle("-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
@@ -53,7 +55,7 @@ public class CPRScreen {
 
 	private GridPane cprTextfield() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setPadding(new Insets(280, 0, 322, 0));
+		grid.setPadding(new Insets(280, 0, 0, 0));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-159");
@@ -148,9 +150,7 @@ public class CPRScreen {
 		try {
 			new ProposalOverview().customerUI(textfield.getText());
 		} catch (NullPointerException e2) {
-			Alert wrongCpr = new Alert(AlertType.NONE,
-					("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
-			wrongCpr.showAndWait();
+			wrong.setText("Ugyldigt CPR-nummer.");
 		}
 	}
 
@@ -233,6 +233,15 @@ public class CPRScreen {
 		label.setFont(Font.loadFont(style.titleFont(), 120));
 		label.setTextFill(Color.web(style.black()));
 		return label;
+	}
+	
+	private Label wrongPassword() {
+		wrong = new Label("");
+		wrong.setPadding(new Insets(10, 0, 312, 0));
+		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
+		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
+		wrong.setTextFill(Color.web(style.red()));
+		return wrong;
 	}
 
 	//////////////////////////////
