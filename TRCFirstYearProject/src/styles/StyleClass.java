@@ -20,7 +20,7 @@ public class StyleClass {
 	private String entertextcolor = "#e33635";
 	private String backgroundcolor = "#242224";
 
-	private String titlefont = "file:resources/fonts/Compatil Text LT Com Bold.ttf";
+	private String titlefont = "file:resources/fonts/Caladea-Regular.ttf";
 	private String textfont = "Lucida Fax";
 	private int textsize = 20;
 
