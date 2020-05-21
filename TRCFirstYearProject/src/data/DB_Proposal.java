@@ -254,7 +254,8 @@ public class DB_Proposal {
 		try {
 			String sql = "SELECT COUNT(*) " 
 					+ "FROM proposal " 
-					+ "WHERE proposalStatus='IGANG' "
+					+ "WHERE (proposalStatus='IGANG' "
+					+ "OR proposalStatus='GODKENDT') "
 					+ "AND salesman=?";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
