@@ -1,34 +1,35 @@
  .dialog-pane{
-  	-fx-background-color: #e33635;
+  	-fx-background-color: rgb(192, 192, 192);
  }
 
 .dialog-pane > .button-bar > .container {
-  	-fx-background-color: #e33635;
+  	-fx-background-color: rgb(192, 192, 192);
 }
 
 .dialog-pane > .content.label {
-   	-fx-background-color: #e33635;
+   	-fx-background-color: rgb(192, 192, 192);
    	-fx-text-fill:black;
    	-fx-font-size: 20;
    	-fx-font-family: "Lucida Fax";
-   	-fx-font-weight: BOLD;
 }
 
 
-.dialog-pane .button{
-   	-fx-background-color: #707070;
-   	-fx-text-fill: #e33635;
+.dialog-pane .button {
+   	-fx-background-color: #303030;
+   	-fx-text-fill: white;
    	-fx-font-family: "Lucida Fax";
-   	-fx-font-weight:bold; 
-   	-fx-cursor:hand;
+   	-fx-font-weight: bold; 
+   	-fx-cursor: hand;
    	-fx-font-size: 25;
    	-fx-pref-height: 60px;
    	-fx-pref-width: 200px;
-   	-fx-border-width: 3;
-   	-fx-border-radius: 5;
- }
+   	-fx-background-radius: 0;
+	-fx-border-color: black;
+	-fx-border-width: 1;
+}
 
-.dialog-pane .button:hover{
-  	-fx-text-fill: #FFFFFF;
-	-fx-effect: innerShadow( gaussian, black, 10, 0, 0, 0);
- }
+.dialog-pane .button:hover {
+  	-fx-text-fill: #e33635;
+	-fx-effect: innershadow( gaussian, black, 10, 0, 0, 0);
+}
+
