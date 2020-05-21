@@ -1,11 +1,13 @@
 package styles;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import logic.Proposal;
 
 public class TableViewWithStyle extends TableView<Proposal>{

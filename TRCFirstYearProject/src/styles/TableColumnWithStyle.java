@@ -2,8 +2,10 @@ package styles;
 
 import java.util.LinkedHashMap;
 
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import logic.Proposal;
 
 public class TableColumnWithStyle extends TableColumn<Proposal, Object>{

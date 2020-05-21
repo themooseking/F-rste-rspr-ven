@@ -5,12 +5,18 @@ import java.util.LinkedHashMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets; 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -18,6 +24,7 @@ import javafx.scene.text.Font;
 import logic.Customer;
 import logic.DB_Controller;
 import logic.Proposal;
+import logic.Status;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
 import styles.StyleClass;
@@ -91,21 +98,59 @@ public class ProposalOverview {
 		map.put("Rente (%)", "totalInterest");
 		map.put("Sum (DKK)", "proposalTotalSum");
 		if (i != 1) {
-			map.put("Sælger Navn", "salesman");
+			map.put("Sï¿½lger Navn", "salesman");
 		}
 		if (i == 2) {
-			map.put("Salgs titel", "salesmanTitel"); 
+			map.put("Salgs titel", "salesmanTitel");
 		}
-		map.put("Status", "proposalStatus");
+		//map.put("Status", "proposalStatus");
 
 		TableViewWithStyle table = new TableViewWithStyle(grid, 0, 0);
 		table.setItems(eventList);
 		for (String key : map.keySet()) {
 			table.getColumns().add(createColumn(key, map));
 		}
+		TableColumn<Proposal, Status> statusCol = new TableColumn<Proposal, Status>("Status");
+		statusCol.setCellValueFactory(new PropertyValueFactory<Proposal, Status>("proposalStatus"));
+		table.getColumns().add(statusCol);
+
+		customiseFactory(statusCol);
+		
+		//table.getColumns().get(4).setStyle("-fx-alignment: CENTER;");
+		//table.getColumns().get(4).getStyleClass().add("numbers");
+		//table.getColumns().get(5).setStyle("-fx-alignment: CENTER;");
+
 		accessProposal(table, i);
 
 		return grid;
+	}
+
+	private void customiseFactory(TableColumn<Proposal, Status> statusCol) {
+		statusCol.setCellFactory(column -> {
+			return new TableCell<Proposal, Status>() {
+				@Override
+				protected void updateItem(Status item, boolean empty) {
+					super.updateItem(item, empty);
+
+					setText(empty ? "" : getItem().toString());
+					//setGraphic(null);
+
+					TableRow<Proposal> currentRow = getTableRow();
+					
+					if (!isEmpty() && currentRow != null) {
+						if (item == Status.IGANG || item == Status.GODKENDT) {
+							currentRow.setStyle("-fx-background-color:#F9F69C;");
+						} else if (item == Status.AFVENTER) {
+							currentRow.setStyle("-fx-background-color:dedb7a;");
+						} else if (item == Status.ANNULLERET) {
+							currentRow.setStyle("-fx-background-color:#FF7E7E;");
+						} else if (item == Status.AFSLUTTET) {
+							currentRow.setStyle("-fx-background-color:#A5F99C;");
+						} 
+					}
+				}
+			};
+		});
 	}
 
 	private TableColumnWithStyle createColumn(String key, LinkedHashMap<String, String> map) {
@@ -182,13 +227,13 @@ public class ProposalOverview {
 	private Label title(String person, int i) {
 		Label label = null;
 		if (i == 0) {
-			label = new Label("Lånetilbud for " + person);
+			label = new Label("Lï¿½netilbud for " + person);
 		} else if (i == 1) {
-			label = new Label(LoggedInST.getUser() + "s lånetilbud");
+			label = new Label(LoggedInST.getUser() + "s lï¿½netilbud");
 		} else if (i == 2) {
 			label = new Label("Godkend tilbud");
 		}
-		
+
 		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
