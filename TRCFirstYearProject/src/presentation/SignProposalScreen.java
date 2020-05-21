@@ -47,7 +47,15 @@ public class SignProposalScreen {
 
 	public void signProposalUI() {
 		int i = 0;
-		HBox hbox = new HBox(tr.textReader(), fitter(i));
+		HBox hbox;
+		Status status = proposal.getProposalStatus();
+		
+		if(status != Status.AFSLUTTET && status != Status.AFVENTER && status != Status.ANNULLERET ) {
+			hbox = new HBox(tr.textReader(), fitter(i));
+		} else {
+			hbox = new HBox(tr.textReader());
+		}
+
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
@@ -60,7 +68,15 @@ public class SignProposalScreen {
 
 	public void salesmanSignProposalUI() {
 		int i = 1;
-		HBox hbox = new HBox(tr.textReader(), fitter(i));
+		HBox hbox;
+		Status status = proposal.getProposalStatus();
+		
+		if(status != Status.AFSLUTTET && status != Status.AFVENTER && status != Status.ANNULLERET ) {
+			hbox = new HBox(tr.textReader(), fitter(i));
+		} else {
+			hbox = new HBox(tr.textReader());
+		}
+		
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
@@ -73,7 +89,15 @@ public class SignProposalScreen {
 
 	public void cosSignProposalUI() {
 		int i = 2;
-		HBox hbox = new HBox(tr.textReader(), fitter(i));
+		HBox hbox;
+		Status status = proposal.getProposalStatus();
+		
+		if(status != Status.GODKENDT) {
+			hbox = new HBox(tr.textReader(), fitter(i));
+		} else {
+			hbox = new HBox(tr.textReader());
+		}
+		
 		hbox.setSpacing(50);
 		hbox.setAlignment(Pos.CENTER);
 
