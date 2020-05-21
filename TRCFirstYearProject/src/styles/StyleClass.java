@@ -17,7 +17,7 @@ public class StyleClass {
 	private String white = "#ffffff";
 	private String black = "#000000";
 	
-	private String entertextcolor = "#e33635";
+	private String entertextcolor = "#e33635"; 
 	private String backgroundcolor = "#242224";
 
 	private String titlefont = "file:resources/fonts/Caladea-Regular.ttf";
