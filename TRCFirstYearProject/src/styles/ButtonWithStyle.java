@@ -20,6 +20,7 @@ public class ButtonWithStyle extends Button {
 	public ButtonWithStyle(String buttonText, GridPane grid, int col, int row) {
 		super.setText(buttonText);
 		super.setFont(Font.font(style.textFont(), FontWeight.BOLD, 30));
+		super.getStylesheets().add("/styles/Button.css");
 		super.setMinSize(300, 90);
 		super.setPrefSize(300, 90);
 		super.setMaxSize(300, 90);
