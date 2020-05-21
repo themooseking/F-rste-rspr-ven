@@ -115,7 +115,7 @@ public class Proposal extends Thread {
 	}
 
 	private double monthlyRate() {
-		return Math.pow((1.0 + interest / 100.0), 1.0 / 12.0) - 1;
+		return Math.pow((1.0 + totalInterest / 100.0), 1.0 / 12.0) - 1;
 	}
 
 	/*****************************************************
@@ -162,21 +162,6 @@ public class Proposal extends Thread {
 		
 		controller.createProposal(this);
 	}
-
-
-//	public ArrayList<BigDecimal> loanMonthlyRateAmount() {
-//		ArrayList<BigDecimal> monthlyRateAmountList = new ArrayList<BigDecimal>();
-//		BigDecimal remainingLoanAmount = totalCarPrice();
-//		BigDecimal annuity = monthlyPayment();
-//		
-//		
-//		for (int i = 0; i < loanDuration; i++) {
-//			BigDecimal monthlyRateAmount = remainingLoanAmount.multiply(new BigDecimal(monthlyRate()));
-//			monthlyRateAmountList.add(monthlyRateAmount);
-//			remainingLoanAmount = remainingLoanAmount.subtract(annuity.subtract(monthlyRateAmount));
-//		}
-//		return monthlyRateAmountList;
-//	}
 	
 	public BigDecimal monthlyRateAmount(BigDecimal remainingLoanAmount) {
 		return remainingLoanAmount.multiply(new BigDecimal(monthlyRate()));
@@ -200,6 +185,11 @@ public class Proposal extends Thread {
 	public void setInterest(double interest) {
 		this.interest = interest;
 	}
+	
+	public void setTotalInterest(double totalInterest) {
+		this.totalInterest = totalInterest;
+	}
+
 
 	public void setProposalTotalSum(BigDecimal proposalTotalSum) {
 		this.proposalTotalSum = proposalTotalSum;

@@ -3,6 +3,7 @@ package junit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import org.junit.Before;
@@ -84,47 +85,36 @@ public class JProposal {
 
 	@Test
 	public void testTotalCarPrice() {	
-		proposal.setDownPayment(new BigDecimal(1000000));
-
-		assertEquals(new BigDecimal(5250000), proposal.totalCarPrice());
-
+		proposal.setDownPayment(new BigDecimal(0));
+		
+		assertEquals(new BigDecimal(6250000).setScale(2, RoundingMode.HALF_UP), proposal.totalCarPrice());
 	}
 
-//	@Test
-//	public void testMonthlyPayment() {	
-//		proposal.setDownPayment(1000000);
-//		proposal.setTotalInterest(totalInterest);
-//		proposal.setLoanDuration(loanDuration);
-//		
-//	}
-//	
-//	@Test
-//	public void testTotalInterestSum() {	
-//		
-//	}
-//	
-//	@Test
-//	public void testTotalProposalPrice() {	
-//		
-//	}
-
-
-	//Salesman's loan limit is below the requested loan amount
 	@Test
-	public void testCheckLimitOver() {
-		proposal.setProposalTotalSum(new BigDecimal(5250000));
-		proposal.checkLimit();
-
-		assertEquals(Status.AFVENTER, proposal.getProposalStatus());		
+	public void testMonthlyPayment() {	
+		proposal.setDownPayment(new BigDecimal(0));
+		proposal.setTotalInterest(10);
+		proposal.setLoanDuration(36);
+		
+		assertEquals(new BigDecimal(200407.49).setScale(2, RoundingMode.HALF_UP), proposal.monthlyPayment().setScale(2, RoundingMode.HALF_UP));
 	}
-
-	//Salesman's is qualified to make a loan of the requested loan amount
-		@Test
-		public void testCheckLimitUnder() {
-			proposal.setProposalTotalSum(new BigDecimal(5250000));
-			salesman.setProposalLimit(new BigDecimal(10000000));
-			proposal.checkLimit();
-
-			assertEquals(Status.IGANG, proposal.getProposalStatus());		
-		}
+	
+	@Test
+	public void testTotalInterestSum() {	
+		proposal.setDownPayment(new BigDecimal(0));
+		proposal.setTotalInterest(10);
+		proposal.setLoanDuration(36);
+		
+		assertEquals(new BigDecimal(964669.80).setScale(2, RoundingMode.HALF_UP), proposal.totalInterestSum().setScale(2, RoundingMode.HALF_UP));
+	}
+	
+	@Test
+	public void testTotalProposalPrice() {	
+		proposal.setDownPayment(new BigDecimal(0));
+		proposal.setTotalInterest(10);
+		proposal.setLoanDuration(36);
+		proposal.totalProposalPrice();
+		
+		assertEquals(new BigDecimal(7214669.80).setScale(2, RoundingMode.HALF_UP), proposal.getProposalTotalSum().setScale(2, RoundingMode.HALF_UP));
+	}
 }
