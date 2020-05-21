@@ -34,7 +34,7 @@ public class CPRScreen {
 	private Button continueButton;
 	private Label wrong;
 
-	public void cprUI() {
+	public void show() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 0, 0));
@@ -191,7 +191,7 @@ public class CPRScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 1);
 		button.setOnAction(e -> {
-			new LoginScreen().loginUI();
+			new LoginScreen().show();
 		});
 
 		return grid;

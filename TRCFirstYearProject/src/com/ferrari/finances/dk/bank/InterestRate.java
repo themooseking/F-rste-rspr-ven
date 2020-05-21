@@ -1,4 +1,4 @@
-package ffl;
+package com.ferrari.finances.dk.bank;
 
 import java.time.LocalDate;
 import java.util.Random;

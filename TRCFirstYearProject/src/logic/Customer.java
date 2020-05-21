@@ -1,7 +1,8 @@
 package logic;
 
-import ffl.CreditRator;
-import ffl.Rating;
+import com.ferrari.finances.dk.rki.CreditRator;
+import com.ferrari.finances.dk.rki.Rating;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

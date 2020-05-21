@@ -1,10 +1,7 @@
 package presentation;
 
-import java.util.ArrayList;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections; 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,7 +27,7 @@ public class LoginScreen {
 	private TextFieldWithStyle userLogin;
 	private Label wrong;
 
-	public void loginUI() {
+	public void show() {
 		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), userPassword(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
@@ -47,15 +44,6 @@ public class LoginScreen {
 
 		userLogin = new TextFieldWithStyle("Bruger ID", grid, 0, 0);
 		durationEvent(userLogin);
-		
-//		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
-//
-//		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
-//		if (LoggedInST.getUser() == null) {
-//			selectedUser.setValue(userList.get(0));
-//		} else {
-//			selectedUser.setValue(LoggedInST.getUser());
-//		}
 		
 		return grid;
 	}
@@ -91,7 +79,7 @@ public class LoginScreen {
 			Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()), password.getText());
 			if (salesman != null) {
 				LoggedInST.setUser(salesman);
-				new CPRScreen().cprUI();
+				new CPRScreen().show();
 			}
 			else {
 				wrong.setText("Forkert ID eller adgangskode");
@@ -121,19 +109,12 @@ public class LoginScreen {
 	// Label Title
 	//////////////////////////////
 
-//	private Label title() {
-//		Label label = new Label("The Red Car Laane System");
-//		label.setFont(Font.loadFont("file:resources/fonts/Compatil Text LT Com Bold.ttf", 110));
-//		label.setPadding(new Insets(0, 0, 0, 0));
-//		label.setTextFill(Color.web(new StyleClass().black()));
-//		return label;
-//	}
-
 	private Label company() {
 		Label label = new Label("Lånesystem");
 		label.setPadding(new Insets(0, 0, 0, 0));
 		label.setFont(Font.loadFont(style.titleFont(), 120));
 		label.setTextFill(Color.web(style.black()));
+		
 		return label;
 	} 
 
@@ -143,6 +124,7 @@ public class LoginScreen {
 		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
 		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
 		wrong.setTextFill(Color.web(style.red()));
+		
 		return wrong;
 	}
 	

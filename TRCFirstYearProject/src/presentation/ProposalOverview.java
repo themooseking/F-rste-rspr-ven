@@ -150,7 +150,7 @@ public class ProposalOverview {
 
 		return column;
 	}
-
+	
 	private TableRow<Proposal> accessProposal(TableView<Proposal> table, int i) {
 		table.setRowFactory(e -> {
 			TableRow<Proposal> row = new TableRow<>();
@@ -158,11 +158,11 @@ public class ProposalOverview {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Proposal rowData = row.getItem();
 					if (i == 0) {
-						new SignProposalScreen(rowData).signProposalUI();
+						new SignProposalScreen(rowData).defaultUI();
 					} else if (i == 1) {
-						new SignProposalScreen(rowData).salesmanSignProposalUI();
+						new SignProposalScreen(rowData).salesmanUI();
 					} else if (i == 2) {
-						new SignProposalScreen(rowData).cosSignProposalUI();
+						new SignProposalScreen(rowData).cosUI();
 						;
 					}
 				}
@@ -195,7 +195,7 @@ public class ProposalOverview {
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
 		button.setOnAction(e -> {
-			new CPRScreen().cprUI();
+			new CPRScreen().show();
 		});
 
 		return grid;
@@ -206,7 +206,7 @@ public class ProposalOverview {
 
 		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
 		button.setOnAction(e -> {
-			new NewPropsalScreen(customer).newProposalUI();
+			new NewPropsalScreen(customer).show();
 		});
 
 		return grid;

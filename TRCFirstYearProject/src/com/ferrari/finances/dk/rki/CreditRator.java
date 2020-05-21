@@ -1,4 +1,4 @@
-package ffl;
+package com.ferrari.finances.dk.rki;
 
 import java.util.Random;
 

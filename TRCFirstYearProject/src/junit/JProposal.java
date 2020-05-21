@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
-import ffl.Rating;
+import com.ferrari.finances.dk.rki.Rating;
+
 import logic.Car;
 import logic.Customer;
 import logic.Proposal;

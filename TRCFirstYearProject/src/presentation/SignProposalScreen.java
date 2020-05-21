@@ -43,7 +43,7 @@ public class SignProposalScreen {
 		this.tr = new TextReader(proposal.getCustomer(), proposal);
 	}
 
-	public void signProposalUI() {
+	public void defaultUI() {
 		int i = 0;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
@@ -56,7 +56,7 @@ public class SignProposalScreen {
 		uiSetup(i, hbox);
 	}
 
-	public void salesmanSignProposalUI() {
+	public void salesmanUI() {
 		int i = 1;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
@@ -69,7 +69,7 @@ public class SignProposalScreen {
 		uiSetup(i, hbox);
 	}
 
-	public void cosSignProposalUI() {
+	public void cosUI() {
 		int i = 2;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();

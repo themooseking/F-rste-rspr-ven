@@ -66,7 +66,7 @@ public class NewPropsalScreen {
 		this.tr = new TextReader(customer, proposal);
 	}
 
-	public void newProposalUI() {
+	public void show() {
 		HBox hbox = new HBox(50, fitter(), tr.textReader());
 		hbox.setAlignment(Pos.CENTER);
 
@@ -429,7 +429,7 @@ public class NewPropsalScreen {
 		} else if (result.get() == bContinue) {
 			carHandler();
 			proposal.checkLimit();
-			new SignProposalScreen(proposal).signProposalUI();
+			new SignProposalScreen(proposal).defaultUI();
 		} else {
 			alert.close();
 		}

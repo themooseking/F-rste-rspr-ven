@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-import ffl.InterestRate;
-import ffl.Rating;
+import com.ferrari.finances.dk.bank.InterestRate;
+import com.ferrari.finances.dk.rki.Rating;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
