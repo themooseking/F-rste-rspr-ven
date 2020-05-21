@@ -189,7 +189,7 @@ public class ProposalOverview {
 			label = new Label("Godkend tilbud");
 		}
 		
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 120));
+		label.setFont(Font.loadFont(style.titleFont(), 120));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}

@@ -516,7 +516,7 @@ public class NewPropsalScreen {
 
 	private Label title() {
 		Label label = new Label("Nyt Låneforslag");
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 60));
+		label.setFont(Font.loadFont(style.titleFont(), 60));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
