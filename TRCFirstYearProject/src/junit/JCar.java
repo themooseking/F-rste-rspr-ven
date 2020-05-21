@@ -1,47 +1,21 @@
 package junit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import logic.Car;
-import logic.DB_Controller;
 
 public class JCar {
-	DB_Controller controller = new DB_Controller();
-	Car car = new Car(1, "812 Superfast", new BigDecimal(5600000), 0, 2017, "AVAILABLE");
+	private Car car;
 
-	@Test
-	public void testTypeOfGetCar() {
-		assertTrue(controller.getNewCars().get(0) instanceof Car);
-	}
-
-//	@Test
-//	void testGetNewCarsCarStatus() {
-//		assertEquals(car.getCarStatus(), controller.getNewCars().get(0).getCarStatus());
-//	}
-
-//	@Test
-//	void testGetNewCarsFactory() {
-//		assertEquals(car.getFactory(), controller.getNewCars().get(0).getFactory());
-//	}
-
-	@Test
-	public void testGetNewCarsMilage() {
-		assertEquals(car.getMilage(), controller.getNewCars().get(0).getMilage());
-	}
-
-	@Test
-	public void testGetNewCarsModel() {
-		assertEquals(car.getModel(), controller.getNewCars().get(0).getModel());
-	}
-
-	@Test
-	public void testGetNewCarsPrice() {
-		assertEquals(car.getPrice(), controller.getNewCars().get(0).getPrice());
+	@Before
+	public void setUp() throws Exception {
+		car = new Car(1, "812 Superfast", new BigDecimal(5600000.0000), 0, 2017, "AVAILABLE");
 	}
 
 	@Test
@@ -56,7 +30,7 @@ public class JCar {
 
 	@Test
 	public void testCarVarPrice() {
-		assertEquals(new BigDecimal(1400000), car.getVat());
+		assertEquals(new BigDecimal(1400000.00).setScale(2, RoundingMode.HALF_UP),
+				car.getVat().setScale(2, RoundingMode.HALF_UP));
 	}
-
 }

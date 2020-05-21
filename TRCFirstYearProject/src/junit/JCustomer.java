@@ -32,5 +32,4 @@ public class JCustomer {
 		String cpr = "321390-9874";
 		assertEquals("3213909874", Customer.removeDashFromCpr(cpr));
 	}
-
 }
