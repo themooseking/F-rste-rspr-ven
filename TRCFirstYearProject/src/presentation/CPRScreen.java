@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -187,7 +184,7 @@ public class CPRScreen {
 		});
 
 		return grid;
-	}
+	} 
 
 	private GridPane logoutButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
@@ -209,17 +206,23 @@ public class CPRScreen {
 		p.setTranslateY(-40);
 		p.setTranslateX(145);
 
-		Label lab = new Label(number);
-		lab.setStyle("-fx-text-fill:white");
-		lab.setFont(Font.loadFont(style.titleFont(), 28));
-		lab.setTextFill(Color.web(style.black()));
-		lab.setPadding(new Insets(0, 0, 0, 12));
+		Label label = new Label(number);
+		label.setStyle("-fx-text-fill:white");
+		label.setFont(Font.loadFont(style.titleFont(), 28));
+		label.setTextFill(Color.web(style.black()));
+		
+		if (Integer.parseInt(number) < 10) {
+			label.setPadding(new Insets(0, 0, 0, 12));
+		} else {
+			label.setPadding(new Insets(0, 0, 0, 4));
+		}
 
 		Circle circle = new Circle(20, Color.web("#060606"));
 		circle.setStrokeWidth(2.0);
 		circle.setStyle("-fx-background-insets: 0 0 -1 0, 0, 0, 0;");
 		circle.setSmooth(true);
-		p.getChildren().addAll(circle, lab);
+		p.getChildren().addAll(circle, label);
+		
 		return p;
 	}
 
@@ -249,7 +252,7 @@ public class CPRScreen {
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");
+		PrimaryStageST.getStage().setTitle("Ferrari Lånesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
