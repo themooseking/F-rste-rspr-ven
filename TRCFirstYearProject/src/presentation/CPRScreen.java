@@ -1,5 +1,6 @@
 package presentation;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.DB_Controller;
 import styles.ButtonWithStyle;
 import styles.GridPaneCenter;
@@ -33,9 +35,10 @@ public class CPRScreen {
 	private DB_Controller controller = new DB_Controller();
 	private TextFieldWithStyle textfield;
 	private Button continueButton;
+	private Label wrong;
 
 	public void cprUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setPadding(new Insets(0, 0, 0, 0));
 		vbox.setStyle("-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
@@ -46,9 +49,13 @@ public class CPRScreen {
 		sceneSetup(scene);
 	}
 
+	//////////////////////////////
+	// TextField
+	//////////////////////////////
+
 	private GridPane cprTextfield() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-		grid.setPadding(new Insets(280, 0, 322, 0));
+		grid.setPadding(new Insets(280, 0, 0, 0));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
 		textfield.setText("310396-159");
@@ -61,60 +68,59 @@ public class CPRScreen {
 		textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
-
-				int tfl = textfield.getLength();
-
-				if (keyEvent.getCode() == KeyCode.ENTER) {
-					System.out.println("Hej");
-				}
-
-				if (keyEvent.getCode().isDigitKey()) {
-					if (tfl == 6) {
-						textfield.setText(textfield.getText() + "-");
-						textfield.end();
-					}
-				}
-
-				if (keyEvent.getCode() == KeyCode.BACK_SPACE && tfl == 7) {
-					textfield.setText(textfield.getText().substring(0, 6));
-					textfield.end();
-				}
-
-				if (tfl > 10) {
-					String s = textfield.getText().substring(0, 10);
-					textfield.setText(s);
-					textfield.end();
-				}
-
-//				if (tfl < 3) {
-//					onlyDigits(keyEvent);
-//				}
+				tfKeyBindings(keyEvent);
 			}
 		});
 
-		textfield.setOnKeyReleased(new EventHandler<KeyEvent>() {
+		textfield.textProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void handle(KeyEvent keyEvent) {
-				int tfl = textfield.getLength();
-				if (tfl == 11) {
-					continueButton.setDisable(false);
+			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
+					final String newValue) {
+				
+				if (!newValue.matches("\\d*") && textfield.getLength() < 5) {
+					textfield.setText(newValue.replaceAll("[^\\d]", ""));
 				} else {
-					continueButton.setDisable(true); 
+					tfDashCheck(oldValue, newValue);
 				}
+
+				tfLengthCheck(oldValue, newValue);
 			}
 		});
 	}
 
-//	private void onlyDigits(KeyEvent keyEvent) {
-//		textfield.textProperty().addListener(new ChangeListener<String>() {
-//			@Override
-//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//				if (!newValue.matches("\\d*")) {
-//					textfield.setText(newValue.replaceAll("[^\\d]", ""));
-//				}
-//			}
-//		});
-//	}
+	//////////////////////////////
+	// KeyChecks
+	//////////////////////////////
+
+	private void tfKeyBindings(KeyEvent keyEvent) {
+		if (keyEvent.getCode() == KeyCode.ENTER) {
+			continueEvent();
+		}
+	}
+
+	private void tfDashCheck(String oldValue, String newValue) {
+		if (oldValue.length() == 6 && newValue.length() > oldValue.length()) {
+			textfield.setText(oldValue + "-" + newValue.substring(6, 7));
+		}
+
+		if (oldValue.length() == 8 && newValue.length() < oldValue.length()) {
+			Platform.runLater(() -> {
+				textfield.setText(newValue.substring(0, 6));
+				textfield.end();
+			});
+		}
+	}
+
+	private void tfLengthCheck(String oldValue, String newValue) {
+		if (newValue.length() == 12) {
+			textfield.setText(oldValue);
+			continueButton.setDisable(false);
+		} else if (newValue.length() == 11) {
+			continueButton.setDisable(false);			
+		} else {
+			continueButton.setDisable(true);
+		}
+	}
 
 	//////////////////////////////
 	// Buttons
@@ -131,19 +137,21 @@ public class CPRScreen {
 	private GridPane continueButton() {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 
-		continueButton = new ButtonWithStyle("VÃ¦lg", grid, 0, 3);
+		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
 		continueButton.setOnAction(e -> {
-			try {
-				new ProposalOverview().customerUI(textfield.getText());
-			} catch (NullPointerException e2) {
-				Alert wrongCpr = new Alert(AlertType.NONE,
-						("Ingen kunder fundet med cpr-nummeret: " + textfield.getText() + "."), ButtonType.OK);
-				wrongCpr.showAndWait();
-			}
+			continueEvent();
 		});
 
 		return grid;
+	}
+
+	private void continueEvent() {
+		try {
+			new ProposalOverview().customerUI(textfield.getText());
+		} catch (NullPointerException e2) {
+			wrong.setText("Ugyldigt CPR-nummer.");
+		}
 	}
 
 	private GridPane verifyProposalsButton() {
@@ -225,6 +233,15 @@ public class CPRScreen {
 		label.setFont(Font.loadFont(style.titleFont(), 120));
 		label.setTextFill(Color.web(style.black()));
 		return label;
+	}
+	
+	private Label wrongPassword() {
+		wrong = new Label("");
+		wrong.setPadding(new Insets(10, 0, 312, 0));
+		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
+		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
+		wrong.setTextFill(Color.web(style.red()));
+		return wrong; 
 	}
 
 	//////////////////////////////

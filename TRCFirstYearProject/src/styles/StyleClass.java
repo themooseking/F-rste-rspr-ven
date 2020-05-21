@@ -13,14 +13,14 @@ public class StyleClass {
 	private int scenex = 1800;
 
 	private String grey = "#303030";
-	private String red = "#e33635";
+	private String red = "#e61900";
 	private String white = "#ffffff";
 	private String black = "#000000";
 	
-	private String entertextcolor = "#e33635";
+	private String entertextcolor = "#e33635"; 
 	private String backgroundcolor = "#242224";
 
-	private String titlefont = "file:resources/fonts/Compatil Text LT Com Bold.ttf";
+	private String titlefont = "file:resources/fonts/Caladea-Regular.ttf";
 	private String textfont = "Lucida Fax";
 	private int textsize = 20;
 

@@ -177,7 +177,7 @@ public class NewPropsalScreen {
 	}
 
 	private void modelcbEvent() {
-		modelcb.setOnHiding(e -> {
+		modelcb.setOnAction(e -> {
 			if (rbState) {
 
 				proposal.setCar((Car) modelcb.getValue());
@@ -192,7 +192,6 @@ public class NewPropsalScreen {
 					if (yearcb.getValue() == null) {
 						regnrcb.setItems(FXCollections
 								.observableArrayList(controller.getUsedCars(modelcb.getValue().toString())));
-					} else {
 						yearcb.setItems(FXCollections
 								.observableArrayList(controller.getCarFactoryYears(modelcb.getValue().toString())));
 					}
@@ -204,7 +203,8 @@ public class NewPropsalScreen {
 	}
 
 	private void yearcbEvent() {
-		yearcb.setOnHiding(e -> {
+		
+		yearcb.setOnAction(e -> {
 			if (yearcb.getValue() != null) {
 				regnrcb.setItems(FXCollections.observableArrayList(
 						controller.getUsedCars(modelcb.getValue().toString(), yearcb.getValue().toString())));
@@ -214,7 +214,7 @@ public class NewPropsalScreen {
 	}
 
 	private void regnrEvent() {
-		regnrcb.setOnHiding(e -> {
+		regnrcb.setOnAction(e -> {
 			proposal.setCar((Car) regnrcb.getValue());
 			nextButtonDisable();
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
@@ -423,13 +423,24 @@ public class NewPropsalScreen {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bSave) {
+			carHandler();
 			proposal.checkLimit();
 			new ProposalOverview().customerUI(customer.getCpr());
 		} else if (result.get() == bContinue) {
+			carHandler();
 			proposal.checkLimit();
 			new SignProposalScreen(proposal).signProposalUI();
 		} else {
 			alert.close();
+		}
+	}
+	
+	private void carHandler() {
+		if(proposal.getCar().getCarStatus().compareTo("NEW") == 0) {
+			controller.createCar(proposal.getCar());
+		} else {
+			proposal.getCar().setCarStatus("NOT_AVAILABLE");
+			controller.updateCarStatus(proposal.getCar());
 		}
 	}
 
@@ -505,7 +516,7 @@ public class NewPropsalScreen {
 
 	private Label title() {
 		Label label = new Label("Nyt Låneforslag");
-		label.setFont(Font.loadFont("file:resources/fonts/FerroRosso.ttf", 60));
+		label.setFont(Font.loadFont(style.titleFont(), 60));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}

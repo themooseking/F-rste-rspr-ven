@@ -18,20 +18,20 @@ public class DB_Controller {
 	public void createCar(Car car) {
 		carDB.createCar(car);
 	}
-	
+
 	// READ CAR //
 	public ArrayList<Car> getNewCars() {
 		return carDB.getNewCars();
 	}
-	
+
 	public ArrayList<Car> getUsedCars() {
 		return carDB.getUsedCars();
 	}
-	
+
 	public ArrayList<Car> getUsedCars(String model) {
 		return carDB.getUsedCars(model);
 	}
-	
+
 	public ArrayList<Car> getUsedCars(String model, String year) {
 		return carDB.getUsedCars(model, year);
 	}
@@ -42,6 +42,11 @@ public class DB_Controller {
 
 	public ArrayList<String> getCarFactoryYears(String model) {
 		return carDB.getUsedCarYears(model);
+	}
+
+	// UPDATE CAR //
+	public void updateCarStatus(Car car) {
+		carDB.updateCarStatus(car);
 	}
 
 	/***********************************
@@ -59,7 +64,7 @@ public class DB_Controller {
 	public void createInterest(double interest) {
 		proposalDB.createInterest(interest);
 	}
-	
+
 	public double getInterest(LocalDate date) {
 		return proposalDB.getInterest(date);
 	}
@@ -71,7 +76,7 @@ public class DB_Controller {
 	public void createProposal(Proposal proposal) {
 		proposalDB.createProposal(proposal);
 	}
-	
+
 	// READ PROPOSAL //
 	public ArrayList<Proposal> getProposalByCustomer(Customer customer) {
 		ArrayList<Car> carList = carDB.getCars();
@@ -118,12 +123,12 @@ public class DB_Controller {
 
 		return proposalList;
 	}
-	
+
 	// UPDATE PROPOSAL //
 	public void updateProposalStatus(Proposal proposal) {
 		proposalDB.updateProposalStatus(proposal);
 	}
-	
+
 	// DELETE PROPOSAL //
 	public void deleteProposal(Proposal proposal) {
 		proposalDB.deleteProposal(proposal);
