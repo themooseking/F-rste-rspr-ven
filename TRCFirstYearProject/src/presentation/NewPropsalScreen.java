@@ -177,7 +177,7 @@ public class NewPropsalScreen {
 	}
 
 	private void modelcbEvent() {
-		modelcb.setOnHiding(e -> {
+		modelcb.setOnAction(e -> {
 			if (rbState) {
 
 				proposal.setCar((Car) modelcb.getValue());
@@ -203,7 +203,8 @@ public class NewPropsalScreen {
 	}
 
 	private void yearcbEvent() {
-		yearcb.setOnHiding(e -> {
+		
+		yearcb.setOnAction(e -> {
 			if (yearcb.getValue() != null) {
 				regnrcb.setItems(FXCollections.observableArrayList(
 						controller.getUsedCars(modelcb.getValue().toString(), yearcb.getValue().toString())));
@@ -213,7 +214,7 @@ public class NewPropsalScreen {
 	}
 
 	private void regnrEvent() {
-		regnrcb.setOnHiding(e -> {
+		regnrcb.setOnAction(e -> {
 			proposal.setCar((Car) regnrcb.getValue());
 			nextButtonDisable();
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);

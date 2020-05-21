@@ -8,6 +8,10 @@
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );
 }
 
+.combo-box:focused {
+	-fx-effect: dropShadow(gaussian, white, 10, 0, 0, 0);
+}
+
 .combo-box > .list-cell
 {	
 	-fx-text-fill: #707070;
