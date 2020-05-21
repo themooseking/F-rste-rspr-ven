@@ -2,6 +2,8 @@ package presentation;
 
 import java.util.ArrayList;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections; 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,10 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
-import styles.ComboBoxWithStyle;
 import styles.GridPaneCenter;
 import styles.PasswordFieldWithStyle;
 import styles.StyleClass;
@@ -24,11 +26,12 @@ import styles.VBoxWithStyle;
 public class LoginScreen {
 
 	private StyleClass style = new StyleClass();
-	private ComboBoxWithStyle selectedUser;
 	private PasswordFieldWithStyle password;
+	private TextFieldWithStyle userLogin;
+	private Label wrong;
 
 	public void loginUI() {
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), userPassword(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), userPassword(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
@@ -42,18 +45,19 @@ public class LoginScreen {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setPadding(new Insets(250, 0, 0, 0));
 
-		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
-
-		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
-		if (LoggedInST.getUser() == null) {
-			selectedUser.setValue(userList.get(0));
-		} else {
-			selectedUser.setValue(LoggedInST.getUser());
-		}
-
-		selectedUser.setMinSize(150, 50);
-
-		return grid; 
+		userLogin = new TextFieldWithStyle("Bruger ID", grid, 0, 0);
+		durationEvent(userLogin);
+		
+//		ArrayList<Salesman> userList = new DB_Controller().getSalesmanList();
+//
+//		selectedUser = new ComboBoxWithStyle(FXCollections.observableArrayList(userList), grid, 0, 0);
+//		if (LoggedInST.getUser() == null) {
+//			selectedUser.setValue(userList.get(0));
+//		} else {
+//			selectedUser.setValue(LoggedInST.getUser());
+//		}
+		
+		return grid;
 	}
 	
 	//////////////////////////////	
@@ -84,13 +88,35 @@ public class LoginScreen {
 
 		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
 		button.setOnAction(e -> {
-			LoggedInST.setUser((Salesman) selectedUser.getValue());
-			new CPRScreen().cprUI();
+			Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()), password.getText());
+			if (salesman != null) {
+				LoggedInST.setUser(salesman);
+				new CPRScreen().cprUI();
+			}
+			else {
+				wrong.setText("Forkert ID eller adgangskode");
+			}
 		});
 
 		return grid;
 	}
-
+	
+	//////////////////////////////
+	// TEXTFIELD EVENTS
+	//////////////////////////////
+	
+	private void durationEvent(TextFieldWithStyle tf) {
+		tf.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
+					final String newValue) {
+				if (!newValue.matches("\\d*")) {
+					tf.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+			}
+		});
+	}
+	
 	//////////////////////////////
 	// Label Title
 	//////////////////////////////
@@ -104,13 +130,22 @@ public class LoginScreen {
 //	}
 
 	private Label company() {
-		Label label = new Label("Den Regionale Ferrari Forhandler");
+		Label label = new Label("Lånesystem");
 		label.setPadding(new Insets(0, 0, 0, 0));
-		label.setFont(Font.loadFont(new StyleClass().titleFont(), 100));
-		label.setTextFill(Color.web(new StyleClass().black()));
+		label.setFont(Font.loadFont(style.titleFont(), 120));
+		label.setTextFill(Color.web(style.black()));
 		return label;
 	} 
 
+	private Label wrongPassword() {
+		wrong = new Label("");
+		wrong.setPadding(new Insets(0, 0, 0, 0));
+		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
+		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
+		wrong.setTextFill(Color.web(style.red()));
+		return wrong;
+	}
+	
 	//////////////////////////////
 	// Scene stuff
 	//////////////////////////////
