@@ -241,7 +241,7 @@ public class CPRScreen {
 		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
 		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
 		wrong.setTextFill(Color.web(style.red()));
-		return wrong;
+		return wrong; 
 	}
 
 	//////////////////////////////
