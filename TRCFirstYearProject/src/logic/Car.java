@@ -19,8 +19,16 @@ public class Car {
 		this.factory = factory;
 		this.carStatus = carStatus;
 	}
+	
+	public void setCarId(int carId) {
+		this.carId = carId;
+	}
+	
+	public void setCarStatus(String carStatus) {
+		this.carStatus = carStatus;
+	}
 
-	public int getId() {
+	public int getCarId() {
 		return carId;
 	}
 

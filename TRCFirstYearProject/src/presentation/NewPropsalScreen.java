@@ -192,7 +192,6 @@ public class NewPropsalScreen {
 					if (yearcb.getValue() == null) {
 						regnrcb.setItems(FXCollections
 								.observableArrayList(controller.getUsedCars(modelcb.getValue().toString())));
-					} else {
 						yearcb.setItems(FXCollections
 								.observableArrayList(controller.getCarFactoryYears(modelcb.getValue().toString())));
 					}
@@ -423,13 +422,24 @@ public class NewPropsalScreen {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bSave) {
+			carHandler();
 			proposal.checkLimit();
 			new ProposalOverview().customerUI(customer.getCpr());
 		} else if (result.get() == bContinue) {
+			carHandler();
 			proposal.checkLimit();
 			new SignProposalScreen(proposal).signProposalUI();
 		} else {
 			alert.close();
+		}
+	}
+	
+	private void carHandler() {
+		if(proposal.getCar().getCarStatus().compareTo("NEW") == 0) {
+			controller.createCar(proposal.getCar());
+		} else {
+			proposal.getCar().setCarStatus("NOT_AVAILABLE");
+			controller.updateCarStatus(proposal.getCar());
 		}
 	}
 

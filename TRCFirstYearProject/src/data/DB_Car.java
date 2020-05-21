@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import logic.Car;
+import logic.Proposal;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -19,15 +20,19 @@ public class DB_Car {
 		try {
 			String sql = "INSERT INTO car VALUES (?, ?, ?, ?, ?)";
 
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			statement.setString(1, car.getModel());
 			statement.setBigDecimal(2, car.getPrice());
 			statement.setInt(3, car.getMilage());
 			statement.setInt(4, car.getFactory());
-			statement.setString(5, car.getCarStatus());
+			statement.setString(5, "NOT_AVAILABLE");
 			statement.executeUpdate();
-
+			
+			ResultSet resultSet = statement.getGeneratedKeys();
+			resultSet.next();
+			car.setCarId(resultSet.getInt(1));
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -247,5 +252,25 @@ public class DB_Car {
 		}
 
 		return carList;
+	}
+	
+	/***********************************
+	 * UPDATE
+	 ***********************************/
+
+	public void updateCarStatus(Car car) {
+		try {
+			String sql = "UPDATE car SET carStatus=? WHERE id=?";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setString(1, car.getCarStatus());
+			statement.setInt(2, car.getCarId());
+
+			if (statement.executeUpdate() == 0)
+				System.out.println("No matches to be updated!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

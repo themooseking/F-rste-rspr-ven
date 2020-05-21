@@ -28,7 +28,7 @@ public class DB_Proposal {
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement.setInt(1, proposal.getCar().getId());
+			statement.setInt(1, proposal.getCar().getCarId());
 			statement.setInt(2, proposal.getCustomer().getCustomerId());
 			statement.setBigDecimal(3, proposal.getDownPayment());
 			statement.setInt(4, proposal.getLoanDuration());
@@ -81,7 +81,7 @@ public class DB_Proposal {
 				
 				Car car = null;
 				for (int i = 0; i < carList.size(); i++) {
-					if (carList.get(i).getId() == resultSet.getInt("car")) {
+					if (carList.get(i).getCarId() == resultSet.getInt("car")) {
 						car = carList.get(i);
 						break;
 					}
@@ -132,7 +132,7 @@ public class DB_Proposal {
 				
 				Car car = null;
 				for (int i = 0; i < carList.size(); i++) {
-					if (carList.get(i).getId() == resultSet.getInt("car")) {
+					if (carList.get(i).getCarId() == resultSet.getInt("car")) {
 						car = carList.get(i);
 						break;
 					}
@@ -182,7 +182,7 @@ public class DB_Proposal {
 				
 				Car car = null;
 				for (int i = 0; i < carList.size(); i++) {
-					if (carList.get(i).getId() == resultSet.getInt("car")) {
+					if (carList.get(i).getCarId() == resultSet.getInt("car")) {
 						car = carList.get(i);
 						break;
 					}
