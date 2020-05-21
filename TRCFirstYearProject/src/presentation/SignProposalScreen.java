@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import logic.CSVWriter;
 import logic.DB_Controller;
 import logic.Proposal;
@@ -37,7 +36,6 @@ public class SignProposalScreen {
 	private DB_Controller controller = new DB_Controller();
 
 	private PasswordFieldWithStyle password;
-	private TextFieldWithStyle id;
 	private LabelWithStyle wrong;
 
 	public SignProposalScreen(Proposal proposal) {
@@ -49,64 +47,44 @@ public class SignProposalScreen {
 		int i = 0;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
-		
-		if(status != Status.AFSLUTTET && status != Status.AFVENTER && status != Status.ANNULLERET ) {
+
+		if (status == Status.IGANG || status == Status.GODKENDT) {
 			hbox = new HBox(tr.textReader(), fitter(i));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-
-		hbox.setSpacing(50);
-		hbox.setAlignment(Pos.CENTER);
-
-		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
-		vbox.setAlignment(Pos.CENTER);
-
-		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
-		sceneSetup(scene);
+		uiSetup(i, hbox);
 	}
 
 	public void salesmanSignProposalUI() {
 		int i = 1;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
-		
-		if(status != Status.AFSLUTTET && status != Status.AFVENTER && status != Status.ANNULLERET ) {
+
+		if (status == Status.IGANG || status == Status.GODKENDT) {
 			hbox = new HBox(tr.textReader(), fitter(i));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-		
-		hbox.setSpacing(50);
-		hbox.setAlignment(Pos.CENTER);
-
-		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
-		vbox.setAlignment(Pos.CENTER);
-
-		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
-		sceneSetup(scene);
+		uiSetup(i, hbox);
 	}
 
 	public void cosSignProposalUI() {
 		int i = 2;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
-		
-		if(status != Status.GODKENDT) {
+
+		if (status != Status.GODKENDT) {
 			hbox = new HBox(tr.textReader(), fitter(i));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-		
-		hbox.setSpacing(50);
-		hbox.setAlignment(Pos.CENTER);
-
-		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
-		vbox.setAlignment(Pos.CENTER);
-
-		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
-		sceneSetup(scene);
+		uiSetup(i, hbox);
 	}
+
+	//////////////////////////////
+	// Sign Inputs
+	//////////////////////////////
 
 	private VBox fitter(int i) {
 		VBox vbox = new VBox(signInput(i));
@@ -129,21 +107,19 @@ public class SignProposalScreen {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setVgap(10);
 
-		new LabelWithStyle("Sï¿½lger ID ", grid, 0, 0);
-		id = new TextFieldWithStyle("", grid, 1, 0);
+		new LabelWithStyle("Sælger ID ", grid, 0, 0);
+		TextFieldWithStyle id = new TextFieldWithStyle("", grid, 1, 0);
 		id.setDisable(true);
-		id.setOpacity(100);
 		id.setText(Integer.toString(LoggedInST.getUser().getSalesmanId()));
 
-		new LabelWithStyle("Sï¿½lger Navn ", grid, 0, 1);
+		new LabelWithStyle("Sælger Navn ", grid, 0, 1);
 		TextFieldWithStyle name = new TextFieldWithStyle("", grid, 1, 1);
 		name.setDisable(true);
-		name.setOpacity(100);
 		name.setText(LoggedInST.getUser().toString());
 
 		new LabelWithStyle("Kodeord ", grid, 0, 2);
 		password = new PasswordFieldWithStyle("kodeord", grid, 1, 2);
-		
+
 		wrong = new LabelWithStyle("", grid, 1, 3);
 		wrong.setTextFill(Color.web(style.red()));
 
@@ -154,54 +130,93 @@ public class SignProposalScreen {
 		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
 		grid.setHgap(20);
 
-		ButtonWithStyle delete = new ButtonWithStyle("Slet", grid, 0, 0);
-		delete.setOnAction(e -> {
-			controller.deleteProposal(proposal);
-			if (i == 0) {
-				new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-			} else if (i == 1) {
-				new ProposalOverview().salesmanUI();
-			} else if (i == 2) {
-				new ProposalOverview().cosUI();
-			}
-		});
+		ButtonWithStyle deleteCancel = new ButtonWithStyle("Slet", grid, 0, 0);
+		ButtonWithStyle signConfirm = new ButtonWithStyle("Underskriv", grid, 1, 0);
 
-		ButtonWithStyle sign = new ButtonWithStyle("Underskriv", grid, 1, 0);
 		if (i == 2) {
-			sign.setText("Godkend");
-			sign.setOnAction(e -> {
-				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
-				if (salesman != null) {
-					proposal.setProposalStatus(Status.GODKENDT);
-					new ProposalOverview().cosUI();
-				} else {
-					wrong.setText("Forkert adgangskode");
-					System.out.println("FORKERT");
-				}
-			});
+			cancelEvent(deleteCancel, i);
+			confirmEvent(signConfirm);
 		} else {
-			sign.setOnAction(e -> {
-				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(id.getText()), password.getText());
-				if (salesman != null) {
-					proposal.setProposalStatus(Status.AFSLUTTET);
-					if (i == 0) {
-						new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-					} else if (i == 1) {
-						new ProposalOverview().salesmanUI();
-					}
-				}
-				else {
-					wrong.setText("Forkert adgangskode");
-					System.out.println("FORKERT");
-				}
-			});
+			deleteEvent(deleteCancel, i);
+			signEvent(signConfirm, i);
 		}
 
 		return grid;
 	}
 
 	//////////////////////////////
-	// Buttons
+	// Sign Button Events
+	//////////////////////////////
+
+	private void deleteEvent(ButtonWithStyle deleteCancel, int i) {
+		deleteCancel.setOnAction(e -> {
+			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
+			if (salesman != null) {
+				controller.deleteProposal(proposal);
+				if (i == 0) {
+					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
+				} else if (i == 1) {
+					new ProposalOverview().salesmanUI();
+				} else if (i == 2) {
+					new ProposalOverview().cosUI();
+				}
+			} else {
+				wrong.setText("Forkert adgangskode");
+			}
+		});
+	}
+
+	private void cancelEvent(ButtonWithStyle deleteCancel, int i) {
+		deleteCancel.setText("Annuller");
+		deleteCancel.setOnAction(e -> {
+			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
+			if (salesman != null) {
+				proposal.setProposalStatus(Status.ANNULLERET);
+				controller.updateProposalStatus(proposal);
+				if (i == 0) {
+					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
+				} else if (i == 1) {
+					new ProposalOverview().salesmanUI();
+				} else if (i == 2) {
+					new ProposalOverview().cosUI();
+				}
+			} else {
+				wrong.setText("Forkert adgangskode");
+			}
+		});
+	}
+
+	private void signEvent(ButtonWithStyle signConfirm, int i) {
+		signConfirm.setOnAction(e -> {
+			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
+			if (salesman != null) {
+				proposal.setProposalStatus(Status.AFSLUTTET);
+				if (i == 0) {
+					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
+				} else if (i == 1) {
+					new ProposalOverview().salesmanUI();
+				}
+			} else {
+				wrong.setText("Forkert adgangskode");
+			}
+		});
+	}
+
+	private void confirmEvent(ButtonWithStyle signConfirm) {
+		signConfirm.setText("Godkend");
+		signConfirm.setOnAction(e -> {
+			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
+			if (salesman != null) {
+				proposal.setProposalStatus(Status.GODKENDT);
+				new ProposalOverview().cosUI();
+			} else {
+				wrong.setText("Forkert adgangskode");
+			}
+		});
+	}
+
+	//////////////////////////////
+	// Bottom Buttons
 	//////////////////////////////
 
 	private HBox buttons(int i) {
@@ -222,10 +237,10 @@ public class SignProposalScreen {
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			} catch (IOException e1) {
-
 				e1.printStackTrace();
 			}
 		});
+
 		return grid;
 	}
 
@@ -255,7 +270,7 @@ public class SignProposalScreen {
 		if (i == 0 || i == 1) {
 			label.setText("Underskrift for " + proposal.getCar());
 		} else if (i == 2) {
-			label.setText("Godekend lÃ¥netilbud " + proposal.getProposalId());
+			label.setText("Godkend lånetilbud " + proposal.getProposalId());
 		}
 		label.setFont(Font.loadFont(style.titleFont(), 80));
 		label.setTextFill(Color.web(style.black()));
@@ -265,6 +280,17 @@ public class SignProposalScreen {
 	//////////////////////////////
 	// Scene stuff
 	//////////////////////////////
+
+	private void uiSetup(int i, HBox hbox) {
+		hbox.setAlignment(Pos.CENTER);
+		hbox.setSpacing(50);
+
+		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
+		vbox.setAlignment(Pos.CENTER);
+
+		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
+		sceneSetup(scene);
+	}
 
 	private void sceneSetup(Scene scene) {
 		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");

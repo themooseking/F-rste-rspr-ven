@@ -1,6 +1,8 @@
 package logic;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,9 +12,9 @@ import java.text.DecimalFormat;
 public class CSVWriter {
 	public void csvWriter(Proposal proposal) throws FileNotFoundException, IOException {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"C:\\Users\\Moose\\Documents\\FirstYearProjectCSV\\l√•netilbud" + proposal.getProposalId() + ".txt"))) {
-			
-			writer.write("L√•neoversigt;");
+				"csv/LÂnetilbud_" + proposal.getProposalId() + ".csv"))) {
+
+			writer.write("LÂneoversigt;");
 			writer.newLine();
 			writer.write("Kunde;" + proposal.getCustomer());
 			writer.newLine();
@@ -22,7 +24,7 @@ public class CSVWriter {
 			writer.newLine();
 			writer.write("Tilbagebetalingsplan");
 			writer.newLine();
-			writer.write("Termin nr.;Dato;Ydelse;Renter;Afdrag;Restg√¶ld;");
+			writer.write("Termin nr.;Dato;Ydelse;Renter;Afdrag;RestgÊld;");
 			writer.newLine();
 
 			BigDecimal loanAmount = proposal.totalCarPrice();
@@ -38,10 +40,11 @@ public class CSVWriter {
 				writer.write(csvFormat(repayment));
 				writer.write(csvFormat(loanAmount));
 				writer.newLine();
-				
+
 				loanAmount = proposal.remainingLoanAmount(loanAmount, repayment);
 			}
 		}
+		Desktop.getDesktop().open(new File("csv/LÂnetilbud_" + proposal.getProposalId() + ".csv"));
 	}
 
 	private String csvFormat(Object obj) {
