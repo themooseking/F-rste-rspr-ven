@@ -61,5 +61,4 @@ public class ButtonWithStyle extends Button {
 		obj.setCursor(Cursor.DEFAULT);
 		obj.setTextFill(Color.web(style.white()));
 	}
-
 }

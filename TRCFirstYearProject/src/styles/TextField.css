@@ -1,5 +1,4 @@
-.text-input
-{
+.text-input {
 	-fx-text-fill: #707070;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
@@ -7,8 +6,7 @@
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,0.7) , 20,0,0,0 );
 } 
 
-.text-input:hover
-{
+.text-input:hover {
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );
 } 
 

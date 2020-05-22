@@ -18,9 +18,9 @@ public class DB_Proposal {
 		this.connection = connection;
 	}
  
-	/***********************************
-	 * CREATE
-	 ***********************************/
+	//////////////////////////////
+	// CREATE
+	//////////////////////////////
 
 	public void createProposal(Proposal proposal) {
 		try {
@@ -58,9 +58,9 @@ public class DB_Proposal {
 		}
 	}
 	
-	/***********************************
-	 * READ PROPOSAL
-	 ***********************************/
+	//////////////////////////////
+	// READ PROPOSAL
+	//////////////////////////////
 
 	public ArrayList<Proposal> getProposalByCustomer(Customer customer, ArrayList<Car> carList,
 			ArrayList<Salesman> salesmanList) {
@@ -222,9 +222,9 @@ public class DB_Proposal {
 		return proposalList;
 	}
 	
-	/***********************************
-	 * READ STATUS
-	 ***********************************/
+	//////////////////////////////
+	// READ STATUS
+	//////////////////////////////
 	
 	public int getNumAwaiting() {
 		int numAwaiting = 0;
@@ -274,9 +274,9 @@ public class DB_Proposal {
 		return numAwaiting;
 	}
 	
-	/***********************************
-	 * READ INTEREST
-	 ***********************************/
+	//////////////////////////////
+	// READ INTEREST
+	//////////////////////////////
 
 	public double getInterest(LocalDate date) {
 		double interest = -1.0;
@@ -301,9 +301,9 @@ public class DB_Proposal {
 		return interest;
 	}
 	
-	/***********************************
-	 * UPDATE
-	 ***********************************/
+	//////////////////////////////
+	// UPDATE
+	//////////////////////////////
 
 	public void updateProposalStatus(Proposal proposal) {
 		try {
@@ -321,9 +321,9 @@ public class DB_Proposal {
 		}
 	}
 	
-	/***********************************
-	 * DELETE
-	 ***********************************/
+	//////////////////////////////
+	// DELETE
+	//////////////////////////////
 
 	public void deleteProposal(Proposal proposal) {
 		try {

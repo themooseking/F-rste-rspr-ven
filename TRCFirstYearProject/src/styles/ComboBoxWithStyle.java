@@ -14,7 +14,7 @@ public class ComboBoxWithStyle extends ComboBox<Object> {
 	
 	StyleClass style = new StyleClass();
 
-	public ComboBoxWithStyle(ObservableList<Object> observableList, GridPaneCenter grid, int row, int col) {
+	public ComboBoxWithStyle(ObservableList<Object> observableList, GridPaneWithStyle grid, int row, int col) {
 		super(observableList);
 		super.getStylesheets().add("/styles/ComboBox.css");
 

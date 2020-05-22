@@ -3,7 +3,6 @@ package styles;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -15,10 +14,9 @@ public class PasswordFieldWithStyle extends PasswordField {
 	
 	StyleClass style = new StyleClass();
 
-	public PasswordFieldWithStyle(String prompt, GridPaneCenter grid, int row, int col) {
+	public PasswordFieldWithStyle(String prompt, GridPaneWithStyle grid, int row, int col) {
 		super.setPromptText(prompt);
 		super.getStylesheets().add("/styles/TextField.css");
-
 		super.setFont(Font.font(style.textFont(), 24));
 		super.setMinSize(400, 80);		
 

@@ -11,9 +11,9 @@ public class DB_Customer {
 		this.connection = connection;
 	}
 
-	/***********************************
-	 * READ
-	 ***********************************/
+	//////////////////////////////
+	// READ
+	//////////////////////////////
 
 	public Customer getCustomer(String cpr) {
 		Customer customer = null;

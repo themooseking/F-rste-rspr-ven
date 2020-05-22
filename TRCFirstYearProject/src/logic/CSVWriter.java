@@ -10,9 +10,10 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class CSVWriter {
+
 	public void csvWriter(Proposal proposal) throws FileNotFoundException, IOException {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"csv/Lånetilbud_" + proposal.getProposalId() + ".csv"))) {
+		try (BufferedWriter writer = new BufferedWriter(
+				new FileWriter("csv/Lånetilbud_" + proposal.getProposalId() + ".csv"))) {
 
 			writer.write("Låneoversigt;");
 			writer.newLine();

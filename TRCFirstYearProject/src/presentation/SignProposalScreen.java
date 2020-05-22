@@ -21,7 +21,7 @@ import logic.Proposal;
 import logic.Salesman;
 import logic.Status;
 import styles.ButtonWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.LabelWithStyle;
 import styles.PasswordFieldWithStyle;
 import styles.StyleClass;
@@ -31,10 +31,9 @@ import styles.VBoxWithStyle;
 public class SignProposalScreen {
 
 	private StyleClass style = new StyleClass();
+	private DB_Controller controller = new DB_Controller();
 	private Proposal proposal;
 	private TextReader tr;
-	private DB_Controller controller = new DB_Controller();
-
 	private PasswordFieldWithStyle password;
 	private LabelWithStyle wrong;
 
@@ -83,7 +82,7 @@ public class SignProposalScreen {
 	}
 
 	//////////////////////////////
-	// Sign Inputs
+	// SIGN INPUTS
 	//////////////////////////////
 
 	private VBox fitter(int i) {
@@ -103,8 +102,8 @@ public class SignProposalScreen {
 		return vbox;
 	}
 
-	private GridPaneCenter textFields() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+	private GridPaneWithStyle textFields() {
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setVgap(10);
 
 		new LabelWithStyle("Sælger ID ", grid, 0, 0);
@@ -126,8 +125,8 @@ public class SignProposalScreen {
 		return grid;
 	}
 
-	private GridPaneCenter signButtons(int i) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+	private GridPaneWithStyle signButtons(int i) {
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setHgap(20);
 
 		ButtonWithStyle deleteCancel = new ButtonWithStyle("Slet", grid, 0, 0);
@@ -145,7 +144,7 @@ public class SignProposalScreen {
 	}
 
 	//////////////////////////////
-	// Sign Button Events
+	// SIGN BUTTONS EVENTS
 	//////////////////////////////
 
 	private void deleteEvent(ButtonWithStyle deleteCancel, int i) {
@@ -216,7 +215,7 @@ public class SignProposalScreen {
 	}
 
 	//////////////////////////////
-	// Bottom Buttons
+	// BOTTOM BUTTONS
 	//////////////////////////////
 
 	private HBox buttons(int i) {
@@ -228,7 +227,7 @@ public class SignProposalScreen {
 	}
 
 	private GridPane csvButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("CSV", grid, 0, 0);
 		button.setOnAction(e -> {
@@ -245,7 +244,7 @@ public class SignProposalScreen {
 	}
 
 	private GridPane backButton(int i) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
@@ -254,7 +253,7 @@ public class SignProposalScreen {
 			} else if (i == 1) {
 				new ProposalOverview().salesmanUI();
 			} else if (i == 2) {
-				new ProposalOverview().cosUI();
+				new ProposalOverview().cosUI(); 
 			}
 		});
 
@@ -262,7 +261,7 @@ public class SignProposalScreen {
 	}
 
 	//////////////////////////////
-	// Label Title
+	// LABEL TITLE
 	//////////////////////////////
 
 	private Label title(int i) {
@@ -278,7 +277,7 @@ public class SignProposalScreen {
 	}
 
 	//////////////////////////////
-	// Scene stuff
+	// SCENE STUFF
 	//////////////////////////////
 
 	private void uiSetup(int i, HBox hbox) {
@@ -293,9 +292,8 @@ public class SignProposalScreen {
 	}
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");
+		PrimaryStageST.getStage().setTitle("Ferrari Lånesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}
-
 }

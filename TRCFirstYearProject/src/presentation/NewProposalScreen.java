@@ -34,7 +34,7 @@ import logic.Proposal;
 import styles.AlertWithStyle;
 import styles.ButtonWithStyle;
 import styles.ComboBoxWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.LabelWithStyle;
 import styles.ProgressIndicatorWithStyle;
 import styles.RadioButtonWithStyle;
@@ -42,17 +42,15 @@ import styles.StyleClass;
 import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
 
-public class NewPropsalScreen {
-
-	private Customer customer;
-	private Proposal proposal;
+public class NewProposalScreen {
 
 	private StyleClass style = new StyleClass();
 	private DB_Controller controller = new DB_Controller();
-
 	private boolean rbState = false;
+	private Customer customer;
+	private Proposal proposal;
 	private TextReader tr;
-
+	
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
 	private ComboBoxWithStyle regnrcb;
@@ -60,7 +58,7 @@ public class NewPropsalScreen {
 	private TextFieldWithStyle durationtf;
 	private ButtonWithStyle nextButton;
 
-	public NewPropsalScreen(Customer customer) {
+	public NewProposalScreen(Customer customer) {
 		this.customer = customer;
 		this.proposal = new Proposal(customer, LoggedInST.getUser());
 		this.tr = new TextReader(customer, proposal);
@@ -78,7 +76,7 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// Input Fields
+	// INPUT FIELDS
 	//////////////////////////////
 
 	private VBox fitter() {
@@ -104,7 +102,7 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private GridPane indentInput() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setPadding(new Insets(0));
 		grid.setVgap(15);
 
@@ -165,7 +163,7 @@ public class NewPropsalScreen {
 	// COMBOBOX EVENTS
 	//////////////////////////////
 
-	private void radioButtonEvent(RadioButtonWithStyle rb, GridPaneCenter grid) {
+	private void radioButtonEvent(RadioButtonWithStyle rb, GridPaneWithStyle grid) {
 		rb.setSelected(!rbState);
 
 		rb.setOnAction(e -> {
@@ -175,6 +173,11 @@ public class NewPropsalScreen {
 			nextButton.setDisable(true);
 		});
 	}
+	
+	/*****************************************************
+	 * Updates proposal and textreader based on state
+	 * of radiobutton
+	 *****************************************************/
 
 	private void modelcbEvent() {
 		modelcb.setOnAction(e -> {
@@ -244,6 +247,11 @@ public class NewPropsalScreen {
 	//////////////////////////////
 	// TEXTFIELD EVENTS
 	//////////////////////////////
+	
+	/*****************************************************
+	 * Makes textfield digits only, only certain numbers
+	 * allowed and updates proposal and textreader
+	 *****************************************************/
 
 	private void durationEvent(TextFieldWithStyle tf) {
 		tf.textProperty().addListener(new ChangeListener<String>() {
@@ -280,6 +288,11 @@ public class NewPropsalScreen {
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 	}
+	
+	/*****************************************************
+	 * Makes textfield digits only, only certain length
+	 * and updates proposal and textreader
+	 *****************************************************/
 
 	private void downPaymentEvent(TextFieldWithStyle tf) {
 		if (customer.getCreditScore() == null) {
@@ -316,7 +329,7 @@ public class NewPropsalScreen {
 	//////////////////////////////
 
 	private GridPane apiValues() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.BOTTOM_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.BOTTOM_LEFT);
 		grid.setPadding(new Insets(0, 10, 0, 10));
 		grid.setBackground(
 				new Background(new BackgroundFill(Color.web(style.grey()), new CornerRadii(0), Insets.EMPTY)));
@@ -342,7 +355,7 @@ public class NewPropsalScreen {
 	// API STYLES
 	//////////////////////////////
 
-	private LabelWithStyle apiLabel(String text, GridPaneCenter grid, int x, int y, int width) {
+	private LabelWithStyle apiLabel(String text, GridPaneWithStyle grid, int x, int y, int width) {
 		LabelWithStyle label = new LabelWithStyle(text, grid, x, y);
 		label.setTextFill(Color.web(style.white()));
 		label.setMinWidth(width);
@@ -376,7 +389,7 @@ public class NewPropsalScreen {
 			tf.setText(new DecimalFormat("0.00").format(proposal.getInterest()));
 		}
 
-		proposal.doubleProperty().addListener(new ChangeListener<Number>() {
+		proposal.interestProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				String interestFormat = new DecimalFormat("0.00").format(proposal.getInterest());
@@ -392,7 +405,7 @@ public class NewPropsalScreen {
 			tf.setText(customer.getCreditScore().toString());
 		}
 
-		customer.stringProperty().addListener(new ChangeListener<String>() {
+		customer.creditScoreProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				String creditScore = customer.getCreditScore().toString();
@@ -405,7 +418,7 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// Alert boxes
+	// ALERTS
 	//////////////////////////////
 
 	private void alertSaveContinue() {
@@ -464,7 +477,7 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// Buttons
+	// BUTTONS
 	//////////////////////////////
 
 	private HBox buttons() {
@@ -476,9 +489,9 @@ public class NewPropsalScreen {
 	}
 
 	private GridPane nextButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 
-		nextButton = new ButtonWithStyle("Nï¿½ste", grid, 0, 0);
+		nextButton = new ButtonWithStyle("Næste", grid, 0, 0);
 		nextButton.setDisable(true);
 		nextButton.setOnAction(e -> {
 			alertSaveContinue();
@@ -488,7 +501,7 @@ public class NewPropsalScreen {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
@@ -511,18 +524,18 @@ public class NewPropsalScreen {
 	}
 
 	//////////////////////////////
-	// Label Title
+	// LABEL TITLE
 	//////////////////////////////
 
 	private Label title() {
-		Label label = new Label("Nyt LÃ¥neforslag");
+		Label label = new Label("Nyt Låneforslag");
 		label.setFont(Font.loadFont(style.titleFont(), 60));
 		label.setTextFill(Color.web(style.grey()));
 		return label;
 	}
 
 	//////////////////////////////
-	// Scene stuff
+	// SCENE STUFF
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {

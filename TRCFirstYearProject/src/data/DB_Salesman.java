@@ -13,9 +13,9 @@ public class DB_Salesman {
 		this.connection = connection;
 	}
 
-	/***********************************
-	 * READ
-	 ***********************************/
+	//////////////////////////////
+	// READ
+	//////////////////////////////
 
 	public ArrayList<Salesman> getSalesmanList() {
 		ArrayList<Salesman> salesmanList = new ArrayList<>();

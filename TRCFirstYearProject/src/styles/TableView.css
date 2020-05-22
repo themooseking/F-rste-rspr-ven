@@ -2,7 +2,7 @@
 	-fx-effect: dropShadow(gaussian, black, 10, 0, 0, 0);
 }
 
-.table-view .column-header-background{
+.table-view .column-header-background {
     -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
 }
 
@@ -17,32 +17,29 @@
     -fx-background-color: transparent;
 }
 
-.table-view .filler{
+.table-view .filler {
 	-fx-background-color: transparent;
 }
 
-.table-view .cell{
+.table-view .cell {
 	-fx-alignment: TOP_LEFT;
 	-fx-font-size: 16;
 }
 
-.table-view .table-cell{
+.table-view .table-cell {
     -fx-text-fill: black;
-
 	-fx-border-color: transparent;
 }
 
-.table-row-cell{
+.table-row-cell {
     -fx-background-color: -fx-table-cell-border-color, #616161;
     -fx-background-insets: 0, 0 0 1 0;
 }
 
-.table-row-cell:odd{
+.table-row-cell:odd {
     -fx-background-color: -fx-table-cell-border-color, #424242;
     -fx-background-insets: 0, 0 0 1 0;
 }
-
-
 
 .table-row-cell:selected {
     -fx-background-color: #e33635;
@@ -58,8 +55,6 @@
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
     -fx-background-color: transparent;
 }
-
-
 
 .table-view > .virtual-flow > .scroll-bar > .increment-button, 
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {

@@ -3,19 +3,20 @@ package presentation;
 import logic.Salesman;
 
 public class LoggedInST {
-	
+
 	private static LoggedInST inst = null;
 	private static Salesman user;
-	
-	private LoggedInST() {		
+
+	private LoggedInST() {
 	}
-	
+
 	public static LoggedInST instance() {
-		
+
 		if (inst == null) {
 			inst = new LoggedInST();
-		}				
-		return inst;		
+		}
+
+		return inst;
 	}
 
 	public static Salesman getUser() {
@@ -24,5 +25,5 @@ public class LoggedInST {
 
 	public static void setUser(Salesman user) {
 		LoggedInST.user = user;
-	}	
+	}
 }

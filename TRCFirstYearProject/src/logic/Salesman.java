@@ -20,11 +20,6 @@ public class Salesman {
 		this.proposalLimit = proposalLimit;
 	}
 
-	@Override
-	public String toString() {
-		return salesmanName;		
-	}
-
 	public int getSalesmanId() {
 		return salesmanId;
 	}
@@ -39,5 +34,10 @@ public class Salesman {
 
 	public void setProposalLimit(BigDecimal proposalLimit) {
 		this.proposalLimit = proposalLimit;
+	}
+
+	@Override
+	public String toString() {
+		return salesmanName;		
 	}
 }

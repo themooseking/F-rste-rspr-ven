@@ -16,7 +16,7 @@ import logic.Car;
 import logic.Customer;
 import logic.Proposal;
 import styles.ComboBoxWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.LabelWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
@@ -67,11 +67,11 @@ public class TextReader {
 	}
 
 	//////////////////////////////
-	// Info
+	// INFO
 	//////////////////////////////
 
 	private GridPane customerInfo() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 20, 0));
 		grid.setBorder(style.underLine());
 		new TextWithStyle(" ", grid, 0, 0, 5, 1);
@@ -96,7 +96,7 @@ public class TextReader {
 	}
 
 	private GridPane carInfo() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 10, 0));
 		grid.setBorder(style.underLine());
 		new TextWithStyle(" ", grid, 0, 0, 5, 1);
@@ -117,7 +117,7 @@ public class TextReader {
 	}
 
 	private GridPane carPriceInfo() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 20, 0));
 		grid.setBorder(style.dottedUnderLine());
 		grid.setHgap(5);
@@ -146,7 +146,7 @@ public class TextReader {
 	}
 
 	private GridPane proposalInfo() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 3, 0));
 		grid.setBorder(style.dottedUnderLine());
 		grid.setHgap(5);
@@ -187,7 +187,7 @@ public class TextReader {
 	}
 
 	private GridPane priceSum() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 3, 0));
 		grid.setBorder(style.underLine());
 		grid.setHgap(5);
@@ -211,7 +211,7 @@ public class TextReader {
 	}
 
 	private GridPane totalPrice() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.BASELINE_RIGHT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.BASELINE_RIGHT);
 		grid.setPadding(new Insets(15, 0, 5, 0));
 		grid.setBorder(style.sumLine());
 		grid.setHgap(5);
@@ -227,11 +227,11 @@ public class TextReader {
 	}
 
 	//////////////////////////////
-	// Titles
+	// TITLES
 	//////////////////////////////
 
 	private GridPane customerTitle() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(0, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Kunde", grid, 0, 0);
@@ -242,7 +242,7 @@ public class TextReader {
 	}
 
 	private GridPane carTitle() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Bil", grid, 0, 0);
@@ -253,7 +253,7 @@ public class TextReader {
 	}
 
 	private GridPane carPriceTitle() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 		grid.setPadding(new Insets(10, 0, 0, 0));
 
 		LabelWithStyle label = new LabelWithStyle("Bilpris", grid, 0, 0);
@@ -264,7 +264,7 @@ public class TextReader {
 	}
 
 	//////////////////////////////
-	// Checks
+	// CHECKS
 	//////////////////////////////
 
 	private void checkInterest() {
@@ -308,7 +308,7 @@ public class TextReader {
 	}
 
 	//////////////////////////////
-	// Clear
+	// CLEAR
 	//////////////////////////////
 
 	public void clearTR() {
@@ -334,7 +334,7 @@ public class TextReader {
 	}
 
 	//////////////////////////////
-	// Updates
+	// UPDATES
 	//////////////////////////////
 
 	public void interestUpdate(String interestFormat) {
@@ -344,6 +344,10 @@ public class TextReader {
 	public void creditScoreUpdate(String creditScore) {
 		proposalCreditScore.setText(creditScore);
 	}
+	
+	/*****************************************************
+	 * Updates textreader with inputs when called
+	 *****************************************************/
 
 	public void update(boolean state, ComboBoxWithStyle model, ComboBoxWithStyle year, ComboBoxWithStyle regnr,
 			TextFieldWithStyle duration, TextFieldWithStyle payment) {

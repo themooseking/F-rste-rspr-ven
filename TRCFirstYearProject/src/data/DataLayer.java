@@ -43,9 +43,9 @@ public class DataLayer {
 		}
 	}
 	
-	/***********************************
-	 * GETTERS
-	 ***********************************/
+	//////////////////////////////
+	// GETTERS
+	//////////////////////////////
 
 	public Connection getConnection() {
 		return connection;

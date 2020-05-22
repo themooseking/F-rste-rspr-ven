@@ -14,11 +14,10 @@ public class TextFieldWithStyle extends TextField {
 	
 	StyleClass style = new StyleClass();
 
-	public TextFieldWithStyle(String prompt, GridPaneCenter grid, int row, int col) {
+	public TextFieldWithStyle(String prompt, GridPaneWithStyle grid, int row, int col) {
 		super.setPromptText(prompt);
 		super.getStylesheets().add("/styles/TextField.css");
 		super.setOpacity(100);
-
 		super.setFont(Font.font(style.textFont(), 24));
 		super.setMinSize(400, 80);		
 

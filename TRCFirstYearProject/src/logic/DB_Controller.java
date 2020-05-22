@@ -4,16 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import data.*;
 
-public class DB_Controller {
+public class DB_Controller {	
 	private DataLayer dataLayer = new DataLayer();
 	private DB_Car carDB = new DB_Car(dataLayer.getConnection());
 	private DB_Customer customerDB = new DB_Customer(dataLayer.getConnection());
 	private DB_Proposal proposalDB = new DB_Proposal(dataLayer.getConnection());
 	private DB_Salesman salesmanDB = new DB_Salesman(dataLayer.getConnection());
 
-	/***********************************
-	 * CAR
-	 ***********************************/
+	//////////////////////////////
+	// CAR
+	//////////////////////////////
+	
 	// CREATE CAR //
 	public void createCar(Car car) {
 		carDB.createCar(car);
@@ -48,18 +49,18 @@ public class DB_Controller {
 	public void updateCarStatus(Car car) {
 		carDB.updateCarStatus(car);
 	}
-
-	/***********************************
-	 * CUSTOMER
-	 ***********************************/
+	
+	//////////////////////////////
+	// CUSTOMER
+	//////////////////////////////
 
 	public Customer getCustomer(String cpr) {
 		return customerDB.getCustomer(cpr);
 	}
 
-	/***********************************
-	 * INTEREST
-	 ***********************************/
+	//////////////////////////////
+	// INTEREST
+	//////////////////////////////
 
 	public void createInterest(double interest) {
 		proposalDB.createInterest(interest);
@@ -69,9 +70,10 @@ public class DB_Controller {
 		return proposalDB.getInterest(date);
 	}
 
-	/***********************************
-	 * PROPOSAL
-	 ***********************************/
+	//////////////////////////////
+	// PROPOSAL
+	//////////////////////////////
+	
 	// CREATE PROPOSAL //
 	public void createProposal(Proposal proposal) {
 		proposalDB.createProposal(proposal);
@@ -134,9 +136,9 @@ public class DB_Controller {
 		proposalDB.deleteProposal(proposal);
 	}
 
-	/***********************************
-	 * STATUS
-	 ***********************************/
+	//////////////////////////////
+	// STATUS
+	//////////////////////////////
 
 	public int getNumAwaiting() {
 		return proposalDB.getNumAwaiting();
@@ -146,9 +148,9 @@ public class DB_Controller {
 		return proposalDB.getNumOngoing(salesman);
 	}
 
-	/***********************************
-	 * SALESMAN
-	 ***********************************/
+	//////////////////////////////
+	// SALESMAN
+	//////////////////////////////
 
 	public ArrayList<Salesman> getSalesmanList() {
 		return salesmanDB.getSalesmanList();

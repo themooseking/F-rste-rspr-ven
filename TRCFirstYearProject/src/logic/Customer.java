@@ -8,15 +8,15 @@ import javafx.beans.property.StringProperty;
 
 public class Customer extends Thread{
 
-	private StringProperty stringProperty;
 	private int customerId;
 	private int phone;
+	private int postalCode;
 	private String customerName;
 	private String cpr;
 	private String email;
 	private String customerAddress;
-	private int postalCode;
 	private Rating creditScore;
+	private StringProperty creditScoreProperty;
 	
 	public Customer(int customerId, int phone, String customerName, String cpr, String email, String customerAddress, int postalCode) {
 		this.customerId = customerId;
@@ -26,8 +26,13 @@ public class Customer extends Thread{
 		this.email = email;
 		this.customerAddress = customerAddress;
 		this.postalCode = postalCode;
-		this.stringProperty = new SimpleStringProperty("");
+		this.creditScoreProperty = new SimpleStringProperty("");
 		start();
+	}
+	
+	public void run() {
+		creditScore = CreditRator.i().rate(cpr);
+		creditScoreProperty.set(creditScore.toString());
 	}
 
 	static public String removeDashFromCpr(String cpr) {
@@ -40,23 +45,14 @@ public class Customer extends Thread{
 		return cprNoDash;
 	}
 	
-	public void run() {
-		creditScore = CreditRator.i().rate(cpr);
-		stringProperty.set(creditScore.toString());
+	public StringProperty creditScoreProperty() {
+		return creditScoreProperty;
 	}
 	
-	public StringProperty stringProperty() {
-		return stringProperty;
-	}
-
-	public void setCreditScore(Rating creditScore) {
-		this.creditScore = creditScore;
-	}
+	//////////////////////////////
+	// GETTERS
+	//////////////////////////////
 	
-	public void setCpr(String cpr) {
-		this.cpr = removeDashFromCpr(cpr);
-	}
-
 	public Rating getCreditScore() {
 		return creditScore;
 	}
@@ -89,9 +85,20 @@ public class Customer extends Thread{
 		return postalCode;
 	}
 	
+	//////////////////////////////
+	// SETTERS
+	//////////////////////////////	
+
+	public void setCreditScore(Rating creditScore) {
+		this.creditScore = creditScore;
+	}
+	
+	public void setCpr(String cpr) {
+		this.cpr = removeDashFromCpr(cpr);
+	}
+	
 	@Override
 	public String toString() {
 		return customerName;		
-	}
-	
+	}	
 }

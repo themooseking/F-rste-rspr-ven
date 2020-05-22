@@ -1,10 +1,8 @@
-.combo-box 
-{
+.combo-box {
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,0.7) , 20,0,0,0 );
 }
 
-.combo-box:hover
-{
+.combo-box:hover {
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,0) , 0,0,0,0 );
 }
 
@@ -12,30 +10,26 @@
 	-fx-effect: dropShadow(gaussian, white, 10, 0, 0, 0);
 }
 
-.combo-box > .list-cell
-{	
+.combo-box > .list-cell {	
 	-fx-text-fill: #707070;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
 } 
 
-.combo-box:hover > .list-cell
-{	
+.combo-box:hover > .list-cell {	
 	-fx-text-fill: #707070;
 	-fx-font-size: 24;
 	-fx-font-family: "Lucida Fax";
 	-fx-font-weight: BOLD;
 } 
 
-.combo-box-popup .list-view
-{	    
+.combo-box-popup .list-view {	    
     -fx-background-color: transparent;
     -fx-padding: 0;
 } 
 
-.combo-box-popup .list-cell
-{	
+.combo-box-popup .list-cell {	
 	-fx-text-fill: #707070;
 	-fx-background-color: #ffffff;
 	-fx-font-size: 24;
@@ -43,8 +37,7 @@
 	-fx-font-weight: BOLD;
 } 
 
-.combo-box-popup .list-cell:hover
-{	
+.combo-box-popup .list-cell:hover {	
 	-fx-text-fill: #707070;
 	-fx-background-color: #ffffff;
 	-fx-font-size: 24;
@@ -53,10 +46,8 @@
 	-fx-effect: innershadow( gaussian , rgba(0,0,0,1) , 2,1,0,0 );
 } 
 
-
-
 .scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb{
+.scroll-bar:vertical .thumb {
     -fx-background-color: #3D3D3D;
 	-fx-background-radius: 0;
 	-fx-background-insets: 0;
@@ -64,9 +55,9 @@
 
 .scroll-bar:vertical > .increment-button,
 .scroll-bar:vertical > .decrement-button {
-	-fx-background-color :transparent;
-    -fx-background-radius : 0;
-    -fx-padding :0;
+	-fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
     -fx-shape: " ";
 }
 

@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import logic.DB_Controller;
 import styles.ButtonWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
 import styles.VBoxWithStyle;
@@ -47,15 +47,14 @@ public class CPRScreen {
 	}
 
 	//////////////////////////////
-	// TextField
+	// TEXTFIELD
 	//////////////////////////////
 
 	private GridPane cprTextfield() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setPadding(new Insets(280, 0, 0, 0));
 
 		textfield = new TextFieldWithStyle("CPR-Number", grid, 0, 0);
-		textfield.setText("310396-159");
 		textFieldEvent();
 
 		return grid;
@@ -73,7 +72,7 @@ public class CPRScreen {
 			@Override
 			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
 					final String newValue) {
-				
+
 				if (!newValue.matches("\\d*") && textfield.getLength() < 5) {
 					textfield.setText(newValue.replaceAll("[^\\d]", ""));
 				} else {
@@ -86,7 +85,7 @@ public class CPRScreen {
 	}
 
 	//////////////////////////////
-	// KeyChecks
+	// BINDINGS AND CHECKS
 	//////////////////////////////
 
 	private void tfKeyBindings(KeyEvent keyEvent) {
@@ -113,14 +112,14 @@ public class CPRScreen {
 			textfield.setText(oldValue);
 			continueButton.setDisable(false);
 		} else if (newValue.length() == 11) {
-			continueButton.setDisable(false);			
+			continueButton.setDisable(false);
 		} else {
 			continueButton.setDisable(true);
 		}
 	}
 
 	//////////////////////////////
-	// Buttons
+	// BUTTONS
 	//////////////////////////////
 
 	private HBox buttons() {
@@ -132,7 +131,7 @@ public class CPRScreen {
 	}
 
 	private GridPane continueButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		continueButton = new ButtonWithStyle("Vælg", grid, 0, 3);
 		continueButton.setDisable(true);
@@ -152,7 +151,7 @@ public class CPRScreen {
 	}
 
 	private GridPane verifyProposalsButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		if ((LoggedInST.getUser().getTitle()).equals("Salgschef")) {
 			ButtonWithStyle button = new ButtonWithStyle("Godkend", grid, 0, 2);
@@ -170,7 +169,7 @@ public class CPRScreen {
 	}
 
 	private GridPane showProposalsButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Lånetilbud", grid, 0, 1);
 		button.setContentDisplay(ContentDisplay.CENTER);
@@ -184,10 +183,10 @@ public class CPRScreen {
 		});
 
 		return grid;
-	} 
+	}
 
 	private GridPane logoutButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Log ud", grid, 0, 1);
 		button.setOnAction(e -> {
@@ -198,7 +197,7 @@ public class CPRScreen {
 	}
 
 	//////////////////////////////
-	// Circle
+	// CIRCLE
 	//////////////////////////////
 
 	private Node noti(String number) {
@@ -210,7 +209,7 @@ public class CPRScreen {
 		label.setStyle("-fx-text-fill:white");
 		label.setFont(Font.loadFont(style.titleFont(), 28));
 		label.setTextFill(Color.web(style.black()));
-		
+
 		if (Integer.parseInt(number) < 10) {
 			label.setPadding(new Insets(0, 0, 0, 12));
 		} else {
@@ -222,12 +221,12 @@ public class CPRScreen {
 		circle.setStyle("-fx-background-insets: 0 0 -1 0, 0, 0, 0;");
 		circle.setSmooth(true);
 		p.getChildren().addAll(circle, label);
-		
+
 		return p;
 	}
 
 	//////////////////////////////
-	// Label Title
+	// LABEL TITLE / ERROR MESSAGE
 	//////////////////////////////
 
 	private Label title() {
@@ -235,20 +234,22 @@ public class CPRScreen {
 		label.setPadding(new Insets(0, 0, 0, 0));
 		label.setFont(Font.loadFont(style.titleFont(), 120));
 		label.setTextFill(Color.web(style.black()));
+		
 		return label;
 	}
-	
+
 	private Label wrongPassword() {
 		wrong = new Label("");
 		wrong.setPadding(new Insets(10, 0, 312, 0));
 		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
 		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
 		wrong.setTextFill(Color.web(style.red()));
-		return wrong; 
+		
+		return wrong;
 	}
 
 	//////////////////////////////
-	// Scene stuff
+	// SCENE STUFF
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {

@@ -35,5 +35,4 @@ public class RadioButtonWithStyle extends RadioButton {
 		obj.setCursor(Cursor.DEFAULT);
 		obj.setTextFill(Color.web(style.grey()));
 	}
-
 }

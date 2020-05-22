@@ -9,7 +9,7 @@ public class LabelWithStyle extends Label {
 	
 	StyleClass style = new StyleClass();
 
-	public LabelWithStyle(String text, GridPaneCenter grid, int row, int col) {
+	public LabelWithStyle(String text, GridPaneWithStyle grid, int row, int col) {
 		super.setText(text);
 		super.setFont(Font.font(style.textFont(), style.textSize()));
 		super.setTextFill(Color.web(style.grey()));

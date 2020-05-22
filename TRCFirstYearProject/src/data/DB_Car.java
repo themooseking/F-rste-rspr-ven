@@ -1,13 +1,15 @@
 package data;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import logic.Car;
-import logic.Proposal;
-
-import java.math.BigDecimal;
-import java.sql.*;
 
 public class DB_Car {
 	private Connection connection;
@@ -38,9 +40,9 @@ public class DB_Car {
 		}
 	}
 	
-	/***********************************
-	 * READ CAR
-	 ***********************************/
+	//////////////////////////////
+	// READ CAR
+	//////////////////////////////
 
 	public ArrayList<Car> getCars() {
 		ArrayList<Car> carList = new ArrayList<Car>();
@@ -69,9 +71,9 @@ public class DB_Car {
 		return carList;
 	}
 	
-	/***********************************
-	 * READ NEW CAR
-	 ***********************************/
+	//////////////////////////////
+	// READ NEW CAR
+	//////////////////////////////
 
 	public ArrayList<Car> getNewCars() {
 		ArrayList<Car> carList = new ArrayList<Car>();
@@ -103,10 +105,10 @@ public class DB_Car {
 		return carList;
 	}
 
-	/***********************************
-	 * READ USED CAR
-	 ***********************************/
-
+	//////////////////////////////
+	// READ USED CAR
+	//////////////////////////////
+	
 	public ArrayList<String> getUsedCarModels() {
 		ArrayList<String> modelList = new ArrayList<>();
 
@@ -254,9 +256,9 @@ public class DB_Car {
 		return carList;
 	}
 	
-	/***********************************
-	 * UPDATE
-	 ***********************************/
+	//////////////////////////////
+	// UPDATE
+	//////////////////////////////
 
 	public void updateCarStatus(Car car) {
 		try {

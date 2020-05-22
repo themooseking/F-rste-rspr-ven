@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 public class Car {
 	
 	private int carId;
-	private String model;
-	private BigDecimal price;
 	private int milage;
 	private int factory;
+	private String model;
+	private BigDecimal price;
 	private String carStatus;
 	
 	public Car(int id, String model, BigDecimal price, int milage, int factory, String carStatus) {
@@ -20,13 +20,9 @@ public class Car {
 		this.carStatus = carStatus;
 	}
 	
-	public void setCarId(int carId) {
-		this.carId = carId;
-	}
-	
-	public void setCarStatus(String carStatus) {
-		this.carStatus = carStatus;
-	}
+	//////////////////////////////
+	// GETTERS
+	//////////////////////////////	
 
 	public int getCarId() {
 		return carId;
@@ -55,6 +51,18 @@ public class Car {
 	public BigDecimal getVat() {
 		return getPrice().multiply(new BigDecimal(0.25));
 	}	
+	
+	//////////////////////////////
+	// SETTERS
+	//////////////////////////////		
+
+	public void setCarId(int carId) {
+		this.carId = carId;
+	}
+	
+	public void setCarStatus(String carStatus) {
+		this.carStatus = carStatus;
+	}
 	
 	@Override
 	public String toString() {

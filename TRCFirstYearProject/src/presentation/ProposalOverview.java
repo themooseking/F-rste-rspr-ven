@@ -23,16 +23,17 @@ import logic.DB_Controller;
 import logic.Proposal;
 import logic.Status;
 import styles.ButtonWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.StyleClass;
 import styles.TableColumnWithStyle;
 import styles.TableViewWithStyle;
 import styles.VBoxWithStyle;
 
 public class ProposalOverview {
+	
 	private StyleClass style = new StyleClass();
-	private Customer customer;
 	private DB_Controller controller = new DB_Controller();
+	private Customer customer;
 
 	public void customerUI(String customerCPR) {
 		int i = 0;
@@ -57,7 +58,7 @@ public class ProposalOverview {
 
 	public void cosUI() {
 		int i = 2;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
+		VBoxWithStyle vbox = new VBoxWithStyle(title("", i), proposalTableView(i),
 				buttons(i));
 		vbox.setAlignment(Pos.CENTER);
 
@@ -66,11 +67,11 @@ public class ProposalOverview {
 	}
 
 	//////////////////////////////
-	// TableView
+	// TABLEVIEW
 	//////////////////////////////
 
 	private GridPane proposalTableView(int i) {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ArrayList<Proposal> arrayList = new ArrayList<Proposal>();
 		if (i == 0) {
@@ -112,8 +113,7 @@ public class ProposalOverview {
 		table.getColumns().add(statusCol);
 
 		customiseFactory(statusCol);
-
-		accessProposal(table, i);
+		rowEvent(table, i);
 
 		return grid;
 	}
@@ -151,7 +151,7 @@ public class ProposalOverview {
 		return column;
 	}
 	
-	private TableRow<Proposal> accessProposal(TableView<Proposal> table, int i) {
+	private TableRow<Proposal> rowEvent(TableView<Proposal> table, int i) {
 		table.setRowFactory(e -> {
 			TableRow<Proposal> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
@@ -175,7 +175,7 @@ public class ProposalOverview {
 	}
 
 	//////////////////////////////
-	// Buttons
+	// BUTTONS
 	//////////////////////////////
 
 	private HBox buttons(int i) {
@@ -191,9 +191,9 @@ public class ProposalOverview {
 	}
 
 	private GridPane backButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 
-		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
 			new CPRScreen().show();
 		});
@@ -202,18 +202,18 @@ public class ProposalOverview {
 	}
 
 	private GridPane newProposalButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER_LEFT);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER_LEFT);
 
-		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 1);
+		ButtonWithStyle button = new ButtonWithStyle("Ny", grid, 0, 0);
 		button.setOnAction(e -> {
-			new NewPropsalScreen(customer).show();
+			new NewProposalScreen(customer).show();
 		});
 
 		return grid;
 	}
 
 	//////////////////////////////
-	// Label Title
+	// LABEL TITLE
 	//////////////////////////////
 
 	private Label title(String person, int i) {
@@ -221,7 +221,7 @@ public class ProposalOverview {
 		if (i == 0) {
 			label = new Label("Lånetilbud for " + person);
 		} else if (i == 1) {
-			label = new Label(LoggedInST.getUser() + "s lånetilbud");
+			label = new Label(person + "s lånetilbud");
 		} else if (i == 2) {
 			label = new Label("Godkend tilbud");
 		}
@@ -232,7 +232,7 @@ public class ProposalOverview {
 	}
 
 	//////////////////////////////
-	// Scene stuff
+	// SCENE STUFF
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {

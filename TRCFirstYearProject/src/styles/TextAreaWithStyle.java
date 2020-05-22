@@ -8,7 +8,7 @@ public class TextAreaWithStyle extends TextArea{
 	
 	private StyleClass style = new StyleClass();
 	
-	public TextAreaWithStyle(GridPaneCenter grid, int row, int col) {
+	public TextAreaWithStyle(GridPaneWithStyle grid, int row, int col) {
 		super.getStylesheets().add("/styles/TextArea.css");
 		super.setFont(Font.font(style.textFont(), 20));
 		super.setPrefSize(600, 560);

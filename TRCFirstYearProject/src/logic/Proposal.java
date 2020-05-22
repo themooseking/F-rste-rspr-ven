@@ -13,26 +13,26 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Proposal extends Thread {
 	static int loanDurationLimit = 36; // 3 Years in months
 
-	private DB_Controller controller = new DB_Controller();
-	private DoubleProperty doubleProperty;
 	private int proposalId;
+	private int loanDuration;
+	private double interest;
+	private double totalInterest;
+	private BigDecimal downPayment;
+	private BigDecimal proposalTotalSum;
+	private DoubleProperty interestProperty;
+	private LocalDate proposalDate;
 	private Car car;
 	private Customer customer;
-	private double interest;
-	private BigDecimal downPayment;
-	private int loanDuration;
-	private LocalDate proposalDate;
+	private Salesman salesman;
 	private Status proposalStatus;
 	private Rating creditScore;
-	private Salesman salesman;
-	private BigDecimal proposalTotalSum;
-	private double totalInterest;
+	private DB_Controller controller = new DB_Controller();
 
 	public Proposal(Customer customer, Salesman salesman) {
 		this.customer = customer;
 		this.proposalDate = LocalDate.now();
 		this.salesman = salesman;
-		this.doubleProperty = new SimpleDoubleProperty(0);
+		this.interestProperty = new SimpleDoubleProperty(0);
 		start();
 	}
 
@@ -51,6 +51,26 @@ public class Proposal extends Thread {
 		calcInterest();
 	}
 
+	public void run() {
+		double dbInterest = controller.getInterest(proposalDate);
+
+		if (dbInterest <= -1.0) {
+			interest = InterestRate.i().todaysRate();
+			controller.createInterest(interest);
+		} else {
+			interest = dbInterest;
+		}
+
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		interest = Math.round(interest * 10000.0) / 10000.0;
+		interestProperty.set(interest);
+	}
+	
 	public double calcInterest() {
 		totalInterest = 0;
 		if (creditScore == null) {
@@ -87,36 +107,12 @@ public class Proposal extends Thread {
 		return totalInterest;
 	}
 
-	public void run() {
-		double dbInterest = controller.getInterest(proposalDate);
-
-		if (dbInterest <= -1.0) {
-			interest = InterestRate.i().todaysRate();
-			controller.createInterest(interest);
-		} else {
-			interest = dbInterest;
-		}
-
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		interest = Math.round(interest * 10000.0) / 10000.0;
-		doubleProperty.set(interest);
-	}
-
-	public DoubleProperty doubleProperty() {
-		return doubleProperty;
+	public DoubleProperty interestProperty() {
+		return interestProperty;
 	}
 
 	public BigDecimal totalCarPrice() {
 		return car.getPrice().add(car.getVat()).subtract(downPayment);
-	}
-
-	private double monthlyRate() {
-		return Math.pow((1.0 + totalInterest / 100.0), 1.0 / 12.0) - 1;
 	}
 
 	/*****************************************************
@@ -178,48 +174,13 @@ public class Proposal extends Thread {
 		return loanAmount.subtract(repayment);
 	}
 
-
-	/***********************************
-	 * SETTERS
-	 ***********************************/
-
-	public void setInterest(double interest) {
-		this.interest = interest;
+	private double monthlyRate() {
+		return Math.pow((1.0 + totalInterest / 100.0), 1.0 / 12.0) - 1;
 	}
 	
-	public void setTotalInterest(double totalInterest) {
-		this.totalInterest = totalInterest;
-	}
-
-
-	public void setProposalTotalSum(BigDecimal proposalTotalSum) {
-		this.proposalTotalSum = proposalTotalSum;
-	}
-
-	public void setDownPayment(BigDecimal downPayment) {
-		this.downPayment = downPayment;
-	}
-
-	public void setLoanDuration(int loanDuration) {
-		this.loanDuration = loanDuration;
-	}
-
-	public void setProposalStatus(Status proposalStatus) {
-		this.proposalStatus = proposalStatus;
-		controller.updateProposalStatus(this);
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
-	}
-
-	public void setCreditScore(Rating creditScore) {
-		this.creditScore = creditScore;
-	}
-
-	/***********************************
-	 * GETTERS
-	 ***********************************/
+	//////////////////////////////
+	// GETTERS
+	//////////////////////////////
 
 	public LocalDate getProposalDate() {
 		return proposalDate;
@@ -276,5 +237,43 @@ public class Proposal extends Thread {
 
 	public Rating getCreditScore() {
 		return creditScore;
+	}
+
+	//////////////////////////////
+	// SETTERS
+	//////////////////////////////
+
+	public void setInterest(double interest) {
+		this.interest = interest;
+	}
+	
+	public void setTotalInterest(double totalInterest) {
+		this.totalInterest = totalInterest;
+	}
+
+
+	public void setProposalTotalSum(BigDecimal proposalTotalSum) {
+		this.proposalTotalSum = proposalTotalSum;
+	}
+
+	public void setDownPayment(BigDecimal downPayment) {
+		this.downPayment = downPayment;
+	}
+
+	public void setLoanDuration(int loanDuration) {
+		this.loanDuration = loanDuration;
+	}
+
+	public void setProposalStatus(Status proposalStatus) {
+		this.proposalStatus = proposalStatus;
+		controller.updateProposalStatus(this);
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public void setCreditScore(Rating creditScore) {
+		this.creditScore = creditScore;
 	}
 }

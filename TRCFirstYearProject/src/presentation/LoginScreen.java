@@ -14,7 +14,7 @@ import javafx.scene.text.FontWeight;
 import logic.DB_Controller;
 import logic.Salesman;
 import styles.ButtonWithStyle;
-import styles.GridPaneCenter;
+import styles.GridPaneWithStyle;
 import styles.PasswordFieldWithStyle;
 import styles.StyleClass;
 import styles.TextFieldWithStyle;
@@ -28,7 +28,7 @@ public class LoginScreen {
 	private Label wrong;
 
 	public void show() {
-		VBoxWithStyle vbox = new VBoxWithStyle(company(), /*title(),*/ selectUser(), userPassword(), wrongPassword(), buttons());
+		VBoxWithStyle vbox = new VBoxWithStyle(company(), selectUser(), userPassword(), wrongPassword(), button());
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setStyle("-fx-background-color: \"" + "#ff1300" + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundLogin.jpg\"); "
@@ -37,63 +37,33 @@ public class LoginScreen {
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
 		sceneSetup(scene);
 	}
+	
+	//////////////////////////////
+	// TEXTFIELDS
+	//////////////////////////////
 
 	private GridPane selectUser() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setPadding(new Insets(250, 0, 0, 0));
 
 		userLogin = new TextFieldWithStyle("Bruger ID", grid, 0, 0);
-		durationEvent(userLogin);
+		idDigitsCheck(userLogin);
 		
 		return grid;
 	}
-	
-	//////////////////////////////	
-	// PasswordField
-	//////////////////////////////
 
 	private GridPane userPassword() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		password = new PasswordFieldWithStyle("Adgangskode", grid, 0, 0);
 		
 		return grid;
 	}
-
-	//////////////////////////////
-	// Buttons
-	//////////////////////////////
-
-	private HBox buttons() {
-		HBox hbox = new HBox(loginButton());
-		hbox.setAlignment(Pos.BASELINE_RIGHT);
-		hbox.setPadding(new Insets(270, 50, 0, 0));
-
-		return hbox;
-	}
-
-	private GridPane loginButton() {
-		GridPaneCenter grid = new GridPaneCenter(Pos.CENTER);
-
-		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
-		button.setOnAction(e -> {
-			Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()), password.getText());
-			if (salesman != null) {
-				LoggedInST.setUser(salesman);
-				new CPRScreen().show();
-			}
-			else {
-				wrong.setText("Forkert ID eller adgangskode");
-			}
-		});
-
-		return grid;
-	}
 	
 	//////////////////////////////
-	// TEXTFIELD EVENTS
+	// TEXTFIELD CHECK
 	//////////////////////////////
 	
-	private void durationEvent(TextFieldWithStyle tf) {
+	private void idDigitsCheck(TextFieldWithStyle tf) {
 		tf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
@@ -106,7 +76,46 @@ public class LoginScreen {
 	}
 	
 	//////////////////////////////
-	// Label Title
+	// BUTTON
+	//////////////////////////////
+
+	private HBox button() {
+		HBox hbox = new HBox(loginButton());
+		hbox.setAlignment(Pos.BASELINE_RIGHT);
+		hbox.setPadding(new Insets(270, 50, 0, 0));
+
+		return hbox;
+	}
+
+	private GridPane loginButton() {
+		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
+
+		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
+		loginButtonEvent(button);
+
+		return grid;
+	}
+	
+	//////////////////////////////
+	// BUTTON EVENT
+	//////////////////////////////
+	
+	private void loginButtonEvent(ButtonWithStyle button) {
+		button.setOnAction(e -> {
+			Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()), password.getText());
+			if (salesman != null) {
+				LoggedInST.setUser(salesman);
+				new CPRScreen().show();
+			}
+			else {
+				wrong.setText("Forkert ID eller adgangskode");
+			}
+		});
+	}
+
+	
+	//////////////////////////////
+	// LABEL TITLE / ERROR MESSAGE
 	//////////////////////////////
 
 	private Label company() {
@@ -129,11 +138,11 @@ public class LoginScreen {
 	}
 	
 	//////////////////////////////
-	// Scene stuff
+	// SCENE STUFF
 	//////////////////////////////
 
 	private void sceneSetup(Scene scene) {
-		PrimaryStageST.getStage().setTitle("Ferrari LÃ¥nesystem");
+		PrimaryStageST.getStage().setTitle("Ferrari Lånesystem");
 		PrimaryStageST.getStage().setScene(scene);
 		PrimaryStageST.getStage().show();
 	}

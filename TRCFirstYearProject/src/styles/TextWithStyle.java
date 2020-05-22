@@ -8,7 +8,7 @@ public class TextWithStyle extends TextField {
 	
 	StyleClass style = new StyleClass();
 
-	public TextWithStyle(String text, GridPaneCenter grid, int row, int col, int width, int alignPos) {
+	public TextWithStyle(String text, GridPaneWithStyle grid, int row, int col, int width, int alignPos) {
 		super.setText(text);
 		super.getStylesheets().add("/styles/Text.css");
 		super.setDisable(true);
