@@ -87,7 +87,7 @@ public class NewProposalScreen {
 	}
 
 	private VBox inputBox() {
-		VBox vbox = new VBox(20, indentInput(), apiValues());
+		VBox vbox = new VBox(20, inputs(), apiValues());
 		vbox.setPadding(new Insets(10));
 		vbox.setBorder(new Border(
 				new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
@@ -98,10 +98,10 @@ public class NewProposalScreen {
 	}
 
 	//////////////////////////////
-	// INDENT
+	// Inputs
 	//////////////////////////////
 
-	private GridPane indentInput() {
+	private GridPane inputs() {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setPadding(new Insets(0));
 		grid.setVgap(15);
@@ -113,14 +113,14 @@ public class NewProposalScreen {
 
 		new LabelWithStyle("Model: ", grid, 0, 1);
 		modelcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 1);
-		indentComboBox(modelcb, 400);
+		inputComboBox(modelcb, 400);
 		modelcbEvent();
 
 		yearcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 2);
-		indentComboBox(yearcb, 400);
+		inputComboBox(yearcb, 400);
 
 		regnrcb = new ComboBoxWithStyle(FXCollections.observableArrayList(""), grid, 3, 3);
-		indentComboBox(regnrcb, 400);
+		inputComboBox(regnrcb, 400);
 
 		if (rbState) {
 
@@ -145,14 +145,14 @@ public class NewProposalScreen {
 		new LabelWithStyle("Afbetalingsperiode: ", grid, 0, 4);
 		durationtf = new TextFieldWithStyle("", grid, 3, 4);
 		durationtf.setAlignment(Pos.CENTER_RIGHT);
-		indentTextField(durationtf);
+		inputTextField(durationtf);
 		durationEvent(durationtf);
 		new LabelWithStyle(" Måned(er)", grid, 4, 4);
 
 		new LabelWithStyle("Udbetaling: ", grid, 0, 5);
 		paymenttf = new TextFieldWithStyle("", grid, 3, 5);
 		paymenttf.setAlignment(Pos.CENTER_RIGHT);
-		indentTextField(paymenttf);
+		inputTextField(paymenttf);
 		downPaymentEvent(paymenttf);
 		new LabelWithStyle(" DKK", grid, 4, 5);
 
@@ -168,7 +168,7 @@ public class NewProposalScreen {
 
 		rb.setOnAction(e -> {
 			grid.getChildren().clear();
-			grid.getChildren().add(indentInput());
+			grid.getChildren().add(inputs());
 			tr.clearTR();
 			nextButton.setDisable(true);
 		});
@@ -222,26 +222,6 @@ public class NewProposalScreen {
 			nextButtonDisable();
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
-	}
-
-	//////////////////////////////
-	// TEXTFIELD / COMBOBOX STYLES
-	//////////////////////////////
-
-	private void indentComboBox(ComboBoxWithStyle cb, int width) {
-		cb.setMinWidth(width);
-		cb.setMinHeight(50);
-		cb.setPrefHeight(50);
-		cb.setMaxHeight(50);
-		GridPane.setColumnSpan(cb, 2);
-	}
-
-	private void indentTextField(TextFieldWithStyle tf) {
-		tf.setMinHeight(50);
-		tf.setPrefHeight(50);
-		tf.setMaxHeight(50);
-		tf.setMinWidth(300);
-		tf.setMaxWidth(300);
 	}
 
 	//////////////////////////////
@@ -322,6 +302,26 @@ public class NewProposalScreen {
 			nextButtonDisable();
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
+	}
+
+	//////////////////////////////
+	// TEXTFIELD / COMBOBOX STYLES
+	//////////////////////////////
+
+	private void inputComboBox(ComboBoxWithStyle cb, int width) {
+		cb.setMinWidth(width);
+		cb.setMinHeight(50);
+		cb.setPrefHeight(50);
+		cb.setMaxHeight(50);
+		GridPane.setColumnSpan(cb, 2);
+	}
+
+	private void inputTextField(TextFieldWithStyle tf) {
+		tf.setMinHeight(50);
+		tf.setPrefHeight(50);
+		tf.setMaxHeight(50);
+		tf.setMinWidth(300);
+		tf.setMaxWidth(300);
 	}
 
 	//////////////////////////////
