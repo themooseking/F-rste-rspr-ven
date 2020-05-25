@@ -144,7 +144,7 @@ public class CPRScreen {
 
 	private void continueEvent() {
 		try {
-			new ProposalOverview().customerUI(textfield.getText());
+			new ProposalOverview().defaultUI(textfield.getText());
 		} catch (NullPointerException e2) {
 			wrong.setText("Ugyldigt CPR-nummer.");
 		}

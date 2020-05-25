@@ -43,57 +43,57 @@ public class SignProposalScreen {
 	}
 
 	public void defaultUI() {
-		int i = 0;
+		View view = View.Default;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
 
 		if (status == Status.IGANG || status == Status.GODKENDT) {
-			hbox = new HBox(tr.textReader(), fitter(i));
+			hbox = new HBox(tr.textReader(), fitter(view));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-		uiSetup(i, hbox);
+		uiSetup(view, hbox);
 	}
 
 	public void salesmanUI() {
-		int i = 1;
+		View view = View.Salesman;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
 
 		if (status == Status.IGANG || status == Status.GODKENDT) {
-			hbox = new HBox(tr.textReader(), fitter(i));
+			hbox = new HBox(tr.textReader(), fitter(view));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-		uiSetup(i, hbox);
+		uiSetup(view, hbox);
 	}
 
 	public void cosUI() {
-		int i = 2;
+		View view = View.ChiefOfSales;
 		HBox hbox;
 		Status status = proposal.getProposalStatus();
 
 		if (status != Status.GODKENDT) {
-			hbox = new HBox(tr.textReader(), fitter(i));
+			hbox = new HBox(tr.textReader(), fitter(view));
 		} else {
 			hbox = new HBox(tr.textReader());
 		}
-		uiSetup(i, hbox);
+		uiSetup(view, hbox);
 	}
 
 	//////////////////////////////
 	// SIGN INPUTS
 	//////////////////////////////
 
-	private VBox fitter(int i) {
-		VBox vbox = new VBox(signInput(i));
+	private VBox fitter(View view) {
+		VBox vbox = new VBox(signInput(view));
 		vbox.setAlignment(Pos.CENTER);
 
 		return vbox;
 	}
 
-	private VBox signInput(int i) {
-		VBox vbox = new VBox(textFields(), signButtons(i));
+	private VBox signInput(View view) {
+		VBox vbox = new VBox(textFields(), signButtons(view));
 		vbox.setBackground(
 				new Background(new BackgroundFill(Color.web(style.white()), new CornerRadii(0), Insets.EMPTY)));
 		vbox.setBorder(style.elementBorder());
@@ -125,19 +125,19 @@ public class SignProposalScreen {
 		return grid;
 	}
 
-	private GridPaneWithStyle signButtons(int i) {
+	private GridPaneWithStyle signButtons(View view) {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		grid.setHgap(20);
 
 		ButtonWithStyle deleteCancel = new ButtonWithStyle("Slet", grid, 0, 0);
 		ButtonWithStyle signConfirm = new ButtonWithStyle("Underskriv", grid, 1, 0);
 
-		if (i == 2) {
-			cancelEvent(deleteCancel, i);
+		if (view == View.ChiefOfSales) {
+			cancelEvent(deleteCancel, view);
 			confirmEvent(signConfirm);
 		} else {
-			deleteEvent(deleteCancel, i);
-			signEvent(signConfirm, i);
+			deleteEvent(deleteCancel, view);
+			signEvent(signConfirm, view);
 		}
 
 		return grid;
@@ -147,16 +147,16 @@ public class SignProposalScreen {
 	// SIGN BUTTONS EVENTS
 	//////////////////////////////
 
-	private void deleteEvent(ButtonWithStyle deleteCancel, int i) {
+	private void deleteEvent(ButtonWithStyle deleteCancel, View view) {
 		deleteCancel.setOnAction(e -> {
 			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
 			if (salesman != null) {
 				controller.deleteProposal(proposal);
-				if (i == 0) {
-					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-				} else if (i == 1) {
+				if (view == View.Default) {
+					new ProposalOverview().defaultUI(proposal.getCustomer().getCpr());
+				} else if (view == View.Salesman) {
 					new ProposalOverview().salesmanUI();
-				} else if (i == 2) {
+				} else if (view == View.ChiefOfSales) {
 					new ProposalOverview().cosUI();
 				}
 			} else {
@@ -165,18 +165,18 @@ public class SignProposalScreen {
 		});
 	}
 
-	private void cancelEvent(ButtonWithStyle deleteCancel, int i) {
+	private void cancelEvent(ButtonWithStyle deleteCancel, View view) {
 		deleteCancel.setText("Annuller");
 		deleteCancel.setOnAction(e -> {
 			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
 			if (salesman != null) {
 				proposal.setProposalStatus(Status.ANNULLERET);
 				controller.updateProposalStatus(proposal);
-				if (i == 0) {
-					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-				} else if (i == 1) {
+				if (view == View.Default) {
+					new ProposalOverview().defaultUI(proposal.getCustomer().getCpr());
+				} else if (view == View.Salesman) {
 					new ProposalOverview().salesmanUI();
-				} else if (i == 2) {
+				} else if (view == View.ChiefOfSales) {
 					new ProposalOverview().cosUI();
 				}
 			} else {
@@ -185,14 +185,14 @@ public class SignProposalScreen {
 		});
 	}
 
-	private void signEvent(ButtonWithStyle signConfirm, int i) {
+	private void signEvent(ButtonWithStyle signConfirm, View view) {
 		signConfirm.setOnAction(e -> {
 			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
 			if (salesman != null) {
 				proposal.setProposalStatus(Status.AFSLUTTET);
-				if (i == 0) {
-					new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-				} else if (i == 1) {
+				if (view == View.Default) {
+					new ProposalOverview().defaultUI(proposal.getCustomer().getCpr());
+				} else if (view == View.Salesman) {
 					new ProposalOverview().salesmanUI();
 				}
 			} else {
@@ -218,8 +218,8 @@ public class SignProposalScreen {
 	// BOTTOM BUTTONS
 	//////////////////////////////
 
-	private HBox buttons(int i) {
-		HBox hbox = new HBox(backButton(i), csvButton());
+	private HBox buttons(View view) {
+		HBox hbox = new HBox(backButton(view), csvButton());
 		hbox.setPadding(new Insets(45, 50, 0, 0));
 		hbox.setAlignment(Pos.BOTTOM_RIGHT);
 
@@ -243,16 +243,16 @@ public class SignProposalScreen {
 		return grid;
 	}
 
-	private GridPane backButton(int i) {
+	private GridPane backButton(View view) {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Tilbage", grid, 0, 0);
 		button.setOnAction(e -> {
-			if (i == 0) {
-				new ProposalOverview().customerUI(proposal.getCustomer().getCpr());
-			} else if (i == 1) {
+			if (view == View.Default) {
+				new ProposalOverview().defaultUI(proposal.getCustomer().getCpr());
+			} else if (view == View.Salesman) {
 				new ProposalOverview().salesmanUI();
-			} else if (i == 2) {
+			} else if (view == View.ChiefOfSales) {
 				new ProposalOverview().cosUI(); 
 			}
 		});
@@ -264,11 +264,11 @@ public class SignProposalScreen {
 	// LABEL TITLE
 	//////////////////////////////
 
-	private Label title(int i) {
+	private Label title(View view) {
 		Label label = new Label();
-		if (i == 0 || i == 1) {
+		if (view == View.Default || view == View.Salesman) {
 			label.setText("Underskrift for " + proposal.getCar());
-		} else if (i == 2) {
+		} else if (view == View.Salesman) {
 			label.setText("Godkend lånetilbud " + proposal.getProposalId());
 		}
 		label.setFont(Font.loadFont(style.titleFont(), 80));
@@ -280,11 +280,11 @@ public class SignProposalScreen {
 	// SCENE STUFF
 	//////////////////////////////
 
-	private void uiSetup(int i, HBox hbox) {
+	private void uiSetup(View view, HBox hbox) {
 		hbox.setAlignment(Pos.CENTER);
 		hbox.setSpacing(50);
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(i), hbox, buttons(i));
+		VBoxWithStyle vbox = new VBoxWithStyle(title(view), hbox, buttons(view));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());

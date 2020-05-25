@@ -438,7 +438,7 @@ public class NewProposalScreen {
 		if (result.get() == bSave) {
 			carHandler();
 			proposal.checkLimit();
-			new ProposalOverview().customerUI(customer.getCpr());
+			new ProposalOverview().defaultUI(customer.getCpr());
 		} else if (result.get() == bContinue) {
 			carHandler();
 			proposal.checkLimit();
@@ -470,7 +470,7 @@ public class NewProposalScreen {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bBack) {
-			new ProposalOverview().customerUI(customer.getCpr()); 
+			new ProposalOverview().defaultUI(customer.getCpr()); 
 		} else {
 			alert.close();
 		}

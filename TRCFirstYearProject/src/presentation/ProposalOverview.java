@@ -30,16 +30,17 @@ import styles.TableViewWithStyle;
 import styles.VBoxWithStyle;
 
 public class ProposalOverview {
-	
+
 	private StyleClass style = new StyleClass();
 	private DB_Controller controller = new DB_Controller();
 	private Customer customer;
 
-	public void customerUI(String customerCPR) {
-		int i = 0;
+	public void defaultUI(String customerCPR) {
+		View view = View.Default;
 		customer = controller.getCustomer(Customer.removeDashFromCpr(customerCPR));
 
-		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString(), i), proposalTableView(i), buttons(i));
+		VBoxWithStyle vbox = new VBoxWithStyle(title(customer.toString(), view), proposalTableView(view),
+				buttons(view));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -47,9 +48,9 @@ public class ProposalOverview {
 	}
 
 	public void salesmanUI() {
-		int i = 1;
-		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), i), proposalTableView(i),
-				buttons(i));
+		View view = View.Salesman;
+		VBoxWithStyle vbox = new VBoxWithStyle(title(LoggedInST.getUser().toString(), view), proposalTableView(view),
+				buttons(view));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -57,9 +58,8 @@ public class ProposalOverview {
 	}
 
 	public void cosUI() {
-		int i = 2;
-		VBoxWithStyle vbox = new VBoxWithStyle(title("", i), proposalTableView(i),
-				buttons(i));
+		View view = View.ChiefOfSales;
+		VBoxWithStyle vbox = new VBoxWithStyle(title("", view), proposalTableView(view), buttons(view));
 		vbox.setAlignment(Pos.CENTER);
 
 		Scene scene = new Scene(vbox, style.sceneX(), style.sceneY());
@@ -70,15 +70,15 @@ public class ProposalOverview {
 	// TABLEVIEW
 	//////////////////////////////
 
-	private GridPane proposalTableView(int i) {
+	private GridPane proposalTableView(View view) {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ArrayList<Proposal> arrayList = new ArrayList<Proposal>();
-		if (i == 0) {
+		if (view == View.Default) {
 			arrayList = controller.getProposalByCustomer(customer);
-		} else if (i == 1) {
+		} else if (view == View.Salesman) {
 			arrayList = controller.getProposalBySalesman(LoggedInST.getUser());
-		} else if (i == 2) {
+		} else if (view == View.ChiefOfSales) {
 			arrayList = controller.getAwaitingProposals();
 		}
 
@@ -90,15 +90,15 @@ public class ProposalOverview {
 		map.put("Låne nr.", "proposalId");
 		map.put("Dato", "proposalDate");
 		map.put("Bil", "car");
-		if (i == 1) {
+		if (view == View.Salesman) {
 			map.put("Kunde", "customer");
 		}
 		map.put("Rente (%)", "totalInterest");
 		map.put("Sum (DKK)", "proposalTotalSum");
-		if (i != 1) {
+		if (view != View.Salesman) {
 			map.put("Sælger Navn", "salesman");
 		}
-		if (i == 2) {
+		if (view == View.ChiefOfSales) {
 			map.put("Salgs titel", "salesmanTitel");
 		}
 
@@ -113,7 +113,7 @@ public class ProposalOverview {
 		table.getColumns().add(statusCol);
 
 		customiseFactory(statusCol);
-		rowEvent(table, i);
+		rowEvent(table, view);
 
 		return grid;
 	}
@@ -128,7 +128,7 @@ public class ProposalOverview {
 					setText(empty ? "" : getItem().toString());
 
 					TableRow<Proposal> currentRow = getTableRow();
-					
+
 					if (!isEmpty() && currentRow != null) {
 						if (item == Status.IGANG || item == Status.GODKENDT) {
 							currentRow.setStyle("-fx-background-color:#F9F69C;");
@@ -138,7 +138,7 @@ public class ProposalOverview {
 							currentRow.setStyle("-fx-background-color:#FF7E7E;");
 						} else if (item == Status.AFSLUTTET) {
 							currentRow.setStyle("-fx-background-color:#A5F99C;");
-						} 
+						}
 					}
 				}
 			};
@@ -150,18 +150,18 @@ public class ProposalOverview {
 
 		return column;
 	}
-	
-	private TableRow<Proposal> rowEvent(TableView<Proposal> table, int i) {
+
+	private TableRow<Proposal> rowEvent(TableView<Proposal> table, View view) {
 		table.setRowFactory(e -> {
 			TableRow<Proposal> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Proposal rowData = row.getItem();
-					if (i == 0) {
+					if (view == View.Default) {
 						new SignProposalScreen(rowData).defaultUI();
-					} else if (i == 1) {
+					} else if (view == View.Salesman) {
 						new SignProposalScreen(rowData).salesmanUI();
-					} else if (i == 2) {
+					} else if (view == View.ChiefOfSales) {
 						new SignProposalScreen(rowData).cosUI();
 						;
 					}
@@ -178,12 +178,12 @@ public class ProposalOverview {
 	// BUTTONS
 	//////////////////////////////
 
-	private HBox buttons(int i) {
+	private HBox buttons(View view) {
 		HBox hbox = new HBox(backButton());
 		hbox.setAlignment(Pos.BASELINE_RIGHT);
 		hbox.setPadding(new Insets(105, 50, 0, 0));
 
-		if (i == 0) {
+		if (view == View.Default) {
 			hbox.getChildren().add(newProposalButton());
 		}
 
@@ -216,13 +216,13 @@ public class ProposalOverview {
 	// LABEL TITLE
 	//////////////////////////////
 
-	private Label title(String person, int i) {
+	private Label title(String person, View view) {
 		Label label = null;
-		if (i == 0) {
+		if (view == View.Default) {
 			label = new Label("Lånetilbud for " + person);
-		} else if (i == 1) {
+		} else if (view == View.Salesman) {
 			label = new Label(person + "s lånetilbud");
-		} else if (i == 2) {
+		} else if (view == View.ChiefOfSales) {
 			label = new Label("Godkend tilbud");
 		}
 
