@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.ferrari.finances.dk.rki.Rating;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,7 +52,7 @@ public class NewProposalScreen {
 	private Customer customer;
 	private Proposal proposal;
 	private TextReader tr;
-	
+
 	private ComboBoxWithStyle modelcb;
 	private ComboBoxWithStyle yearcb;
 	private ComboBoxWithStyle regnrcb;
@@ -173,10 +175,9 @@ public class NewProposalScreen {
 			nextButton.setDisable(true);
 		});
 	}
-	
+
 	/*****************************************************
-	 * Updates proposal and textreader based on state
-	 * of radiobutton
+	 * Updates proposal and textreader based on state of radiobutton
 	 *****************************************************/
 
 	private void modelcbEvent() {
@@ -206,7 +207,7 @@ public class NewProposalScreen {
 	}
 
 	private void yearcbEvent() {
-		
+
 		yearcb.setOnAction(e -> {
 			if (yearcb.getValue() != null) {
 				regnrcb.setItems(FXCollections.observableArrayList(
@@ -227,10 +228,10 @@ public class NewProposalScreen {
 	//////////////////////////////
 	// TEXTFIELD EVENTS
 	//////////////////////////////
-	
+
 	/*****************************************************
-	 * Makes textfield digits only, only certain numbers
-	 * allowed and updates proposal and textreader
+	 * Makes textfield digits only, only certain numbers allowed and updates
+	 * proposal and textreader
 	 *****************************************************/
 
 	private void durationEvent(TextFieldWithStyle tf) {
@@ -247,7 +248,7 @@ public class NewProposalScreen {
 					if (tfInt == 0) {
 						String s = tf.getText().substring(0, 0);
 						tf.setText(s);
-					} else if (tfInt > 1000) {
+					} else if (tfInt >= 1000) {
 						String s = tf.getText().substring(0, 3);
 						tf.setText(s);
 					} else if (tfInt > 290) {
@@ -268,10 +269,10 @@ public class NewProposalScreen {
 			tr.update(rbState, modelcb, yearcb, regnrcb, durationtf, paymenttf);
 		});
 	}
-	
+
 	/*****************************************************
-	 * Makes textfield digits only, only certain length
-	 * and updates proposal and textreader
+	 * Makes textfield digits only, only certain length and updates proposal and
+	 * textreader
 	 *****************************************************/
 
 	private void downPaymentEvent(TextFieldWithStyle tf) {
@@ -447,9 +448,9 @@ public class NewProposalScreen {
 			alert.close();
 		}
 	}
-	
+
 	private void carHandler() {
-		if(proposal.getCar().getCarStatus().compareTo("NEW") == 0) {
+		if (proposal.getCar().getCarStatus().compareTo("NEW") == 0) {
 			controller.createCar(proposal.getCar());
 		} else {
 			proposal.getCar().setCarStatus("NOT_AVAILABLE");
@@ -470,7 +471,7 @@ public class NewProposalScreen {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bBack) {
-			new ProposalOverview().defaultUI(customer.getCpr()); 
+			new ProposalOverview().defaultUI(customer.getCpr());
 		} else {
 			alert.close();
 		}
@@ -483,7 +484,7 @@ public class NewProposalScreen {
 	private HBox buttons() {
 		HBox hbox = new HBox(backButton(), nextButton());
 		hbox.setAlignment(Pos.CENTER_RIGHT);
-		hbox.setPadding(new Insets(8, 50, 0, 0));
+		hbox.setPadding(new Insets(105, 50, 0, 0));
 
 		return hbox;
 	}
@@ -512,11 +513,11 @@ public class NewProposalScreen {
 	}
 
 	private void nextButtonDisable() {
-		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty()
-				&& !paymenttf.getText().isEmpty()) {
+		if (!rbState && regnrcb.getValue() != null && !durationtf.getText().isEmpty() && !paymenttf.getText().isEmpty()
+				&& customer.getCreditScore() != Rating.D) {
 			nextButton.setDisable(false);
 		} else if (rbState && modelcb.getValue() != null && !durationtf.getText().isEmpty()
-				&& !paymenttf.getText().isEmpty()) {
+				&& !paymenttf.getText().isEmpty() && customer.getCreditScore() != Rating.D) {
 			nextButton.setDisable(false);
 		} else {
 			nextButton.setDisable(true);

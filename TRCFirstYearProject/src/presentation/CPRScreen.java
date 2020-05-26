@@ -240,7 +240,7 @@ public class CPRScreen {
 
 	private Label wrongPassword() {
 		wrong = new Label("");
-		wrong.setPadding(new Insets(10, 0, 312, 0));
+		wrong.setPadding(new Insets(10, 0, 271, 0));
 		wrong.setFont(Font.font(style.textFont(), FontWeight.BOLD, 22));
 		wrong.setStyle("-fx-effect: dropShadow(gaussian, white, 2, 1, 0, 0);");
 		wrong.setTextFill(Color.web(style.red()));

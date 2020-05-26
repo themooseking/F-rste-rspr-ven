@@ -151,6 +151,8 @@ public class SignProposalScreen {
 		deleteCancel.setOnAction(e -> {
 			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
 			if (salesman != null) {
+				proposal.getCar().setCarStatus("AVAILABLE");
+				controller.updateCarStatus(proposal.getCar());
 				controller.deleteProposal(proposal);
 				if (view == View.Default) {
 					new ProposalOverview().defaultUI(proposal.getCustomer().getCpr());
@@ -170,6 +172,8 @@ public class SignProposalScreen {
 		deleteCancel.setOnAction(e -> {
 			Salesman salesman = controller.getSalesman(LoggedInST.getUser().getSalesmanId(), password.getText());
 			if (salesman != null) {
+				proposal.getCar().setCarStatus("AVAILABLE");
+				controller.updateCarStatus(proposal.getCar());
 				proposal.setProposalStatus(Status.ANNULLERET);
 				controller.updateProposalStatus(proposal);
 				if (view == View.Default) {
@@ -220,7 +224,7 @@ public class SignProposalScreen {
 
 	private HBox buttons(View view) {
 		HBox hbox = new HBox(backButton(view), csvButton());
-		hbox.setPadding(new Insets(45, 50, 0, 0));
+		hbox.setPadding(new Insets(80, 50, 0, 0));
 		hbox.setAlignment(Pos.BOTTOM_RIGHT);
 
 		return hbox;
