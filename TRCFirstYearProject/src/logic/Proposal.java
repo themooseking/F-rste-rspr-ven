@@ -61,12 +61,6 @@ public class Proposal extends Thread {
 			interest = dbInterest;
 		}
 
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		interest = Math.round(interest * 10000.0) / 10000.0;
 		interestProperty.set(interest);
 	}

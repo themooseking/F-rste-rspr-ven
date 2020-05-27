@@ -37,7 +37,6 @@ public class CPRScreen {
 	public void show() {
 		VBoxWithStyle vbox = new VBoxWithStyle(title(), cprTextfield(), wrongPassword(), buttons());
 		vbox.setAlignment(Pos.CENTER);
-		vbox.setPadding(new Insets(0, 0, 0, 0));
 		vbox.setStyle("-fx-background-color: \"" + new StyleClass().backgroundColor() + "\";"
 				+ "-fx-background-image: url(\"file:resources/background/BackgroundCPR.jpg\"); "
 				+ "-fx-background-repeat: no-repeat;");

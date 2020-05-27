@@ -9,43 +9,43 @@ import javafx.scene.paint.Color;
 
 public class StyleClass {
 
-	private int sceney = 1000;
-	private int scenex = 1800;
+	private int sceneY = 1000;
+	private int sceneX = 1800;
 
 	private String grey = "#303030";
 	private String red = "#e61900";
 	private String white = "#ffffff";
 	private String black = "#000000";
 	
-	private String entertextcolor = "#e33635"; 
-	private String backgroundcolor = "#242224";
+	private String enterTextColor = "#e33635"; 
+	private String backgroundColor = "#242224";
 
-	private String titlefont = "file:resources/fonts/Caladea-Regular.ttf";
-	private String textfont = "Lucida Fax";
-	private int textsize = 20;
+	private String titleFont = "file:resources/fonts/Caladea-Regular.ttf";
+	private String textFont = "Lucida Fax";
+	private int textSize = 20;
 
-	private int textunitwidth = 70;
-	private int textreaderinsets = 25;
-	private int textreadertextwidth = 300;
+	private int textUnitWidth = 70;
+	private int textReaderInsets = 25;
+	private int textReaderTextWidth = 300;
 
 	private Border underline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 1, 0)));
 	private Border sumline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 3, 0)));
-	private Border dottedunderline = new Border(
+	private Border dottedUnderline = new Border(
 			new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, new CornerRadii(0), new BorderWidths(0, 0, 1, 0)));
  
-	private Border elementborder = new Border(
+	private Border elementBorder = new Border(
 			new BorderStroke(Color.DARKGREY, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3)));
 	
 	private String bold = "-fx-font-weight: BOLD; -fx-text-fill: #4A4A4A;";
 
 	public int sceneX() {
-		return scenex;
+		return sceneX;
 	}
 
 	public int sceneY() {
-		return sceney;
+		return sceneY;
 	}
 
 	public String grey() {
@@ -65,35 +65,35 @@ public class StyleClass {
 	}
 
 	public String enterTextColor() {
-		return entertextcolor;
+		return enterTextColor;
 	}
 
 	public String backgroundColor() {
-		return backgroundcolor;
+		return backgroundColor;
 	}
 
 	public String textFont() {
-		return textfont;
+		return textFont;
 	}
 	
 	public String titleFont() {
-		return titlefont;
+		return titleFont;
 	}
 
 	public int textSize() {
-		return textsize;
+		return textSize;
 	}
 
 	public int textUnitWidth() {
-		return textunitwidth;
+		return textUnitWidth;
 	}
 
 	public int textReaderInsets() {
-		return textreaderinsets;
+		return textReaderInsets;
 	}
 	
 	public int textReaderTextWidth() {
-		return textreadertextwidth;
+		return textReaderTextWidth;
 	}
 
 	public Border underLine() {
@@ -105,11 +105,11 @@ public class StyleClass {
 	}
 
 	public Border dottedUnderLine() {
-		return dottedunderline;
+		return dottedUnderline;
 	}
 	
 	public Border elementBorder() {
-		return elementborder;
+		return elementBorder;
 	}
 	
 	public String bold() {

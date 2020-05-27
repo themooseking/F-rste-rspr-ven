@@ -2,10 +2,14 @@ package presentation;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -48,6 +52,7 @@ public class LoginScreen {
 
 		userLogin = new TextFieldWithStyle("Bruger ID", grid, 0, 0);
 		idDigitsCheck(userLogin);
+		textFieldEvent(userLogin);
 
 		return grid;
 	}
@@ -55,12 +60,13 @@ public class LoginScreen {
 	private GridPane userPassword() {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 		password = new PasswordFieldWithStyle("Adgangskode", grid, 0, 0);
+		textFieldEvent(password);
 
 		return grid;
 	}
 
 	//////////////////////////////
-	// TEXTFIELD CHECK
+	// BINDINGS AND CHECKS
 	//////////////////////////////
 
 	private void idDigitsCheck(TextFieldWithStyle tf) {
@@ -70,6 +76,17 @@ public class LoginScreen {
 					final String newValue) {
 				if (!newValue.matches("\\d*")) {
 					tf.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+			}
+		});
+	}
+	
+	private void textFieldEvent(TextField tf) {
+		tf.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER) {
+					loginEvent();
 				}
 			}
 		});
@@ -91,8 +108,9 @@ public class LoginScreen {
 		GridPaneWithStyle grid = new GridPaneWithStyle(Pos.CENTER);
 
 		ButtonWithStyle button = new ButtonWithStyle("Login", grid, 0, 1);
-		loginButtonEvent(button);
-
+		button.setOnAction(e -> {
+			loginEvent();
+		});
 		return grid;
 	}
 
@@ -100,23 +118,20 @@ public class LoginScreen {
 	// BUTTON EVENT
 	//////////////////////////////
 
-	private void loginButtonEvent(ButtonWithStyle button) {
-		button.setOnAction(e -> {
-			if (!userLogin.getText().isEmpty()) {
-				Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()),
-						password.getText());
-				if (salesman != null) {
-					LoggedInST.setUser(salesman);
-					new CPRScreen().show();
+	private void loginEvent() {
+		if (!userLogin.getText().isEmpty()) {
+			Salesman salesman = new DB_Controller().getSalesman(Integer.parseInt(userLogin.getText()),
+					password.getText());
+			if (salesman != null) {
+				LoggedInST.setUser(salesman);
+				new CPRScreen().show();
 
-				} else {
-					wrong.setText("Forkert ID eller adgangskode");
-				}
 			} else {
-				wrong.setText("Udfyld tekstfelterne");
+				wrong.setText("Forkert ID eller adgangskode");
 			}
-		});
-
+		} else {
+			wrong.setText("Udfyld tekstfelterne");
+		}
 	}
 
 	//////////////////////////////
